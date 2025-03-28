@@ -1,0 +1,27 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+      "outDir": "./dist/out-tsc/app",
+      "types": [],
+      "baseUrl": ".",
+      "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+    },
+    "files": [
+      "src/main.tsx"
+    ],
+    "include": [
+      "src/**/*.ts",
+      "src/**/*.tsx"
+, "src/Components/ui/input.jsx"    ],
+    "exclude": [
+      "src/**/*.spec.ts",
+      "src/**/*.test.ts",
+      "src/**/*.spec.tsx",
+      "src/**/*.test.tsx"
+    ],
+    
+  }
