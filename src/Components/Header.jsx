@@ -8,13 +8,21 @@ function Header({accessToken, currentSearch}) {
   let navigate = useNavigate()
   
   
-  const routeChange = () => {
-    if (searchInput.trim()) {
+  const routeChangeAlbum = () => {
+    if (searchInput.trim()){
       navigate(`/search?album=${encodeURIComponent(searchInput)}`, {
         state: {accessToken, searchInput}
       })
     }
   };
+
+  const routeChangeSaved = () => {
+    navigate('/saved')
+  }
+
+  const routeChangeHome = () => {
+    navigate('/')
+  }
 
 
   const [scrolled, setScrolled] = useState(false);
@@ -35,7 +43,6 @@ function Header({accessToken, currentSearch}) {
         : "bg-gradient-to-r from-amber-950/95 to-amber-800/95 backdrop-blur-md py-4"
     } border-b border-amber-600/50`}>
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6">
-        {/* Logo section with vinyl record design */}
         <div className="flex items-center space-x-3 group">
           <div className="relative w-10 h-10">
             <div className="absolute inset-0 bg-gradient-to-br from-amber-300 to-amber-400 rounded-full shadow-lg group-hover:shadow-amber-300/20"></div>
@@ -45,10 +52,17 @@ function Header({accessToken, currentSearch}) {
             </div>
             <div className="absolute inset-0 border-4 border-amber-300/30 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
           </div>
-          <div>
-            <span className="text-3xl font-bold font-serif text-amber-100 tracking-widest drop-shadow-md">
-              VINYL VAULT
-            </span>
+          <div className="cursor-pointer"
+          
+          >
+             <span className="text-3xl font-bold font-serif text-amber-100 tracking-widest drop-shadow-md">
+              <button
+              onClick={routeChangeHome}
+              >
+              VINYL VAULT 
+              </button>
+              
+              </span> 
             <div className="h-0.5 w-0 bg-gradient-to-r from-amber-300 to-transparent group-hover:w-full transition-all duration-500"></div>
           </div>
         </div>
@@ -64,19 +78,17 @@ function Header({accessToken, currentSearch}) {
             onBlur={() => setIsExpanded(false)}
             onKeyDown={(event) => {
               if (event.key === "Enter") {
-                routeChange();
+                routeChangeAlbum();
               }
             }}
           />
           <button
             className="absolute right-3 top-1/2 transform -translate-y-1/2 text-amber-400 hover:text-amber-300 transition-colors focus:outline-none"
-            onClick={routeChange}
           >
             <Search className="h-5 w-5" />
           </button>
         </div>
 
-        {/* Navigation buttons with premium styling */}
         <div className="flex items-center space-x-3">
           <button className="group relative overflow-hidden px-4 py-2.5 rounded-md transition-all duration-300 text-amber-100 hover:text-white shadow-md hover:shadow-amber-600/20 focus:outline-none border border-amber-700/50">
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-amber-600 to-amber-700 transition-opacity duration-300"></div>
@@ -86,11 +98,13 @@ function Header({accessToken, currentSearch}) {
             </div>
           </button>
           
-          <button className="group relative overflow-hidden px-4 py-2.5 rounded-md transition-all duration-300 text-amber-100 hover:text-white shadow-md hover:shadow-amber-600/20 focus:outline-none border border-amber-700/50">
+          <button className="group relative overflow-hidden px-4 py-2.5 rounded-md transition-all duration-300 text-amber-100 hover:text-white shadow-md hover:shadow-amber-600/20 focus:outline-none border border-amber-700/50"
+          onClick={routeChangeSaved}
+          >
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-amber-600 to-amber-700 transition-opacity duration-300"></div>
             <div className="relative flex items-center space-x-2">
               <Music className="h-4 w-4" />
-              <span className="font-serif text-sm tracking-wide">Collection</span>
+              <span className="font-serif text-sm tracking-wide">Saved</span>
             </div>
           </button>
           

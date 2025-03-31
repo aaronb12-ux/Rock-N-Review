@@ -12,6 +12,7 @@ import {
 } from "react-bootstrap"
 
 
+
 function SearchResults() {
 
     const location = useLocation()
@@ -54,6 +55,8 @@ function SearchResults() {
     }, [albumquery])
 
 
+    console.log(albums)
+
     return (
         <div className="bg-amber-50 min-h-screen">
           <Header 
@@ -89,7 +92,7 @@ function SearchResults() {
                       <Card.Text
                         className="text-amber-800 text-sm"
                       >
-                        <div className="font-serif font-medium mb-1">{album.artists[0].name}</div>
+                        <div  className="font-serif font-medium mb-1">{album.artists[0].name}</div>
                         <div className="text-xs text-amber-700 mt-2 flex items-center">
                           <span className="mr-2">Released:</span> 
                           <span className="font-mono">{album.release_date}</span>

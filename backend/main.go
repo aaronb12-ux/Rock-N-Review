@@ -4,8 +4,11 @@ import (
 	"context"
 	"log"
 	"net/http"
+	
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/cors"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -26,7 +29,7 @@ type album struct {
 	Genre string `json:"genre"`
 	Released string `json:"released"`
 	Image string  `json:"image"`
-	Tracks []string `json:"Tracks"`
+	Tracks []string `json:"tracks"`
 }
 
 
@@ -170,6 +173,13 @@ func main() {
 
 	router := gin.Default() //define the router
 
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:		[]string{"http://localhost:5173"},
+		AllowMethods: 		[]string{"PUT", "PATCH", "POST", "DELETE", "GET"},
+		AllowHeaders:		[]string{"Content-Type"},
+		AllowCredentials: 	true,	 		
+	}))
+
 	router.GET("/albums", getAlbums) 
 	router.GET("/albums/:id", AlbumById)  
 	router.POST("/albums", addAlbum) 
@@ -177,5 +187,3 @@ func main() {
 	router.DELETE("/albums/:id", deleteAlbum)
 	router.Run("localhost:8080") 
 }
-
-//getmovies
