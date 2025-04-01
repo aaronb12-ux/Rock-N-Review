@@ -1,9 +1,9 @@
-import { StrictMode, useLayoutEffect } from 'react'
+import { StrictMode} from 'react'
 
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
-import {createBrowserRouter, RouterProvider, Link, Outlet, useLocation} from "react-router-dom"
+import {createBrowserRouter, RouterProvider} from "react-router-dom"
 import SearchResults from './Router/SearchResults.jsx'
 import Album from './Router/Album.jsx'
 import Saved from './Router/Saved.jsx'
@@ -11,20 +11,24 @@ import Saved from './Router/Saved.jsx'
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <App/>
+    path: "/",  //home page
+    element: <App/> 
   },
   {
-    path: "search",
+    path: "search", //search results
     element: <SearchResults/>
   },
   {
-    path: "album/:albumname",
+    path: "album/:albumname", //specific album
     element: <Album/>
   }, 
   {
-    path: "saved",
+    path: "saved", //user saved albums
     element: <Saved/>
+  },
+  {
+    path: "saved/:albumname", //specific saved album
+    element: <SavedAlbum/>
   }
 ])
 

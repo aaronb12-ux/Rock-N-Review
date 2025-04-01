@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "../Components/Header";
 import Axios from "axios"
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import {
     Container,
@@ -11,21 +11,28 @@ import {
 
 
 function HomePage({accessToken}) {
-      
-    const token = window.localStorage.getItem('ACCESS_TOKEN')
-    const [topalbums, setTopAlbums] = useState([])
 
-    const headers = {
+    const location = useLocation() //location function for getting search input passed as state through page navigation
+    const [currentsearch, setCurrentSearch] = useState(location.state?.searchInput) //search input passed through page navigation
+     
+    const token = window.localStorage.getItem('ACCESS_TOKEN') //access token stored in the local storage
+    
+    const [topalbums, setTopAlbums] = useState([]) //state that will store the data retrieved from the API call 'getinfo()'
+
+
+
+    const headers = { //headers for spotify API call
         "Content-Type": "application/json",
         Authorization : "Bearer " + token,
     }
 
-    useEffect(() => {
+    useEffect(() => { //useEffect function that runs when the access token is retrieved
         async function getinfo() {     
-
+            //function returns a promise as it is async
             if (token) {
-                 
+  
                   const response = await Axios.get('https://api.spotify.com/v1/browse/new-releases?country=US&limit=20', {
+                               
                     headers: headers       
                 })
                setTopAlbums(response.data.albums.items)
@@ -40,7 +47,11 @@ function HomePage({accessToken}) {
            <div className="bg-amber-50 h-screen">
                <Header
                accessToken={accessToken}
+               currentSearch={currentsearch}
                />
+                <div className="flex items-center justify-center mt-5 ">
+              <span className="text-3xl font-bold font-serif text-amber-800 tracking-widest drop-shadow-md">Current Trending</span>
+            </div>
                <Container className="py-8">
             <Row className="flex flex-row flex-wrap justify-around content-start">
               {topalbums.map((album) => {

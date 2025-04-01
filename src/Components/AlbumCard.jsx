@@ -20,6 +20,7 @@ function AlbumCard({ albumimage, albumdata, albumtracks }) {
           released: albumdata.release_date,
           image: albumdata.images[0].url,
           tracks: only_tracks,
+          saved: true
          
         }
           axios.post("http://localhost:8080/albums", POST_DATA).then(response => {console.log(response.data)}) //POST request via Axios

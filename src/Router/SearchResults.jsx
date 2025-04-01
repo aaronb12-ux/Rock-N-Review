@@ -19,6 +19,7 @@ function SearchResults() {
     const accessToken = location.state?.accessToken
     const currentsearch = location.state?.searchInput
 
+
     const [searchParams] = useSearchParams()
     const albumquery = searchParams.get('album')
     
@@ -55,8 +56,6 @@ function SearchResults() {
     }, [albumquery])
 
 
-    console.log(albums)
-
     return (
         <div className="bg-amber-50 min-h-screen">
           <Header 
@@ -70,7 +69,7 @@ function SearchResults() {
                     key={album.id}
                     className="bg-amber-100 m-6 rounded-none border-2 border-amber-700 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 max-w-xs overflow-hidden"
                     to={`/album/${encodeURIComponent(album.name)}`}
-                    state={{album : album, token : accessToken}}
+                    state={{album : album, token : accessToken, search: currentsearch}}
                     >
                     <div className="relative">
                       <div className="h-64 overflow-hidden border-b-2 border-amber-700">

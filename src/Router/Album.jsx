@@ -10,8 +10,10 @@ function Album() {
     
       const location = useLocation() 
       const data = location.state?.album //passed in selected album object
+      const search = location.state?.search
       const token = window.localStorage.getItem('ACCESS_TOKEN') //access token stored in local storage
       
+      console.log(search)
  
       const [albumtracks, setAlbumTracks] = useState([]) //state to hold the tracks
       const [albumimage, setAlbumImage] = useState() //image of the album
@@ -40,7 +42,9 @@ function Album() {
       
       return (
         <div className="bg-amber-50 "> {/*Background color of page*/}
-          <Header /> {/*Header*/}
+          <Header 
+          currentSearch={search}
+          /> 
           <div className="flex px-8"> {/**/}
             <div className="w-1/2 flex items-center justify-center h-screen ">
               <AlbumCard

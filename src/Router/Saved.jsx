@@ -1,7 +1,7 @@
 import Header from "../Components/Header";
 import { useState, useEffect } from "react";
 import axios from "axios"
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
     Container,
     Row,
@@ -10,6 +10,10 @@ import {
 
 function Saved() {
     //this page when navigated to, will send a get request to the api and fetch all the saved albums, then display them.
+
+    const location = useLocation()
+    const [currentsearch, setCurrentSearch] = useState(location.state?.searchInput)
+
 
     const [albums, setAlbums] = useState([]) //state that will store all the saved albums
 
@@ -21,11 +25,15 @@ function Saved() {
         getSavedAlbums()
     }, [])
 
-   console.log(albums)
-
+   
     return (
         <div className="bg-amber-50 min-h-screen">
-            <Header/>
+            <Header
+             currentSearch={currentsearch}
+            />
+            <div className="flex items-center justify-center mt-5 ">
+              <span className="text-3xl font-bold font-serif text-amber-800 tracking-widest drop-shadow-md">Saved Albums </span>
+            </div>
             <Container className="py-8">
             <Row className="flex flex-row flex-wrap justify-around content-start">
               {albums.map((album) => {
