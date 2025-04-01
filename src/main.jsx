@@ -7,6 +7,7 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom"
 import SearchResults from './Router/SearchResults.jsx'
 import Album from './Router/Album.jsx'
 import Saved from './Router/Saved.jsx'
+import SavedAlbum from './Router/SavedAlbum.jsx'
 
 
 const router = createBrowserRouter([

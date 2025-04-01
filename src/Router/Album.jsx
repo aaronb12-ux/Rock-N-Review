@@ -25,7 +25,6 @@ function Album() {
       }
 
       
- 
       useEffect(() => {
             async function gettracks() {
                 const response = await Axios.get(`https://api.spotify.com/v1/albums/${data.id}/tracks`, {
@@ -41,11 +40,11 @@ function Album() {
 
       
       return (
-        <div className="bg-amber-50 "> {/*Background color of page*/}
+        <div className="bg-amber-50 "> 
           <Header 
           currentSearch={search}
           /> 
-          <div className="flex px-8"> {/**/}
+          <div className="flex px-8"> 
             <div className="w-1/2 flex items-center justify-center h-screen ">
               <AlbumCard
                 albumimage={albumimage}

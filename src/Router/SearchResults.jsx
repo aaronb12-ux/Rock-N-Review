@@ -12,7 +12,6 @@ import {
 } from "react-bootstrap"
 
 
-
 function SearchResults() {
 
     const location = useLocation()
