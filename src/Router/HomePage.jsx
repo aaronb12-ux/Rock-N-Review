@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../Components/Header";
 import Axios from "axios"
 import { Link, useLocation } from 'react-router-dom';
+import TrendingBanner from "../Components/TrendingBanner";
 
 import {
     Container,
@@ -18,7 +19,6 @@ function HomePage({accessToken}) {
     const token = window.localStorage.getItem('ACCESS_TOKEN') //access token stored in the local storage
     
     const [topalbums, setTopAlbums] = useState([]) //state that will store the data retrieved from the API call 'getinfo()'
-
 
 
     const headers = { //headers for spotify API call
@@ -50,7 +50,7 @@ function HomePage({accessToken}) {
                currentSearch={currentsearch}
                />
                 <div className="flex items-center justify-center mt-5 ">
-              <span className="text-3xl font-bold font-serif text-amber-800 tracking-widest drop-shadow-md">Current Trending</span>
+              <TrendingBanner/>
             </div>
                <Container className="py-8">
             <Row className="flex flex-row flex-wrap justify-around content-start">

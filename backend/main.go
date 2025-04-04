@@ -27,7 +27,7 @@ type album struct {
 	Name string `json:"name"` 
 	Artist string `json:"artist"`
 	Genre string `json:"genre"`
-	Released string `json:"released"`
+	Release_Date string `json:"release_date"`
 	Image string  `json:"image"`
 	Tracks []string `json:"tracks"`
 }

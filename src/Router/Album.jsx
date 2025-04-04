@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import AlbumCard from "../Components/AlbumCard"
 import Track from "../Components/Track"
+import ScrollToTop from "../Components/ScrollToTop";
 
 
 function Album() {
@@ -12,8 +13,8 @@ function Album() {
       const data = location.state?.album //passed in selected album object
       const search = location.state?.search
       const token = window.localStorage.getItem('ACCESS_TOKEN') //access token stored in local storage
-      
-      console.log(search)
+      const saved = false
+
  
       const [albumtracks, setAlbumTracks] = useState([]) //state to hold the tracks
       const [albumimage, setAlbumImage] = useState() //image of the album
@@ -44,12 +45,14 @@ function Album() {
           <Header 
           currentSearch={search}
           /> 
+          <ScrollToTop/>
           <div className="flex px-8"> 
             <div className="w-1/2 flex items-center justify-center h-screen ">
               <AlbumCard
                 albumimage={albumimage}
                 albumdata={data}
                 albumtracks={albumtracks}
+                saved={saved}
               />
             </div>
             <div className="w-1/2 overflow-y-auto p-8">
