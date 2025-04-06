@@ -19,7 +19,7 @@ function AlbumOptions({albumdata, only_tracks, saved}) {
          saved: true
        }
 
-         axios.post("http://localhost:8080/albums", POST_DATA).then(response => {console.log(response.data)}) //POST request via Axios
+         axios.post("http://localhost:8080/saved-albums", POST_DATA).then(response => {console.log(response.data)}) //POST request via Axios
         .catch(error => {console.log(error);});  
         
         setSaveState(true)
@@ -28,7 +28,7 @@ function AlbumOptions({albumdata, only_tracks, saved}) {
    const deletesave = async (e) => {
        e.preventDefault()
        
-       axios.delete(`http://localhost:8080/albums/${albumdata._id}`).then(response => {console.log(response.data)})
+       axios.delete(`http://localhost:8080/saved-albums/${albumdata._id}`).then(response => {console.log(response.data)})
        .catch(function (error) {
           if (error.response) {
             //the request was made and the server responsed with a status code
