@@ -14,8 +14,8 @@ function App() {
       
           const response = await Axios.post("https://accounts.spotify.com/api/token", {
               grant_type: "client_credentials",
-              client_id : "4f66a504879940299bd15c5457e424b2",
-              client_secret : "055aee7a8d8a4fa188c2bfa52ff76177",
+              client_id : "client_id",
+              client_secret : "client_secret",
               }, {
                   headers: {
                       'Content-Type': 'application/x-www-form-urlencoded'
