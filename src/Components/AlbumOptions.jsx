@@ -1,13 +1,14 @@
 import axios from "axios"
+import { useState } from "react"
+
 
 function AlbumOptions({albumdata, only_tracks, saved}) {
-    
-    
+      
+    const [savestate, setSaveState] = useState(saved)
 
     const handlesave = async (e) => {
         e.preventDefault()
 
-        
         const POST_DATA = { //Data to be sent via the post request when saving the album 
          name: albumdata.name,
          artist: albumdata.artists[0].name,
@@ -16,16 +17,34 @@ function AlbumOptions({albumdata, only_tracks, saved}) {
          image: albumdata.images[0].url,
          tracks: only_tracks,
          saved: true
-        
        }
 
-       console.log(POST_DATA)
          axios.post("http://localhost:8080/albums", POST_DATA).then(response => {console.log(response.data)}) //POST request via Axios
-        .catch(error => {console.log(error);});    
+        .catch(error => {console.log(error);});  
+        
+        setSaveState(true)
    }
 
    const deletesave = async (e) => {
+       e.preventDefault()
        
+       axios.delete(`http://localhost:8080/albums/${albumdata._id}`).then(response => {console.log(response.data)})
+       .catch(function (error) {
+          if (error.response) {
+            //the request was made and the server responsed with a status code
+            //that falls out of the range of 2xx
+            console.log(error.response.data)
+            console.log(error.response.status)
+            console.log(error.response.headers)
+          } else if (error.request) {
+            console.log(error.request)
+          } else {
+            console.log('Error', error.message)
+          }
+          console.log(error.config)
+       }
+      )
+      setSaveState(false)
    }
 
     return (
@@ -37,7 +56,7 @@ function AlbumOptions({albumdata, only_tracks, saved}) {
                 Play
               </button>
 
-              { saved ? ( 
+              { savestate ? ( 
                   <button className="flex items-center justify-center p-2 bg-amber-200 hover:bg-amber-200 text-amber-700 rounded-md transition cursor-pointer"
                   onClick={deletesave}>
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" >

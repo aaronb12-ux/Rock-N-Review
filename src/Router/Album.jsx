@@ -13,7 +13,8 @@ function Album() {
       const data = location.state?.album //passed in selected album object
       const search = location.state?.search
       const token = window.localStorage.getItem('ACCESS_TOKEN') //access token stored in local storage
-      const saved = false
+      
+      const [savedstate, setSavedState] = useState(false)
 
  
       const [albumtracks, setAlbumTracks] = useState([]) //state to hold the tracks
@@ -52,7 +53,7 @@ function Album() {
                 albumimage={albumimage}
                 albumdata={data}
                 albumtracks={albumtracks}
-                saved={saved}
+                savedstate={savedstate}
               />
             </div>
             <div className="w-1/2 overflow-y-auto p-8">

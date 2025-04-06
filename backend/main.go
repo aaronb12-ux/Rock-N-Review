@@ -44,7 +44,7 @@ func deleteAlbum(c *gin.Context) {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"error" : err.Error()})
 	}
 
-	cursor, e := mongoClient.Database("AlbumApp").Collection("Albums").DeleteOne(context.TODO(), bson.M{"_id": objectId})
+	cursor, e := mongoClient.Database("AlbumApp").Collection("SavedAlbums").DeleteOne(context.TODO(), bson.M{"_id": objectId})
 
 	if e != nil { 
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"error" : err.Error()})

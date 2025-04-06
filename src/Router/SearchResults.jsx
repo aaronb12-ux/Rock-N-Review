@@ -17,7 +17,7 @@ function SearchResults() {
     const location = useLocation()
     const accessToken = location.state?.accessToken
     const currentsearch = location.state?.searchInput
-
+  
 
     const [searchParams] = useSearchParams()
     const albumquery = searchParams.get('album')

@@ -8,7 +8,10 @@ function SavedAlbum() {
     const location = useLocation()
     //first need to get data here
     const album = location.state?.album //passed in selected album object
+    const saved = location.state?.saved
     const tracks = album.tracks
+
+ 
   
     
 
@@ -22,7 +25,7 @@ function SavedAlbum() {
                 albumimage={album.image}
                 albumdata={album}
                 albumtracks={album.tracks}
-                saved={true}
+                saved={saved}
               />
             </div>
             <div className="w-1/2 overflow-y-auto p-8">
