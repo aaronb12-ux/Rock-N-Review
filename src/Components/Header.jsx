@@ -28,7 +28,10 @@ function Header({accessToken, currentSearch}) {
     })
   }
 
-
+  const routeChangeReviewed = () => {
+    navigate('reviewed')
+  }
+ 
   const [scrolled, setScrolled] = useState(false);
   
   useEffect(() => {
@@ -96,7 +99,10 @@ function Header({accessToken, currentSearch}) {
         </div>
 
         <div className="flex items-center space-x-3 cursor-pointer">
-          <button className="group relative overflow-hidden px-4 py-2.5 rounded-md transition-all duration-300 text-amber-100 hover:text-white shadow-md hover:shadow-amber-600/20 focus:outline-none border border-amber-700/50 cursor-pointer">
+          
+          <button className="group relative overflow-hidden px-4 py-2.5 rounded-md transition-all duration-300 text-amber-100 hover:text-white shadow-md hover:shadow-amber-600/20 focus:outline-none border border-amber-700/50 cursor-pointer"
+          onClick={routeChangeReviewed}
+          >
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-amber-600 to-amber-700 transition-opacity duration-300"></div>
             <div className="relative flex items-center space-x-2">
               <Library className="h-4 w-4" />

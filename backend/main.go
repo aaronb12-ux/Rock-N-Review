@@ -9,6 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"github.com/joho/godotenv"
+	"path/filepath"
 	
 	
 )
@@ -39,6 +40,11 @@ func init() {
 }
 
 func connect_to_mongodb() error {
+
+   path_dir := "backend"
+
+	err := godotenv.Load(filepath.Join(path_dir, ".env"))
+
     uri := os.Getenv("MONGODB_URI")
 
 	if uri == "" {
