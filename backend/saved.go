@@ -10,7 +10,7 @@ import (
 
 
 func DeleteSavedAlbum(c *gin.Context) {
-	//This function deletes an entire movie document based on the past in ID
+	
 		
 	   id := c.Param("id") 
 	
@@ -31,7 +31,7 @@ func DeleteSavedAlbum(c *gin.Context) {
 	}
 
 func UpdateSavedAlbum(c *gin.Context) {
-		//this function updates a movie based off the field passed into it. As of now, only rating can be modified.
+		
 		
 		id := c.Param("id") 
 		
@@ -62,7 +62,7 @@ func UpdateSavedAlbum(c *gin.Context) {
 
 
 func GetSavedAlbums(c *gin.Context){
-	//this function gets all the movies in the database for us to read
+	
 	 
 	 cursor, err := mongoClient.Database("AlbumApp").Collection("SavedAlbums").Find(context.TODO(), bson.D{{}})
 	 
@@ -85,7 +85,7 @@ func GetSavedAlbums(c *gin.Context){
 
  func AddSavedAlbum(c *gin.Context) {
 
-	//this function adds an album to the database
+	
     
    var newalbum album
 
@@ -105,7 +105,7 @@ func GetSavedAlbums(c *gin.Context){
 
 func SavedAlbumById(c *gin.Context) {
 
-	//this function finds a movie by id and display all it's contents
+	
 
 	id := c.Param("id") 
 	
