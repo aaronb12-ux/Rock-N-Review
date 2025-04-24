@@ -29,8 +29,9 @@ func DeleteSavedAlbum(c *gin.Context) {
 		c.IndentedJSON(http.StatusAccepted, cursor)
 	
 	}
+	
 
-func UpdateSavedAlbum(c *gin.Context) {
+	func UpdateSavedAlbum(c *gin.Context) {
 		//this function updates a movie based off the field passed into it. As of now, only rating can be modified.
 		
 		id := c.Param("id") 
@@ -41,13 +42,13 @@ func UpdateSavedAlbum(c *gin.Context) {
 	
 		filter := bson.M{"_id": objectId} 
 	
-		var a album//new movie that will contain the rating
+		var a reviewedAlbum//new movie that will contain the rating
 	
 		if err := c.ShouldBindJSON(&a); err != nil {
 			c.IndentedJSON(http.StatusBadRequest, gin.H{"error" : err.Error()})
 		}
 	 
-		update := bson.D{{"$set", bson.D{{"genre", a.Genre}}}}
+		update := bson.D{{"$set", bson.D{{"genre", a.Review}}}}
 	
 		result, err := coll.UpdateOne(context.TODO(), filter, update)
 	
@@ -87,7 +88,7 @@ func GetSavedAlbums(c *gin.Context){
 
 	//this function adds an album to the database
     
-   var newalbum album
+   var newalbum savedAlbum
 
    if err := c.BindJSON(&newalbum); err != nil {
 	   return

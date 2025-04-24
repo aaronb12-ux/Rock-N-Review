@@ -9,23 +9,32 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"github.com/joho/godotenv"
-	"path/filepath"
-	
-	
 )
-
 //mongoDB Atlas connection string
 //reference to the MongoDB Client
 var mongoClient *mongo.Client 
 
-
-type album struct {
+type savedAlbum struct {
+	AlbumID string `json:"albumid"`
 	Name string `json:"name"` 
 	Artist string `json:"artist"`
-	Genre string `json:"genre"`
+	UserID string `json:"userid"`
 	Release_Date string `json:"release_date"`
 	Image string  `json:"image"`
-	Tracks []string `json:"tracks"`
+	Tracks [][]string `json:"tracks"`
+}
+
+type reviewedAlbum struct {
+	AlbumID string `json:"albumid"`
+	Name string `json:"name"`
+	Artist string `json:"artist"`
+	UserId string `json:"userid"`
+	Release_Date string `json:"release_date"`
+	Image string `json:"image"`
+	Tracks [][]string `json:"tracks"`
+	Rating int `json:"rating"`
+	Review string `json:"review"`
+	CreatedAt string `json:"created"`
 }
 
 
@@ -41,9 +50,6 @@ func init() {
 
 func connect_to_mongodb() error {
 
-   path_dir := "backend"
-
-	err := godotenv.Load(filepath.Join(path_dir, ".env"))
 
     uri := os.Getenv("MONGODB_URI")
 
@@ -75,10 +81,18 @@ func main() {
 		AllowCredentials: 	true,	 		
 	}))
 
+	//endpoints for saved album
 	router.GET("/saved-albums", GetSavedAlbums) 
 	router.GET("/saved-albums/:id", SavedAlbumById)  
 	router.POST("/saved-albums", AddSavedAlbum) 
 	router.PATCH("/saved-albums/:id", UpdateSavedAlbum)
 	router.DELETE("/saved-albums/:id", DeleteSavedAlbum)
+
+	//endpoints for reviewed album
+	router.POST("/reviewed-albums", AddReviewedAlbum)
+	router.GET("/reviewed-albums", GetReviewedAlbums)
+	router.GET("/reviewed-albums/:id", ReviewedAlbumById)
+	router.DELETE("/reviewed-albums/:id", DeleteReviewedAlbum)
+	router.PATCH("/reviewed-albums/:id", UpdateReviewedAlbum)
 	router.Run("localhost:8080") 
 }

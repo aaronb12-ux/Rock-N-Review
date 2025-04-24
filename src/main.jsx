@@ -9,6 +9,7 @@ import Album from './Router/Album.jsx'
 import Saved from './Router/Saved.jsx'
 import SavedAlbum from './Router/SavedAlbum.jsx'
 import Reviewed from './Router/Reviewed.jsx'
+import Review from './Router/Review.jsx'
 
 
 const router = createBrowserRouter([
@@ -33,8 +34,12 @@ const router = createBrowserRouter([
     element: <SavedAlbum/>
   },
   {
-    path: "reviewed",
+    path: "reviewed", //reviewed page for albums
     element: <Reviewed/>
+  },
+  {
+    path: "album/:albumname/review", //reviewing an album
+    element: <Review/>
   }
 ])
 
