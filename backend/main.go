@@ -9,6 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"github.com/joho/godotenv"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 //mongoDB Atlas connection string
 //reference to the MongoDB Client
@@ -25,6 +26,7 @@ type savedAlbum struct {
 }
 
 type reviewedAlbum struct {
+	ID primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
 	AlbumID string `json:"albumid"`
 	Name string `json:"name"`
 	Artist string `json:"artist"`

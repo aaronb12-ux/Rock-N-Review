@@ -10,53 +10,61 @@ import Modal from "../Components/Modal";
 import Reviews from "../Components/Reviews";
 
 function Album() {
-
   const location = useLocation()
   const data = location.state?.album //Album Data
   const search = location.state?.search //Search Query
   const token = window.localStorage.getItem('ACCESS_TOKEN') //Access Token in local storage
   const [albumtracks, setAlbumTracks] = useState([]) //State to hold the tracks fetched in the API call
-  const [albumimage, setAlbumImage] = useState() //Image of the album
   const [modal, setModal] = useState(false) //Modal
+  const [refresh, setRefresh] = useState(0)
+  const [edit, setEdit] = useState([false, null, null])
   
   const headers = { //headers for api call
     "Content-Type": "application/json",
     Authorization : "Bearer " + token,
   }
-
+  
+  let idquery
+  let apiquery
+  let albumimage
+  if (data.albumid) { //if we are traveling from the 'reviewed' page
+    idquery = data.albumid
+    apiquery = data.albumid
+    albumimage = data.image
+  } else { //if we are traveling from a search
+    idquery = data.id
+    apiquery = data.id
+    albumimage = data.images[0].url
+  }
+  
   useEffect(() => {
     async function gettracks() {
-      const response = await Axios.get(`https://api.spotify.com/v1/albums/${data.id}/tracks`, {
+      const response = await Axios.get(`https://api.spotify.com/v1/albums/${apiquery}/tracks`, {
         headers: headers
       })
       setAlbumTracks(response.data.items)
-      setAlbumImage(data.images[0].url)
     }
     if (data) {
       gettracks()
     }
-  }, [data])
-
-
+  }, [data, apiquery])
+  
   const only_tracks = albumtracks.map(album => [album.name, String(album.duration_ms)])
-
+  
   return (
-    <div className="flex flex-col min-h-screen bg-indigo-200 w-screen">
+    <div className="flex flex-col min-h-screen bg-indigo-50 w-full">
       {/* Header */}
-      <Header
-        currentSearch={search}
-      />
-
+      <Header currentSearch={search} />
+      
       {/* Scroll to Top */}
-      <ScrollToTop/>
-
-
-      {/* Indigo Box the album card and tracks are inside  */}
-      <div className="flex-grow box-border bg-indigo-300 mx-5 mt-5 mb-5 rounded-xl">
-        
-        {/* Album Card */}
-        <div className="flex flex-grow px-8">
-          <div className="mt-5">
+      <ScrollToTop />
+      
+      {/* Main Content Container */}
+      <div className="max-w-7xl mx-auto w-full px-4 py-6">
+        {/* Album Info & Reviews Section */}
+        <div className="flex flex-col md:flex-row gap-6 mb-8">
+          {/* Album Card Column - 40% width */}
+          <div className="w-full md:w-2/5">
             <AlbumCard
               albumimage={albumimage}
               albumdata={data}
@@ -65,43 +73,56 @@ function Album() {
               modal={modal}
             />
           </div>
-
-        {/* Modal */}
-        { modal && (
-            <Modal
-            setModal={setModal}
-            album={data}
-            only_tracks={only_tracks}
+          
+          {/* Reviews Column - 60% width */}
+          <div className="w-full md:w-3/5">
+            <Reviews
+              id={idquery}
+              name={data.name}
+              refresh={refresh}
+              setRefresh={setRefresh}
+              setModal={setModal}
+              setEdit={setEdit}
             />
-        )
-        }   
-        <div className="flex flex-grow items-center justify-center p-3">
-          <Reviews
-          id={data.id}
-          name={data.name}
-          />
-        </div>
-       
-        </div>
-        <div>
-          <div className="flex justify-center items-center py-4">
-            <TracksBanner/>
           </div>
-          <div className="w-full px-6 pb-8">
-            <div className="py-5">
-              {only_tracks.map((track) => (
+        </div>
+        
+        {/* Tracks Section */}
+        <div className="bg-white rounded-xl shadow-md border border-indigo-100 overflow-hidden mb-8">
+          <div className="bg-gradient-to-r from-indigo-600 to-indigo-800 py-3 px-6">
+            <TracksBanner />
+          </div>
+          
+          <div className="p-6">
+            {only_tracks.length > 0 ? (
+              only_tracks.map((track, index) => (
                 <Track
-                  key={track.id}
+                  key={index}
                   trackname={track[0]}
                   trackduration={track[1]}
                 />
-              ))}
-            </div>
+              ))
+            ) : (
+              <div className="text-center py-8 text-indigo-400">
+                Loading tracks...
+              </div>
+            )}
           </div>
         </div>
       </div>
+      
+      {/* Modal */}
+      {modal && (
+        <Modal
+          setModal={setModal}
+          album={data}
+          only_tracks={only_tracks}
+          setRefresh={setRefresh}
+          edit={edit}
+        />
+      )}
     </div>
-  )
+  );
 }
 
-export default Album
+export default Album;

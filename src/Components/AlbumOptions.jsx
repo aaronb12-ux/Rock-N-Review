@@ -85,8 +85,3 @@ function AlbumOptions({albumdata, saved, only_tracks, setModal, modal}) {
 
 export default AlbumOptions
 
-/*
-    navigate("review", {
-        state: {albumdata, only_tracks}
-      })
-        */

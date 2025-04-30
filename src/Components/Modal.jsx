@@ -1,7 +1,6 @@
 import ReviewForm from "./ReviewForm"
-const Modal = ({setModal, album, only_tracks}) => {
+const Modal = ({setModal, album, only_tracks, setRefresh, edit}) => {
 
-    
     let post_data = {
         albumid: album.id,
         name: album.name,
@@ -12,9 +11,8 @@ const Modal = ({setModal, album, only_tracks}) => {
         created: new Date()
     }
 
-    
     const handlemodal = () => {
-        setModal(false)
+        setModal(modal => !modal)
     }
 
     return (
@@ -31,6 +29,9 @@ const Modal = ({setModal, album, only_tracks}) => {
                   <ReviewForm
                   postdata={post_data}
                   setModal={setModal}
+                  setRefresh={setRefresh}
+                  edit={edit}
+             
                   />
                   </div>
                 </div>

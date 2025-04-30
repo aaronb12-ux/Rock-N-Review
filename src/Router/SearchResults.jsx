@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 
 import {
     Container,
-    Row,
     Card,
 } from "react-bootstrap"
 

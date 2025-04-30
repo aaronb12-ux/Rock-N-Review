@@ -23,7 +23,7 @@ function Reviewed() {
 
     
     if (reviewedalbums === null) {
-        return (<div className="bg-indigo-50 min-h-screen">
+        return (<div className="bg-indigo-200 min-h-screen">
             <Header/>
             <div className="flex justify-center items-center mt-5">
             <ReviewedBanner/>
@@ -31,6 +31,7 @@ function Reviewed() {
         </div>)
     }
 
+  
     return (
         <div className="bg-indigo-200 min-h-screen">
                 <Header/>

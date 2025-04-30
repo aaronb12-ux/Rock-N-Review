@@ -1,64 +1,98 @@
-import { useEffect, useState } from "react"
-import axios from "axios"
-import Review from "./Review"
-import Rating from "./Rating"
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Review from "./Review";
+import Rating from "./Rating";
 
-const Reviews = ({id, name}) => {
+const Reviews = ({ id, name, refresh, setRefresh, setModal, setEdit }) => {
+  const [reviews, setReviews] = useState();
+  const [loading, setLoading] = useState(true);
 
-    const [reviews, setReviews] = useState()
-  
-    useEffect(() => {
-        async function getReviews(id) {
-            const response = await axios.get(`http://localhost:8080/reviewed-albums/${id}`)
-            let data = response.data
-
-            data = data.map(review => [review.review, review.rating, review.created, review.userid])
-            setReviews(data) 
-
-                
-            //const reviews = albumentries.map(review => [review.review, review.rating, review.created, review.userid])
-        }
-        getReviews(id)
-    }, [])
-
+  useEffect(() => {
     
-    return (
-        <div className="box-border h-120 w-200 bg-indigo-400 rounded-lg shadow-[0_0_15px_8px_rgba(79,70,229,0.9)]">
-            <div className="flex flex-col justify-center items-center">
-            <div className="text-3xl font-bold font-serif text-indigo-100 tracking-widest drop-shadow-md w-full flex flex-row items-center justify-center flex-nowrap overflow-hidden whitespace-nowrap px-22">
-                        <span className="flex-shrink-0">Reviews for: </span>
-                        <span className="overflow-hidden text-ellipsis">{name}</span>
-            </div>
-                <div>
-                    <div>
-                        <Rating
-                        reviews={reviews}
-                        />
-                    </div>  
+    async function getReviews(id) {
+      setLoading(true);
+      try {
+        const response = await axios.get(`http://localhost:8080/reviewed-albums/${id}`);
+        
+        let data = response.data;
+        if (data === null) {
+          setReviews([]);
+          return;
+        }
+        
+        data = data.map((review) => [
+          review.review,
+          review.rating,
+          review.created,
+          review.userid,
+          review._id,
+        ]);
+        
+        setReviews(data);
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+        setReviews([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    getReviews(id);
+  }, [refresh, id]);
 
-                        <div className="overflow-y-auto max-h-90 p-4 mt-2 w-200" style={{scrollbarWidth: 'thin'}}>
-                    
-                    {reviews && 
-                    reviews.map((review, index) => (
-                        <Review
-                        author={review[3]}
-                        rating={review[1]}
-                        date={review[2]}
-                        text={review[0]}
-                        />
-                    ))
-                    }     
-                      </div>
-                     
-                        
-                                              
-                </div>
-            </div>
-        </div>
-    )
-}
+  return (
+    <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-indigo-100 w-full max-w-3xl mx-auto">
+      {/* Header section with gradient */}
+      <div className="bg-gradient-to-r from-indigo-600 to-indigo-800 px-3 py-5">
+        <h1 className="text-2xl md:text-3xl font-bold font-serif text-white tracking-wide flex items-center gap-2 overflow-hidden">
+          <span className="flex-shrink-0 text-indigo-200">Reviews for:</span>
+          <span className="overflow-hidden text-ellipsis whitespace-nowrap max-w-md font-medium">
+            {name}
+          </span>
+        </h1>
+      </div>
+      
+      {/* Rating summary section */}
+      <div className="bg-indigo-50 py-4 border-b border-indigo-100">
+        <Rating reviews={reviews} />
+      </div>
+      
+      {/* Reviews list section */}
+      <div className="px-4 py-2">
+        {loading ? (
+          <div className="flex justify-center items-center h-60">
+            <div className="animate-pulse text-indigo-400">Loading reviews...</div>
+          </div>
+        ) : reviews && reviews.length > 0 ? (
+          <div 
+            className="overflow-y-auto max-h-96 pr-2" 
+            style={{ scrollbarWidth: "thin", scrollbarColor: "#818cf8 #eff6ff" }}
+          >
+            {reviews.map((review, index) => (
+              <Review
+                key={review[4]}
+                author={review[3]}
+                rating={review[1]}
+                date={review[2]}
+                text={review[0]}
+                _id={review[4]}
+                setRefresh={setRefresh}
+                setModal={setModal}
+                setEdit={setEdit}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="flex justify-center items-center h-60 text-gray-500">
+            No reviews yet. Be the first to leave a review!
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
 
-export default Reviews
+export default Reviews;
 
 /*
 0: "I love this album!"
