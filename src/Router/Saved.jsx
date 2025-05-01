@@ -1,10 +1,9 @@
 import Header from "../Components/Header";
 import { useState, useEffect } from "react";
 import axios from "axios"
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation} from 'react-router-dom';
 import {
     Container,
-    Row,
     Card,
 } from "react-bootstrap"
 import SavedBanner from "../Components/SavedBanner";
@@ -28,7 +27,7 @@ function Saved() {
 
   
     if (albums === null) {
-      return (<div className="bg-indigo-200 min-h-screen">
+      return (<div className="bg-indigo-50 min-h-screen">
             <Header
              currentSearch={currentsearch}
             />
@@ -40,7 +39,7 @@ function Saved() {
 
 
     return (
-        <div className="bg-indigo-200 min-h-screen">
+        <div className="bg-indigo-50 min-h-screen">
             <Header
              currentSearch={currentsearch}
             />

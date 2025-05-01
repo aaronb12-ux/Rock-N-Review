@@ -87,7 +87,7 @@ func main() {
 	router.GET("/saved-albums", GetSavedAlbums) 
 	router.GET("/saved-albums/:id", SavedAlbumById)  
 	router.POST("/saved-albums", AddSavedAlbum) 
-	router.PATCH("/saved-albums/:id", UpdateSavedAlbum)
+	//router.PATCH("/saved-albums/:id", UpdateSavedAlbum)
 	router.DELETE("/saved-albums/:id", DeleteSavedAlbum)
 
 	//endpoints for reviewed album

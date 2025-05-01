@@ -3,7 +3,7 @@ import Header from "../Components/Header"
 import ReviewedBanner from "../Components/ReviewedBanner"
 import axios from "axios"
 import { useState } from "react"
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
     Container,
     Row,
@@ -23,7 +23,7 @@ function Reviewed() {
 
     
     if (reviewedalbums === null) {
-        return (<div className="bg-indigo-200 min-h-screen">
+        return (<div className="bg-indigo-50 min-h-screen">
             <Header/>
             <div className="flex justify-center items-center mt-5">
             <ReviewedBanner/>
@@ -33,7 +33,7 @@ function Reviewed() {
 
   
     return (
-        <div className="bg-indigo-200 min-h-screen">
+        <div className="bg-indigo-50 min-h-screen">
                 <Header/>
                 <div className="flex items-center justify-center mt-5">
                 <ReviewedBanner/>

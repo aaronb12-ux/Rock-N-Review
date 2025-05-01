@@ -8,14 +8,13 @@ function ReviewForm({ postdata, setModal, setRefresh, edit }) {
 
   const [existingReview, setExistingReview] = useState(edit[1]);
 
+  
+ 
   const handleSubmit = () => {
     postdata.rating = stars;
   
-    if (edit[0]) {
-      postdata.review = existingReview
-      console.log(postdata, edit[3])
-        //do api call to edit the field. need to get the ID of the review
-        
+    if (edit[0]) { //if we are making an edit
+      postdata.review = existingReview   
         axios.patch(`http://localhost:8080/reviewed-albums/${edit[3]}`, {"Rating": postdata.rating, "Review": postdata.review}).then
         ((response) => {
           console.log(response.data)
@@ -24,7 +23,7 @@ function ReviewForm({ postdata, setModal, setRefresh, edit }) {
           console.log(error)
         })
               
-    } else {
+    } else { //first review for the album
       postdata.review = review;
       axios
         .post("http://localhost:8080/reviewed-albums", postdata)
@@ -50,9 +49,9 @@ function ReviewForm({ postdata, setModal, setRefresh, edit }) {
   return (
     <div className="">
       <div className="flex-grow max-w-2xl">
-        <div className="backdrop-blur-sm border-4 border-indigo-400 rounded-xl p-6 shadow-lg bg-indigo-50">
+        <div className="backdrop-blur-sm border-4 border-indigo-700 rounded-xl p-6 shadow-lg bg-indigo-50">
           <div className="flex justify-center mb-4">
-            <span className="text-3xl font-bold font-serif text-indigo-800 border-b-2 border-indigo-400 pb-2">
+            <span className="text-3xl font-bold font-serif text-indigo-800 border-b-2 border-indigo-700 pb-2">
               Make Your Review
             </span>
           </div>

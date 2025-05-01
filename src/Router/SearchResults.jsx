@@ -55,7 +55,7 @@ function SearchResults() {
 
 
     return (
-        <div className="bg-indigo-200 min-h-screen">
+        <div className="bg-indigo-50 min-h-screen">
           <Header 
           currentSearch={currentsearch}
           />

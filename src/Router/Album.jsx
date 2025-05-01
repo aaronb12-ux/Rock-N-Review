@@ -23,7 +23,8 @@ function Album() {
     "Content-Type": "application/json",
     Authorization : "Bearer " + token,
   }
-  
+ 
+  //def going to refactor this part...
   let idquery
   let apiquery
   let albumimage
@@ -37,7 +38,7 @@ function Album() {
     albumimage = data.images[0].url
   }
   
-  useEffect(() => {
+  useEffect(() => { //api call to get the tracks of the album
     async function gettracks() {
       const response = await Axios.get(`https://api.spotify.com/v1/albums/${apiquery}/tracks`, {
         headers: headers
@@ -49,7 +50,7 @@ function Album() {
     }
   }, [data, apiquery])
   
-  const only_tracks = albumtracks.map(album => [album.name, String(album.duration_ms)])
+  const only_tracks = albumtracks.map(album => [album.name, String(album.duration_ms)]) //getting only the tracks
   
   return (
     <div className="flex flex-col min-h-screen bg-indigo-50 w-full">
@@ -71,6 +72,7 @@ function Album() {
               only_tracks={only_tracks}
               setModal={setModal}
               modal={modal}
+             
             />
           </div>
           

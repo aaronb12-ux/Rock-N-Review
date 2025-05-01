@@ -44,7 +44,7 @@ function HomePage({accessToken}) {
     }, [token])
 
        return (
-           <div className="bg-indigo-200 h-min-screen">
+           <div className="bg-indigo-50 h-min-screen">
                <Header
                accessToken={accessToken}
                currentSearch={currentsearch}
@@ -52,8 +52,8 @@ function HomePage({accessToken}) {
                 <div className="flex items-center justify-center mt-5 ">
               <TrendingBanner/>
             </div>
-            <Container className="py-8 mx-auto px-5">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-20 px-4">
+            <Container className="py-8 mx-auto px-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-15 px-2">
               {topalbums.map((album) => {
                 return (
                   <Link

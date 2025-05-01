@@ -41,7 +41,7 @@ const Reviews = ({ id, name, refresh, setRefresh, setModal, setEdit }) => {
   }, [refresh, id]);
 
   return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-indigo-100 w-full max-w-3xl mx-auto">
+    <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-indigo-100 w-full max-w-3xl mx-auto h-150">
       {/* Header section with gradient */}
       <div className="bg-gradient-to-r from-indigo-600 to-indigo-800 px-3 py-5">
         <h1 className="text-2xl md:text-3xl font-bold font-serif text-white tracking-wide flex items-center gap-2 overflow-hidden">

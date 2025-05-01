@@ -7,7 +7,6 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom"
 import SearchResults from './Router/SearchResults.jsx'
 import Album from './Router/Album.jsx'
 import Saved from './Router/Saved.jsx'
-import SavedAlbum from './Router/SavedAlbum.jsx'
 import Reviewed from './Router/Reviewed.jsx'
 
 
@@ -30,7 +29,7 @@ const router = createBrowserRouter([
   },
   {
     path: "saved/:albumname", //specific saved album
-    element: <SavedAlbum/>
+    element: <Album/>
   },
   {
     path: "reviewed", //reviewed page for albums

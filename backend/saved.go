@@ -3,9 +3,11 @@ package main
 import (
 	"context"
 	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 
@@ -30,37 +32,6 @@ func DeleteSavedAlbum(c *gin.Context) {
 	
 	}
 	
-
-	func UpdateSavedAlbum(c *gin.Context) {
-		//this function updates a movie based off the field passed into it. As of now, only rating can be modified.
-		
-		id := c.Param("id") 
-		
-		coll := mongoClient.Database("AlbumApp").Collection("Albums")
-		
-		objectId, _ := primitive.ObjectIDFromHex(id) 
-	
-		filter := bson.M{"_id": objectId} 
-	
-		var a reviewedAlbum//new movie that will contain the rating
-	
-		if err := c.ShouldBindJSON(&a); err != nil {
-			c.IndentedJSON(http.StatusBadRequest, gin.H{"error" : err.Error()})
-		}
-	 
-		update := bson.D{{"$set", bson.D{{"genre", a.Review}}}}
-	
-		result, err := coll.UpdateOne(context.TODO(), filter, update)
-	
-		if err != nil {
-			panic(err)
-		}
-	
-		c.IndentedJSON(http.StatusAccepted, result)
-	
-}
-
-
 
 func GetSavedAlbums(c *gin.Context){
 	//this function gets all the movies in the database for us to read
@@ -109,21 +80,61 @@ func SavedAlbumById(c *gin.Context) {
 	//this function finds a movie by id and display all it's contents
 
 	id := c.Param("id") 
+	//c.IndentedJSON(http.StatusOK, id)
+
+	filter := bson.D{{"albumid", id}} //checking if there exist a document that has 'albumid' in the users 'savedAlbums' collection
 	
-	objectId, err := primitive.ObjectIDFromHex(id)
+	//variable to hold result
+	var result savedAlbum
+
+	//database query to 'FindOne' and decode the result
+	err := mongoClient.Database("AlbumApp").Collection("SavedAlbums").FindOne(context.TODO(), filter).Decode(&result);
 
 	if err != nil {
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		if err == mongo.ErrNoDocuments {
+			//no document found
+			c.JSON(http.StatusNotFound, gin.H{"message" :"Album not Found"})
+			return
+		}
+		//some other error
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error" : err.Error() })
 	}
 
-	var album bson.M
-
-	e := mongoClient.Database("AlbumApp").Collection("SavedAlbums").FindOne(context.TODO(), bson.D{{"_id", objectId}}).Decode(&album);
-
-	if e != nil {
-		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-		
-	c.IndentedJSON(http.StatusOK, album)
+	c.IndentedJSON(http.StatusOK, result)
 }
+
+
+
+
+
+
+	
+/*
+	func UpdateSavedAlbum(c *gin.Context) {
+		//this function updates a movie based off the field passed into it. As of now, only rating can be modified.
+		
+		id := c.Param("id") 
+		
+		coll := mongoClient.Database("AlbumApp").Collection("Albums")
+		
+		objectId, _ := primitive.ObjectIDFromHex(id) 
+	
+		filter := bson.M{"_id": objectId} 
+	
+		var a reviewedAlbum//new movie that will contain the rating
+	
+		if err := c.ShouldBindJSON(&a); err != nil {
+			c.IndentedJSON(http.StatusBadRequest, gin.H{"error" : err.Error()})
+		}
+	 
+		update := bson.D{{"$set", bson.D{{"genre", a.Review}}}}
+	
+		result, err := coll.UpdateOne(context.TODO(), filter, update)
+	
+		if err != nil {
+			panic(err)
+		}
+	
+		c.IndentedJSON(http.StatusAccepted, result)
+}
+*/

@@ -24,14 +24,13 @@ const Modal = ({setModal, album, only_tracks, setRefresh, edit}) => {
                 >
                   x
                 </button>
-                <div className="bg-indigo-200 p-2 rounded-lg">
+                <div className="bg-indigo-50 p-2 rounded-lg">
                   {/* Review Form Inside the Modal */}
                   <ReviewForm
                   postdata={post_data}
                   setModal={setModal}
                   setRefresh={setRefresh}
                   edit={edit}
-             
                   />
                   </div>
                 </div>
