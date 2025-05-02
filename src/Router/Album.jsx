@@ -17,7 +17,7 @@ function Album() {
   const [albumtracks, setAlbumTracks] = useState([]) //State to hold the tracks fetched in the API call
   const [modal, setModal] = useState(false) //Modal
   const [refresh, setRefresh] = useState(0)
-  const [edit, setEdit] = useState([false, null, null])
+  const [edit, setEdit] = useState([false, null, null, null]) 
   
   const headers = { //headers for api call
     "Content-Type": "application/json",

@@ -64,7 +64,7 @@ function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
       } else {
         id = albumdata.id //if this album is from search
       }
-
+  
       axios
         .get(`http://localhost:8080/saved-albums/${id}`)
         .then((response) => {
@@ -74,7 +74,7 @@ function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
         })
         .catch(function (error) {
           if (error.response) {
-            console.log(error.response.data);
+            //console.log(error.response.data);
           } else if (error.request) {
             console.log(error.request);
           } else {
@@ -84,7 +84,7 @@ function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
         });
     };
     checkifsaved()
-  })
+  }, [])
   
  
 

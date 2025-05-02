@@ -5,41 +5,58 @@ import axios from "axios";
 function ReviewForm({ postdata, setModal, setRefresh, edit }) {
   const [stars, setStars] = useState(0);
   const [review, setReview] = useState("");
+  const [zerorating, setZeroRating] = useState(false);
+  const [noReview, setNoReview] = useState(false)
+ 
 
   const [existingReview, setExistingReview] = useState(edit[1]);
 
-  
- 
+  const clear = () => {
+    setModal(false);
+    setRefresh((refresh) => refresh + 1);
+    setReview("");
+    setStars("");
+    setExistingReview("");
+    edit[0] = false;
+  };
+
   const handleSubmit = () => {
     postdata.rating = stars;
-  
-    if (edit[0]) { //if we are making an edit
-      postdata.review = existingReview   
-        axios.patch(`http://localhost:8080/reviewed-albums/${edit[3]}`, {"Rating": postdata.rating, "Review": postdata.review}).then
-        ((response) => {
-          console.log(response.data)
+
+    if (postdata.rating === 0) {
+       setZeroRating(true);
+
+    } else if ((review === "" && edit[0] === false) || (existingReview == "" && edit[0] ===true)) {
+       setNoReview(true)
+
+    } else if (edit[0]) {
+      //if we are making an edit
+      postdata.review = existingReview;
+      axios
+        .patch(`http://localhost:8080/reviewed-albums/${edit[3]}`, {
+          Rating: postdata.rating,
+          Review: postdata.review,
+        })
+        .then((response) => {
+          console.log(response.data);
+          clear();
         })
         .catch((error) => {
-          console.log(error)
-        })
-              
-    } else { //first review for the album
+          console.log(error);
+        });
+    } else {
+      //first review for the album
       postdata.review = review;
       axios
         .post("http://localhost:8080/reviewed-albums", postdata)
         .then((response) => {
           console.log(response.data);
+          clear();
         }) //POST request via Axios
         .catch((error) => {
           console.log(error);
         });
     }
-    
-    setModal(false);
-    setRefresh(refresh => refresh + 1);
-    setReview("")
-    setStars("")
-    setExistingReview("")    
   };
 
   //we pass in edit here.
@@ -56,13 +73,23 @@ function ReviewForm({ postdata, setModal, setRefresh, edit }) {
             </span>
           </div>
 
-          <div className="mt-6">
+          <div className="mt-6 relative">
             <span className="flex items-center justify-center text-2xl font-bold font-serif text-indigo-800">
               Your Rating
             </span>
             <div className="mt-2 flex justify-center">
               <Stars setStars={setStars} edit={edit} />
             </div>
+            {zerorating && (
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 top-[98%] text-red-500 px-2 py-1 ">
+                Rating Cannot Be Zero
+              </div>
+            )}
+            {noReview && (
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 top-[98%] text-red-500 px-2 py-1 ">
+                Review Cannot Be Empty
+              </div>
+            )}
           </div>
 
           <div className="mt-8">

@@ -13,6 +13,7 @@ const Modal = ({setModal, album, only_tracks, setRefresh, edit}) => {
 
     const handlemodal = () => {
         setModal(modal => !modal)
+        edit[0] = false
     }
 
     return (

@@ -7,7 +7,6 @@ function AlbumCard({ albumimage, albumdata, only_tracks, setModal, modal}) {
   };
 
   
-
   return (
     <div className="h-full w-full mt-10">
       <div  className="rounded overflow-hidden bg-white shadow-sm hover:shadow border border-indigo-50 flex flex-col h-auto max-w-sm mx-auto">

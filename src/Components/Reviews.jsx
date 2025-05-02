@@ -8,7 +8,6 @@ const Reviews = ({ id, name, refresh, setRefresh, setModal, setEdit }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    
     async function getReviews(id) {
       setLoading(true);
       try {
@@ -38,7 +37,7 @@ const Reviews = ({ id, name, refresh, setRefresh, setModal, setEdit }) => {
     }
     
     getReviews(id);
-  }, [refresh, id]);
+  }, [refresh]);
 
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-indigo-100 w-full max-w-3xl mx-auto h-150">

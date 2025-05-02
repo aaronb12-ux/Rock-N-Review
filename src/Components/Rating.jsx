@@ -5,6 +5,9 @@ const Rating = ({ reviews }) => {
   const [averageRating, setAverageRating] = useState(0);
   
   useEffect(() => {
+    setAverageRating(0)
+    setColors(["text-gray-400", "text-gray-400", "text-gray-400", "text-gray-400", "text-gray-400"])
+    
     if (reviews && reviews.length > 0) {
       const stars_only = reviews.map((review) => review[1]);
       const calcAverage = getAverageRating(stars_only);

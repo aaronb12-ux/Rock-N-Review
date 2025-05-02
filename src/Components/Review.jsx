@@ -12,6 +12,7 @@ const Review = ({ author, rating, date, text, _id, setRefresh, setModal, setEdit
       .delete(`http://localhost:8080/reviewed-albums/${_id}`)
       .then((response) => {
         console.log(response.data);
+        setRefresh((refresh) => refresh + 1);
       })
       .catch(function (error) {
         if (error.response) {
@@ -25,7 +26,6 @@ const Review = ({ author, rating, date, text, _id, setRefresh, setModal, setEdit
         }
         console.log(error.config);
       });
-    setRefresh((refresh) => refresh + 1);
   }
 
   function handleEdit() {
@@ -54,7 +54,7 @@ const Review = ({ author, rating, date, text, _id, setRefresh, setModal, setEdit
         <div className="flex items-center gap-2">
           <button 
             onClick={handleEdit}
-            className="p-1.5 rounded-full hover:bg-blue-50 transition-all duration-200 text-gray-500 hover:text-blue-500"
+            className="p-1.5 rounded-full hover:bg-blue-50 transition-all duration-200 text-gray-500 hover:text-blue-500 cursor-pointer"
             aria-label="Edit review"
           >
             <svg
@@ -73,7 +73,7 @@ const Review = ({ author, rating, date, text, _id, setRefresh, setModal, setEdit
           </button>
           <button 
             onClick={handleDelete}
-            className="p-1.5 rounded-full hover:bg-red-50 transition-all duration-200 text-gray-500 hover:text-red-500"
+            className="p-1.5 rounded-full hover:bg-red-50 transition-all duration-200 text-gray-500 hover:text-red-500 cursor-pointer"
             aria-label="Delete review"
           >
             <svg
