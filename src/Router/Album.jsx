@@ -23,6 +23,8 @@ function Album() {
     "Content-Type": "application/json",
     Authorization : "Bearer " + token,
   }
+
+
  
   //def going to refactor this part...
   let idquery

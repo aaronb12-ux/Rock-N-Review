@@ -7,7 +7,7 @@ function ReviewForm({ postdata, setModal, setRefresh, edit }) {
   const [review, setReview] = useState("");
   const [zerorating, setZeroRating] = useState(false);
   const [noReview, setNoReview] = useState(false)
- 
+
 
   const [existingReview, setExistingReview] = useState(edit[1]);
 
@@ -21,6 +21,7 @@ function ReviewForm({ postdata, setModal, setRefresh, edit }) {
   };
 
   const handleSubmit = () => {
+
     postdata.rating = stars;
 
     if (postdata.rating === 0) {
