@@ -18,10 +18,10 @@ function AlbumCard({ albumimage, albumdata, only_tracks, setModal, modal}) {
           />
         </div>
         <div className="p-4 flex flex-col flex-grow">
-          <h2 className="text-lg font-bold text-indigo-900 truncate" title={albumdata.name}>
+          <h2 className="text-lg font-bold text-indigo-900 " >
             {albumdata.name}
           </h2>
-          <h3 className="text-sm font-medium text-indigo-700 truncate mb-2" title={albumdata.artist}>
+          <h3 className="text-sm font-medium text-indigo-700 truncate mb-2">
             {albumdata.artist}
           </h3>
           <div className="mt-auto flex justify-between items-center">

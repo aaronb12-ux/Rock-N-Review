@@ -59,7 +59,7 @@ const Reviews = ({ id, name, refresh, setRefresh, setModal, setEdit }) => {
       {/* Reviews list section */}
       <div className="px-4 py-2">
         {loading ? (
-          <div className="flex justify-center items-center h-60">
+          <div className="flex justify-center items-center h-70">
             <div className="animate-pulse text-indigo-400">Loading reviews...</div>
           </div>
         ) : reviews && reviews.length > 0 ? (

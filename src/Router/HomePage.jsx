@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Header from "../Components/Header";
 import Axios from "axios"
 import { Link, useLocation } from 'react-router-dom';
 import TrendingBanner from "../Components/TrendingBanner";
-
-import {
-    Container,
-    Row,
-    Card,
-} from "react-bootstrap"
-
+import { Context } from "../App";
 
 function HomePage({accessToken}) {
+
+    
+    const user = useContext(Context)
+
+    console.log(user)
+    
 
     const location = useLocation() //location function for getting search input passed as state through page navigation
     const [currentsearch, setCurrentSearch] = useState(location.state?.searchInput) //search input passed through page navigation
@@ -52,7 +52,7 @@ function HomePage({accessToken}) {
                 <div className="flex items-center justify-center mt-5 ">
               <TrendingBanner/>
             </div>
-            <Container className="py-8 mx-auto px-10">
+            <div className="py-8 mx-auto px-10">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-15 px-2">
               {topalbums.map((album) => {
                 return (
@@ -64,7 +64,7 @@ function HomePage({accessToken}) {
                     >
                     <div className="relative">
                       <div className="h-64 overflow-hidden border-b-2 border-indigo-700">
-                        <Card.Img
+                        <img
                           src={album.images[0].url}
                           className="w-full h-full object-cover"
                         />
@@ -73,13 +73,13 @@ function HomePage({accessToken}) {
                         {new Date(album.release_date).getFullYear()}
                       </div>
                     </div>
-                    <Card.Body className="p-4">
-                      <Card.Title
+                    <div className="p-4">
+                      <div
                         className="font-bold text-base mt-1 text-indigo-900 font-serif border-b border-indigo-300 pb-2 mb-2"
                       >
                         {album.name}
-                      </Card.Title>
-                      <Card.Text
+                      </div>
+                      <div
                         className="text-indigo-800 text-sm"
                       >
                         <div className="font-serif font-medium mb-1">{album.artists[0].name}</div>
@@ -87,13 +87,13 @@ function HomePage({accessToken}) {
                           <span className="mr-2">Released:</span> 
                           <span className="font-mono">{album.release_date}</span>
                         </div>
-                      </Card.Text>
-                    </Card.Body>
+                      </div>
+                    </div>
                   </Link>
                 )
               })}
             </div>
-          </Container>
+          </div>
                
           </div>
     )

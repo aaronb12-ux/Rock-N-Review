@@ -54,7 +54,7 @@ const Review = ({ author, rating, date, text, _id, setRefresh, setModal, setEdit
         <div className="flex items-center gap-2">
           <button 
             onClick={handleEdit}
-            className="p-1.5 rounded-full hover:bg-blue-50 transition-all duration-200 text-gray-500 hover:text-blue-500 cursor-pointer"
+            className="rounded-full hover:bg-blue-50 transition-all duration-200 text-gray-500 hover:text-blue-500 cursor-pointer"
             aria-label="Edit review"
           >
             <svg
@@ -73,7 +73,7 @@ const Review = ({ author, rating, date, text, _id, setRefresh, setModal, setEdit
           </button>
           <button 
             onClick={handleDelete}
-            className="p-1.5 rounded-full hover:bg-red-50 transition-all duration-200 text-gray-500 hover:text-red-500 cursor-pointer"
+            className="rounded-full hover:bg-red-50 transition-all duration-200 text-gray-500 hover:text-red-500 cursor-pointer"
             aria-label="Delete review"
           >
             <svg

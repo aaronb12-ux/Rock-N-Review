@@ -1,13 +1,16 @@
-import { useState, useEffect } from 'react'
-import HomePage from './Router/HomePage'
+import { useState, useEffect, createContext}from 'react'
 import Axios from "axios"
+import Signup from './Router/Signup'
+import HomePage from './Router/HomePage'
 
-import { Outlet } from 'react-router-dom'
+
+export const Context = createContext()
 
 
 function App() {
 
   const [accessToken, setAccessToken] = useState("");
+  const [signedup, setSignedUp] = useState(false)
 
   useEffect(() => {
       async function getaccesstoken() {
@@ -31,13 +34,22 @@ function App() {
 
   return (
    <div>
-  
-   <HomePage
-   accessToken={accessToken}
-   />
-
+        {signedup === false ? (
+             <Signup
+             setSignedUp={setSignedUp}
+         />
+        ): <HomePage
+                accessToken={accessToken}
+        />}
+        
    </div>
-  )
+)
 }
 
 export default App
+
+
+/*
+
+
+*/

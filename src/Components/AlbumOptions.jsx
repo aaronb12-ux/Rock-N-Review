@@ -1,8 +1,10 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { Context } from "../App";
 
 function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
-  
+
+
   const [savestate, setSaveState] = useState(false); //save state for album
   const [savedId, setSavedId] = useState("")
   const [fetchsaved, setFetchedSaved] = useState(0)
@@ -31,8 +33,6 @@ function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
       tracks: only_tracks,
     };
   }
-
-
     axios
       .post("http://localhost:8080/saved-albums", POST_DATA)
       .then((response) => {
@@ -162,7 +162,7 @@ function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
 
       {savestate ? (
         <button //if 'savestate' is true. the album is saved.
-          className="flex items-center justify-center p-2 bg-indigo-400 text-indigo-700 rounded-md transition cursor-pointer"
+          className="flex items-center justify-center p-2 bg-indigo-400 text-indigo-700 rounded-md transition cursor-pointer px-2"
           onClick={deletesave}
         >
           <svg
@@ -176,7 +176,7 @@ function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
         </button>
       ) : (
         <button
-          className="flex items-center justify-center p-2 bg-indigo-100 hover:bg-indigo-200 text-indigo-700 rounded-md transition cursor-pointer"
+          className="flex items-center justify-center p-2 bg-indigo-100 hover:bg-indigo-200 text-indigo-700 rounded-md transition cursor-pointer px-2"
           onClick={handlesave}
         >
           <svg

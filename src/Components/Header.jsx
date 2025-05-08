@@ -23,7 +23,7 @@ function Header({accessToken, currentSearch}) {
   }
 
   const routeChangeHome = () => {
-    navigate('/', {
+    navigate('/Homepage', {
       state: {searchInput}
     })
   }
