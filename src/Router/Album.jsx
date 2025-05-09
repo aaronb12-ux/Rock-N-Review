@@ -4,10 +4,11 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import AlbumCard from "../Components/AlbumCard"
 import Track from "../Components/Track"
-import ScrollToTop from "../Components/ScrollToTop";
+import ScrollToTop from "../Components/Layout";
 import TracksBanner from "../Components/TracksBanner";
 import Modal from "../Components/Modal";
 import Reviews from "../Components/Reviews";
+
 
 function Album() {
   const location = useLocation()
@@ -23,6 +24,7 @@ function Album() {
     "Content-Type": "application/json",
     Authorization : "Bearer " + token,
   }
+
 
 
  
@@ -42,6 +44,7 @@ function Album() {
   
   useEffect(() => { //api call to get the tracks of the album
     async function gettracks() {
+      <ScrollToTop/>
       const response = await Axios.get(`https://api.spotify.com/v1/albums/${apiquery}/tracks`, {
         headers: headers
       })
@@ -57,10 +60,11 @@ function Album() {
   return (
     <div className="flex flex-col min-h-screen bg-indigo-50 w-full">
       {/* Header */}
+      <ScrollToTop />
       <Header currentSearch={search} />
       
       {/* Scroll to Top */}
-      <ScrollToTop />
+
       
       {/* Main Content Container */}
       <div className="max-w-7xl mx-auto w-full px-4 py-6">
@@ -77,7 +81,6 @@ function Album() {
              
             />
           </div>
-          
           {/* Reviews Column - 60% width */}
           <div className="w-full md:w-3/5">
             <Reviews

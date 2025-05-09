@@ -77,7 +77,7 @@ function Header({accessToken, currentSearch}) {
 
         <div className={`relative transition-all duration-300 ease-in-out w-64 ${isExpanded ? "scale-105" : ""}`}>
           <input
-            className="w-full px-5 py-2.5 rounded-full bg-indigo-900/40 border border-indigo-600/50 text-indigo-100 placeholder-indigo-400/70 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-transparent shadow-inner"
+            className="w-full px-4 py-2.5 rounded-full bg-indigo-900/40 border border-indigo-600/50 text-indigo-100 placeholder-indigo-400/70 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-transparent shadow-inner"
             placeholder="Search for records..."
             
             value={searchInput}

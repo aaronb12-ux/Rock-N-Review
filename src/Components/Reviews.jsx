@@ -40,11 +40,11 @@ const Reviews = ({ id, name, refresh, setRefresh, setModal, setEdit }) => {
   }, [refresh]);
 
   return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-indigo-100 w-full max-w-3xl mx-auto h-150">
+    <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-indigo-100 w-full max-w-3xl mx-auto h-full">
       {/* Header section with gradient */}
-      <div className="bg-gradient-to-r from-indigo-600 to-indigo-800 px-3 py-5">
-        <h1 className="text-2xl md:text-3xl font-bold font-serif text-white tracking-wide flex items-center gap-2 overflow-hidden">
-          <span className="flex-shrink-0 text-indigo-200">Reviews for:</span>
+      <div className="bg-gradient-to-r from-indigo-600 to-indigo-800 px-3 py-4">
+        <h1 className="text-5xl md:text-5xl font-bold font-serif text-white tracking-wide flex items-center gap-2 overflow-hidden">
+        <span className="flex-shrink-0 font-medium text-indigo-300 uppercase tracking-wide text-base md:text-lg bg-indigo-900/30 px-4 py-2 rounded-full shadow-sm backdrop-blur-sm">Reviews for:</span>
           <span className="overflow-hidden text-ellipsis whitespace-nowrap max-w-md font-medium">
             {name}
           </span>
@@ -52,12 +52,12 @@ const Reviews = ({ id, name, refresh, setRefresh, setModal, setEdit }) => {
       </div>
       
       {/* Rating summary section */}
-      <div className="bg-indigo-50 py-4 border-b border-indigo-100">
+      <div className="bg-indigo-50 py-2 border-b border-indigo-100">
         <Rating reviews={reviews} />
       </div>
       
       {/* Reviews list section */}
-      <div className="px-4 py-2">
+      <div className="px-3 py-3">
         {loading ? (
           <div className="flex justify-center items-center h-70">
             <div className="animate-pulse text-indigo-400">Loading reviews...</div>

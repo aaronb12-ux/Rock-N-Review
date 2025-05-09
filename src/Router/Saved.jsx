@@ -46,7 +46,7 @@ function Saved() {
             <div className="flex items-center justify-center mt-5 ">
             <SavedBanner/>
             </div>
-            <Container className="py-8 mx-auto px-5">
+            <div className="py-8 mx-auto px-5">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 px-4">
               {albums.map((album) => {
                 return (
@@ -58,7 +58,7 @@ function Saved() {
                     >
                     <div className="relative">
                       <div className="h-64 overflow-hidden border-b-2 border-indigo-700">
-                        <Card.Img
+                        <img
                           src={album.image}
                           className="w-full h-full object-cover"
                         />
@@ -67,13 +67,13 @@ function Saved() {
                         {new Date(album.release_date).getFullYear()}
                       </div>
                     </div>
-                    <Card.Body className="p-4">
-                      <Card.Title
-                        className="font-bold text-base mt-1 text-indigo-900 font-serif border-b border-indigo-300 pb-2 mb-2"
+                    <div className="p-4">
+                      <div
+                        className="font-bold mt-1 text-indigo-900 font-serif border-b border-indigo-300 pb-2 mb-2"
                       >
                         {album.name}
-                      </Card.Title>
-                      <Card.Text
+                      </div>
+                      <div
                         className="text-indigo-800 text-sm"
                       >
                         <div  className="font-serif font-medium mb-1">{album.artist}</div>
@@ -81,13 +81,13 @@ function Saved() {
                           <span className="mr-2">Released:</span> 
                           <span className="font-mono">{album.release_date}</span>
                         </div>
-                      </Card.Text>
-                    </Card.Body>
+                      </div>
+                    </div>
                   </Link>
                 )
               })}
             </div>
-          </Container>
+          </div>
         </div>
     )
 }

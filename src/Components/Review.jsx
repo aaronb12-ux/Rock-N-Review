@@ -35,7 +35,7 @@ const Review = ({ author, rating, date, text, _id, setRefresh, setModal, setEdit
   }
 
   return (
-    <div className="box-border p-4 bg-white rounded-lg shadow-md border border-gray-200 mb-4 w-full">
+    <div className="box-border px-4 py-2 bg-white rounded-lg shadow-md border border-gray-200 mb-4 w-full">
       <div className="flex justify-between mb-3">
         <div className="flex text-yellow-400">
           {[...Array(5)].map((_, i) => (

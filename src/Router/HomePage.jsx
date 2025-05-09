@@ -3,14 +3,17 @@ import Header from "../Components/Header";
 import Axios from "axios"
 import { Link, useLocation } from 'react-router-dom';
 import TrendingBanner from "../Components/TrendingBanner";
-import { Context } from "../App";
+import { AuthContext } from "../Context/AuthContext";
+import ScrollToTop from "../Components/Layout";
 
 function HomePage({accessToken}) {
 
     
-    const user = useContext(Context)
+    const user = useContext(AuthContext)
 
     console.log(user)
+
+
     
 
     const location = useLocation() //location function for getting search input passed as state through page navigation
@@ -49,6 +52,7 @@ function HomePage({accessToken}) {
                accessToken={accessToken}
                currentSearch={currentsearch}
                />
+               <ScrollToTop/>
                 <div className="flex items-center justify-center mt-5 ">
               <TrendingBanner/>
             </div>

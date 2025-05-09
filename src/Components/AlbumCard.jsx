@@ -8,7 +8,7 @@ function AlbumCard({ albumimage, albumdata, only_tracks, setModal, modal}) {
 
   
   return (
-    <div className="h-full w-full mt-10">
+    <div className="h-full w-full ">
       <div  className="rounded overflow-hidden bg-white shadow-sm hover:shadow border border-indigo-50 flex flex-col h-auto max-w-sm mx-auto">
         <div className="relative pt-[100%] w-full">
           <img
@@ -18,7 +18,7 @@ function AlbumCard({ albumimage, albumdata, only_tracks, setModal, modal}) {
           />
         </div>
         <div className="p-4 flex flex-col flex-grow">
-          <h2 className="text-lg font-bold text-indigo-900 " >
+          <h2 className="text-lg font-bold font-serif text-indigo-900 " >
             {albumdata.name}
           </h2>
           <h3 className="text-sm font-medium text-indigo-700 truncate mb-2">

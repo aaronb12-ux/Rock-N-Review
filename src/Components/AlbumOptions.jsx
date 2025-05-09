@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
-import { Context } from "../App";
+
 
 function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
 
-
+  
+ 
   const [savestate, setSaveState] = useState(false); //save state for album
   const [savedId, setSavedId] = useState("")
   const [fetchsaved, setFetchedSaved] = useState(0)
@@ -96,7 +97,6 @@ function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
         .then((response) => {
           if (response.status === 200) {
             setSaveState(true);
-            console.log(response.data._id)
             setSavedId(response.data._id)
           }
         })
