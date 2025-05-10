@@ -14,7 +14,7 @@ function Album() {
   const location = useLocation()
   const data = location.state?.album //Album Data
   const search = location.state?.search //Search Query
-  const token = window.localStorage.getItem('ACCESS_TOKEN') //Access Token in local storage
+  const token = window.localStorage.getItem('ACCESS_TOKEN') //Access Token in local storage **change this**
   const [albumtracks, setAlbumTracks] = useState([]) //State to hold the tracks fetched in the API call
   const [modal, setModal] = useState(false) //Modal
   const [refresh, setRefresh] = useState(0)
@@ -25,9 +25,6 @@ function Album() {
     Authorization : "Bearer " + token,
   }
 
-
-
- 
   //def going to refactor this part...
   let idquery
   let apiquery

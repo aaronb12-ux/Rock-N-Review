@@ -3,14 +3,17 @@ package main
 import (
 	"context"
 	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 
-func AddReviewedAlbum(c *gin.Context) {
-	var newalbum reviewedAlbum //object we are binding the json data to
+func AddReviewedAlbum(c *gin.Context) { //add new reviewed album to database
+
+	var newalbum reviewedAlbum //object binding the json data to
 
 	if err := c.BindJSON(&newalbum); err != nil { //if there is an error putting json data into new album object (json dats passing/handling issue)
 		return
@@ -26,10 +29,13 @@ func AddReviewedAlbum(c *gin.Context) {
 	
 }
 
-func GetReviewedAlbums(c *gin.Context){
-	//this function gets all the movies in the database for us to read
+func GetReviewedAlbumsByUser(c *gin.Context){ //get specific users reviewed albums
+
+	userid := c.Param("userid") 
+
+	filter := bson.D{{"userid" , userid}} 
 	 
-	 cursor, err := mongoClient.Database("AlbumApp").Collection("ReviewedAlbums").Find(context.TODO(), bson.D{{}})
+	 cursor, err := mongoClient.Database("AlbumApp").Collection("ReviewedAlbums").Find(context.TODO(), filter)
 	 
 	 if err != nil {
 		 c.IndentedJSON(http.StatusInternalServerError, gin.H{"error" : err.Error()})
@@ -47,13 +53,13 @@ func GetReviewedAlbums(c *gin.Context){
 	 c.IndentedJSON(http.StatusOK, albums)
  }
 
- func ReviewedAlbumById(c *gin.Context) {
+ func GetAlbumReviewsById(c *gin.Context) { //Get all reviews from a specific album
 
-	//this function takes an 'id' of a reviewedalbum, and it fetches all the albums with that specific id
+	//this function takes an 'albumid' of a reviewedalbum, and it fetches all the albums with that specific id
 
-	id := c.Param("id") //passed in 'id' parameter
+	albumid := c.Param("albumid") //passed in 'id' parameter
 
-	filter := bson.D{{"albumid", id}} //filter we are querying on
+	filter := bson.D{{"albumid", albumid}} //filter we are querying on
 
 	cursor, err := mongoClient.Database("AlbumApp").Collection("ReviewedAlbums").Find(context.TODO(), filter) //fetching all albums with the query, 'filter'
 
@@ -62,7 +68,7 @@ func GetReviewedAlbums(c *gin.Context){
 		return
 	}
 
-	var results []reviewedAlbum //
+	var results []reviewedAlbum 
 
 	if err = cursor.All(context.TODO(), &results); err != nil {
 		panic(err)
@@ -72,8 +78,8 @@ func GetReviewedAlbums(c *gin.Context){
 }
 
 
-func DeleteReviewedAlbum(c *gin.Context) {
-	//This function deletes an entire movie document based on the past in ID
+func DeleteReviewedAlbum(c *gin.Context) { //deletes an entire review document from 'ReviewedAlbums'
+	
 		
 	   id := c.Param("id") 
 	
@@ -91,6 +97,34 @@ func DeleteReviewedAlbum(c *gin.Context) {
 		
 		c.IndentedJSON(http.StatusAccepted, cursor)
 }
+
+
+func CheckIfReviewExistsByUser(c *gin.Context) {
+
+	userid := c.Param("userid")
+	albumid := c.Param("albumid")
+
+	filter := bson.D{
+		{"userid", userid},
+		{"albumid", albumid},
+	}
+
+	var album reviewedAlbum
+
+	err := mongoClient.Database("AlbumApp").Collection("ReviewedAlbums").FindOne(context.TODO(), filter).Decode(&album)
+
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			c.JSON(http.StatusNotFound, gin.H{"message" : "album not found"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error" : err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, album)
+}
+
 
 //users can update either the rating (stars 1-5) or the text review
 func UpdateReviewedAlbum(c *gin.Context) {

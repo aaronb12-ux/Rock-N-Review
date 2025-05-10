@@ -11,7 +11,6 @@ import (
 )
 
 func DeleteSavedAlbum(c *gin.Context) {
-		
 		//delete document of specific user album
 	    document_id := c.Param("id") 
 
@@ -31,7 +30,7 @@ func DeleteSavedAlbum(c *gin.Context) {
 		
 		c.IndentedJSON(http.StatusAccepted, gin.H{"deletedID" : objectId.Hex()})
 	
-	}
+}
 	
 
  func AddSavedAlbum(c *gin.Context) {
@@ -86,9 +85,9 @@ func SavedAlbumById(c *gin.Context) {
 func GetSavedAlbums(c *gin.Context){
 	//getting a specific USERS saved albums
 
-	id := c.Param("id")
+	userid := c.Param("id")
 
-	filter := bson.D{{"userid", id}}
+	filter := bson.D{{"userid", userid}}
 	
 	cursor, err := mongoClient.Database("AlbumApp").Collection("SavedAlbums").Find(context.TODO(), filter)
 	 

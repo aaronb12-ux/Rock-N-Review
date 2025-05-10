@@ -39,6 +39,7 @@ const Reviews = ({ id, name, refresh, setRefresh, setModal, setEdit }) => {
     getReviews(id);
   }, [refresh]);
 
+
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-indigo-100 w-full max-w-3xl mx-auto h-full">
       {/* Header section with gradient */}
@@ -64,13 +65,13 @@ const Reviews = ({ id, name, refresh, setRefresh, setModal, setEdit }) => {
           </div>
         ) : reviews && reviews.length > 0 ? (
           <div 
-            className="overflow-y-auto max-h-96 pr-2" 
+            className="overflow-y-auto max-h-70 pr-2" 
             style={{ scrollbarWidth: "thin", scrollbarColor: "#818cf8 #eff6ff" }}
           >
             {reviews.map((review, index) => (
               <Review
                 key={review[4]}
-                author={review[3]}
+                userid={review[3]}
                 rating={review[1]}
                 date={review[2]}
                 text={review[0]}

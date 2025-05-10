@@ -1,6 +1,8 @@
 import Stars from "./Stars";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
+import { AuthContext } from "../Context/AuthContext";
+
 
 function ReviewForm({ postdata, setModal, setRefresh, edit }) {
   const [stars, setStars] = useState(0);
@@ -8,6 +10,7 @@ function ReviewForm({ postdata, setModal, setRefresh, edit }) {
   const [zerorating, setZeroRating] = useState(false);
   const [noReview, setNoReview] = useState(false)
 
+  const user = useContext(AuthContext)
 
   const [existingReview, setExistingReview] = useState(edit[1]);
 
@@ -48,6 +51,7 @@ function ReviewForm({ postdata, setModal, setRefresh, edit }) {
     } else {
       //first review for the album
       postdata.review = review;
+      postdata.userid = user[0].uid
       axios
         .post("http://localhost:8080/reviewed-albums", postdata)
         .then((response) => {

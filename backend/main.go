@@ -86,15 +86,25 @@ func main() {
 
 	//endpoints for saved album
 	router.GET("/saved-albums/:id", GetSavedAlbums) 
-	router.GET("/users/:userid/saved-albums/:albumid", SavedAlbumById)  
+
+	router.GET("/users/:userid/saved-albums/:albumid", SavedAlbumById)
+
 	router.POST("/saved-albums", AddSavedAlbum) 
+
 	router.DELETE("/saved-albums/:id", DeleteSavedAlbum)
 
 	//endpoints for reviewed album
 	router.POST("/reviewed-albums", AddReviewedAlbum)
-	router.GET("/reviewed-albums", GetReviewedAlbums)
-	router.GET("/reviewed-albums/:id", ReviewedAlbumById)
-	router.DELETE("/reviewed-albums/:id", DeleteReviewedAlbum)
-	router.PATCH("/reviewed-albums/:id", UpdateReviewedAlbum)
+
+	router.GET("/users/:userid/reviewed-albums/:albumid", CheckIfReviewExistsByUser)
+
+	router.GET("/reviewed-albums/user/:userid", GetReviewedAlbumsByUser) //userid = uid of the user
+
+	router.GET("/reviewed-albums/:albumid", GetAlbumReviewsById) //
+
+	router.DELETE("/reviewed-albums/:id", DeleteReviewedAlbum) //id = document id to delete
+
+	router.PATCH("/reviewed-albums/:id", UpdateReviewedAlbum) //id = document id to update
+	
 	router.Run("localhost:8080") 
 }

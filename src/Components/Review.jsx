@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import React from "react";
 import axios from "axios";
+import { AuthContext } from "../Context/AuthContext";
 //This is the review card.
 //It is a card that lists the review, the date made, the rating, and the user
-const Review = ({ author, rating, date, text, _id, setRefresh, setModal, setEdit}) => {
+const Review = ({ userid, rating, date, text, _id, setRefresh, setModal, setEdit}) => {
   date = date.slice(0, 10);
+
+  const user = useContext(AuthContext)
+  const [ishovered, setIsHovered] = useState(false)
 
   //api call to delete the review
   function handleDelete() {
@@ -35,7 +39,10 @@ const Review = ({ author, rating, date, text, _id, setRefresh, setModal, setEdit
   }
 
   return (
-    <div className="box-border px-4 py-2 bg-white rounded-lg shadow-md border border-gray-200 mb-4 w-full">
+    <div className="box-border px-4 py-2 bg-white rounded-lg shadow-md border border-gray-200 mb-4 w-full"
+    onMouseEnter={() => setIsHovered(true)}
+    onMouseLeave={() => setIsHovered(false)}
+    >
       <div className="flex justify-between mb-3">
         <div className="flex text-yellow-400">
           {[...Array(5)].map((_, i) => (
@@ -51,7 +58,7 @@ const Review = ({ author, rating, date, text, _id, setRefresh, setModal, setEdit
           ))}
           <div className="ml-2 text-sm text-gray-600">{rating}.0</div>
         </div>
-        <div className="flex items-center gap-2">
+          { user[0].uid === userid && ishovered ? <div className="flex items-center gap-2">
           <button 
             onClick={handleEdit}
             className="rounded-full hover:bg-blue-50 transition-all duration-200 text-gray-500 hover:text-blue-500 cursor-pointer"
@@ -95,10 +102,14 @@ const Review = ({ author, rating, date, text, _id, setRefresh, setModal, setEdit
             </svg>
           </button>
         </div>
+            :
+            <div>
+              </div>
+          }
       </div>
       <p className="text-gray-700">{text}</p>
       <div className="mt-3 flex justify-between items-center">
-        <span className="text-xs text-gray-500">Posted by {author}</span>
+        <span className="text-xs text-gray-500">Posted by {userid}</span>
         <span className="text-xs text-gray-500">{date}</span>
       </div>
     </div>

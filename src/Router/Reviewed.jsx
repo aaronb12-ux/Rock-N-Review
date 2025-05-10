@@ -1,22 +1,27 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useContext } from "react"
 import Header from "../Components/Header"
 import ReviewedBanner from "../Components/ReviewedBanner"
 import axios from "axios"
 import { useState } from "react"
 import { Link } from 'react-router-dom';
 import ScrollToTop from "../Components/Layout"
+import { AuthContext } from "../Context/AuthContext"
 
 function Reviewed() {
+
+    const user = useContext(AuthContext)
     
     const [reviewedalbums, setReviewedAlbums] = useState([])
     
     useEffect(() => { //fetching the reviewed albums
-        async function getReviewedAlbums() {
-            const response = await axios.get("http://localhost:8080/reviewed-albums")
+        async function getReviewedAlbums(id) {
+            const response = await axios.get(`http://localhost:8080/reviewed-albums/user/${id}`)
             setReviewedAlbums(response.data)
+            console.log(response)
+      
         }
-        getReviewedAlbums()
-    }, [])
+        getReviewedAlbums(user[0].uid)
+    }, [user[0].uid])
 
     
     if (reviewedalbums === null) {
@@ -28,7 +33,6 @@ function Reviewed() {
         </div>)
     }
 
-  
     return (
         <div className="bg-indigo-50 min-h-screen">
                 <Header/>
