@@ -38,6 +38,7 @@ func GetReviewedAlbums(c *gin.Context){
  
 	 //Map results
 	 var albums []bson.M
+	 
 	 if err = cursor.All(context.TODO(), &albums); err != nil {
 		 c.IndentedJSON(http.StatusInternalServerError, gin.H{"error" : err.Error()})
 		 return

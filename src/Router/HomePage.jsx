@@ -6,16 +6,12 @@ import TrendingBanner from "../Components/TrendingBanner";
 import { AuthContext } from "../Context/AuthContext";
 import ScrollToTop from "../Components/Layout";
 
+
 function HomePage({accessToken}) {
 
     
     const user = useContext(AuthContext)
-
-    console.log(user)
-
-
-    
-
+  
     const location = useLocation() //location function for getting search input passed as state through page navigation
     const [currentsearch, setCurrentSearch] = useState(location.state?.searchInput) //search input passed through page navigation
      
@@ -33,14 +29,15 @@ function HomePage({accessToken}) {
         async function getinfo() {     
             //function returns a promise as it is async
             if (token) {
-  
-                  const response = await Axios.get('https://api.spotify.com/v1/browse/new-releases?country=US&limit=20', {
-                               
-                    headers: headers       
-                })
-               setTopAlbums(response.data.albums.items)
-            }
-        }    
+                    await Axios.get('https://api.spotify.com/v1/browse/new-releases?country=US&limit=20', {
+                        headers: headers       
+                    }).then((response) => setTopAlbums(response.data.albums.items))
+                      .catch((error) => {
+                          console.log(error.message)
+                          console.log(error.message)
+                    }) 
+                  }
+                }    
         if (token) {
           getinfo()
         }             
@@ -104,3 +101,6 @@ function HomePage({accessToken}) {
 }
 
 export default HomePage
+
+
+//'https://api.spotify.com/v1/browse/new-releases?country=US&limit=20'

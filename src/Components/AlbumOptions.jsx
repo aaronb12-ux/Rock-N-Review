@@ -1,11 +1,13 @@
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
+import { AuthContext } from "../Context/AuthContext";
 
 
 function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
 
   
- 
+  const user_id = useContext(AuthContext)
+
   const [savestate, setSaveState] = useState(false); //save state for album
   const [savedId, setSavedId] = useState("")
   const [fetchsaved, setFetchedSaved] = useState(0)
@@ -20,6 +22,7 @@ function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
         albumid: albumdata.albumid,
         name: albumdata.name,
         artist: albumdata.artist,
+        userid: user_id[0].uid,
         release_date: albumdata.release_date,
         image: albumdata.image,
         tracks: only_tracks
@@ -29,6 +32,7 @@ function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
       albumid: albumdata.id,
       name: albumdata.name,
       artist: albumdata.artists[0].name,
+      userid: user_id[0].uid,
       release_date: albumdata.release_date,
       image: albumdata.images[0].url,
       tracks: only_tracks,
@@ -60,8 +64,6 @@ function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
       id = savedId
     }
 
-    console.log(id)
-
     axios
       .delete(`http://localhost:8080/saved-albums/${id}`)
       .then((response) => {
@@ -83,6 +85,7 @@ function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
   };
 
 
+  
   useEffect(() => { //useEffect hook for checking if an album is saved. This is for when people travel to a saved album of theirs by search. 
                     //this same logic can also be done when going to album from their saved albums...
     const checkifsaved = () => {
@@ -92,10 +95,12 @@ function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
       } else {
         id = albumdata.id //if this album is from search
       }
+      
       axios
-        .get(`http://localhost:8080/saved-albums/${id}`)
+        .get(`http://localhost:8080/users/${user_id[0].uid}/saved-albums/${id}`)
         .then((response) => {
           if (response.status === 200) {
+            
             setSaveState(true);
             setSavedId(response.data._id)
           }

@@ -10,50 +10,29 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-
 func DeleteSavedAlbum(c *gin.Context) {
-	//This function deletes an entire movie document based on the past in ID
 		
-	   id := c.Param("id") 
-	
-		objectId, err := primitive.ObjectIDFromHex(id) 
+		//delete document of specific user album
+	    document_id := c.Param("id") 
+
+		objectId, err := primitive.ObjectIDFromHex(document_id) 
 	
 		if err != nil {
 			c.IndentedJSON(http.StatusBadRequest, gin.H{"error" : err.Error()})
+			return
 		}
 	
-		cursor, e := mongoClient.Database("AlbumApp").Collection("SavedAlbums").DeleteOne(context.TODO(), bson.M{"_id": objectId})
+		_, e := mongoClient.Database("AlbumApp").Collection("SavedAlbums").DeleteOne(context.TODO(), bson.M{"_id": objectId})
 	
 		if e != nil { 
-			c.IndentedJSON(http.StatusBadRequest, gin.H{"error" : err.Error()})
+			c.IndentedJSON(http.StatusBadRequest, gin.H{"error" : e.Error()})
+			return
 		}
 		
-		c.IndentedJSON(http.StatusAccepted, cursor)
+		c.IndentedJSON(http.StatusAccepted, gin.H{"deletedID" : objectId.Hex()})
 	
 	}
 	
-
-func GetSavedAlbums(c *gin.Context){
-	//this function gets all the movies in the database for us to read
-	 
-	 cursor, err := mongoClient.Database("AlbumApp").Collection("SavedAlbums").Find(context.TODO(), bson.D{{}})
-	 
-	 if err != nil {
-		 c.IndentedJSON(http.StatusInternalServerError, gin.H{"error" : err.Error()})
-		 return
-	 }
- 
-	 //Map results
-	 var albums []bson.M
-	 if err = cursor.All(context.TODO(), &albums); err != nil {
-		 c.IndentedJSON(http.StatusInternalServerError, gin.H{"error" : err.Error()})
-		 return
-	 }
- 
-	 c.IndentedJSON(http.StatusOK, albums)
- }
-
-
 
  func AddSavedAlbum(c *gin.Context) {
 
@@ -76,65 +55,57 @@ func GetSavedAlbums(c *gin.Context){
 
 
 func SavedAlbumById(c *gin.Context) {
+    //takes in two params: the user ID and the album id
+	//check all documents that contains the user ID
+	//then check if any of those documents contain the album id for the albumid field
 
-	//this function finds a movie by id and display all it's contents
+	userid := c.Param("userid")
+	albumid := c.Param("albumid")
 
-	id := c.Param("id") 
-	//c.IndentedJSON(http.StatusOK, id)
-
-	filter := bson.D{{"albumid", id}} //checking if there exist a document that has 'albumid' in the users 'savedAlbums' collection
-	
-	//variable to hold result
-	var result savedAlbum
-
-	//database query to 'FindOne' and decode the result
-	err := mongoClient.Database("AlbumApp").Collection("SavedAlbums").FindOne(context.TODO(), filter).Decode(&result);
-
-	if err != nil {
-		if err == mongo.ErrNoDocuments {
-			//no document found
-			c.JSON(http.StatusNotFound, gin.H{"message" :"Album not Found"})
-			return
-		}
-		//some other error
-		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error" : err.Error() })
+	filter := bson.D{
+		{"userid", userid},
+		{"albumid", albumid},
 	}
 
-	c.IndentedJSON(http.StatusOK, result)
-}
-
-
-
-
-
-
+	var album savedAlbum
+	err := mongoClient.Database("AlbumApp").Collection("SavedAlbums").FindOne(context.TODO(), filter).Decode(&album)
 	
-/*
-	func UpdateSavedAlbum(c *gin.Context) {
-		//this function updates a movie based off the field passed into it. As of now, only rating can be modified.
-		
-		id := c.Param("id") 
-		
-		coll := mongoClient.Database("AlbumApp").Collection("Albums")
-		
-		objectId, _ := primitive.ObjectIDFromHex(id) 
-	
-		filter := bson.M{"_id": objectId} 
-	
-		var a reviewedAlbum//new movie that will contain the rating
-	
-		if err := c.ShouldBindJSON(&a); err != nil {
-			c.IndentedJSON(http.StatusBadRequest, gin.H{"error" : err.Error()})
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			c.JSON(http.StatusNotFound, gin.H{"message" : "album not found"})
+			return
 		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error" : err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, album)
+} 
+
+
+func GetSavedAlbums(c *gin.Context){
+	//getting a specific USERS saved albums
+
+	id := c.Param("id")
+
+	filter := bson.D{{"userid", id}}
+	
+	cursor, err := mongoClient.Database("AlbumApp").Collection("SavedAlbums").Find(context.TODO(), filter)
 	 
-		update := bson.D{{"$set", bson.D{{"genre", a.Review}}}}
-	
-		result, err := coll.UpdateOne(context.TODO(), filter, update)
-	
-		if err != nil {
-			panic(err)
-		}
-	
-		c.IndentedJSON(http.StatusAccepted, result)
-}
-*/
+	 if err != nil {
+		 c.IndentedJSON(http.StatusInternalServerError, gin.H{"error" : err.Error()})
+		 return
+	 }
+ 
+	 //Map results
+	 var albums []bson.M
+	 
+	 if err = cursor.All(context.TODO(), &albums); err != nil {
+		 c.IndentedJSON(http.StatusInternalServerError, gin.H{"error" : err.Error()})
+		 return
+	 }
+ 
+	 c.IndentedJSON(http.StatusOK, albums)
+ }
+
+
