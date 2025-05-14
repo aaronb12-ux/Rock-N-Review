@@ -31,12 +31,20 @@ type reviewedAlbum struct {
 	AlbumID string `json:"albumid"`
 	Name string `json:"name"`
 	Artist string `json:"artist"`
-	UserId string `json:"userid"`
+	UserID string `json:"userid"`
 	Release_Date string `json:"release_date"`
 	Image string `json:"image"`
 	Tracks [][]string `json:"tracks"`
 	Rating int `json:"rating"`
 	Review string `json:"review"`
+	CreatedAt string `json:"created"`
+}
+
+type user struct {
+	ID primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"` //document id
+	UserID string `json:"userid"` //userid that firebase generates
+	UserName string `json:"username"`
+	Email string `json:"email"`
 	CreatedAt string `json:"created"`
 }
 
@@ -105,6 +113,11 @@ func main() {
 	router.DELETE("/reviewed-albums/:id", DeleteReviewedAlbum) //id = document id to delete
 
 	router.PATCH("/reviewed-albums/:id", UpdateReviewedAlbum) //id = document id to update
+
+	//endpoints for user data
+	router.POST("/users", addUser)
+
+	router.GET("/users/:userid", getUserById)
 	
 	router.Run("localhost:8080") 
 }

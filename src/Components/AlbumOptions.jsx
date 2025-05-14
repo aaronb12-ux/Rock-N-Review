@@ -28,7 +28,7 @@ function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
         image: albumdata.image,
         tracks: only_tracks
       }
-    } else { //if we want to save this album via SEARCh
+    } else { //if we want to save this album via SEARCH
       POST_DATA = { 
       albumid: albumdata.id,
       name: albumdata.name,

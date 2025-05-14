@@ -1,18 +1,45 @@
 import React, {useState} from 'react'
 import { createUserWithEmailAndPassword, getAuth} from 'firebase/auth'
+import { Link } from "react-router-dom";
+import axios from "axios"
+
 
 
 function Signup({setSignedUp}) {
 
+
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [username, setUserName] = useState("")
     const auth = getAuth()
      
+
+    const addUser = async (email, username, id) => {
+      
+      const POST_DATA = {
+        email: email,
+        created: new Date().toISOString(),
+        username: username,
+        userid: id,
+      }
+
+      try {
+        const response = await axios.post("http://localhost:8080/users", POST_DATA);
+        console.log("User added:", response.data)
+        return response.data
+      } catch (error) {
+        console.error("Error adding user: ", error)
+        throw error
+      }
+    }
+
     //after a user completes the form on the 'SignUp' page and clicks submit, call this method
-    function submit(auth, email, password) {
-        
+    function submit(auth, email, password, username) {
+        console.log("here")
         createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
+          const id = userCredential.user.uid
+          addUser(email, username, id)
           setSignedUp(true)
         })
         .catch((error) => {
@@ -22,9 +49,8 @@ function Signup({setSignedUp}) {
 
     function handleSubmit(e) {
         e.preventDefault()
-        submit(auth, email, password)
+        submit(auth, email, password, username)
     }
-
 
 
     return (
@@ -32,10 +58,7 @@ function Signup({setSignedUp}) {
                 <div className="w-fullpx-6">
                     <div className='flex justify-center items-center mb-5'>
                     <div className="text-5xl font-bold font-serif text-indigo-500  drop-shadow-md">
-              <div
-              className="cursor-pointer"
-             
-              >
+              <div className="cursor-pointer">
               Album Adventures
               </div>
               
@@ -48,7 +71,7 @@ function Signup({setSignedUp}) {
                     
                     <div className="px-8 py-6">
                       <div onSubmit={handleSubmit}>
-                        <div className="mb-5">
+                        <div className="mb-2">
                           <label className="block text-gray-700 text-sm font-bold font-serif  font-medium mb-2" htmlFor="email">
                             Email Address
                           </label>
@@ -66,6 +89,26 @@ function Signup({setSignedUp}) {
                             />
                           </div>
                         </div>
+
+                        <div className="mb-2">
+                          <label className="block text-gray-700 text-sm font-bold font-serif  font-medium mb-2" htmlFor="email">
+                            Username
+                          </label>
+                          <div className="relative">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            
+                            </div>
+                            <input
+                              type="username"
+                              id="username"
+                              className="pl-10 w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                              onChange={(e) => setUserName(e.target.value)}
+                              required
+                            />
+                          </div>
+                        </div>
+
+                        
                         
                         <div className="mb-6">
                           <label className="block text-gray-700 font-bold font-serif  text-sm font-medium mb-2" htmlFor="password">
@@ -100,9 +143,11 @@ function Signup({setSignedUp}) {
                   
                   <div className="text-center mt-6 text-gray-600 font-bold font-serif ">
                     Already have an account?{" "}
-                    <a href="#login" className="font-medium text-blue-600 hover:text-blue-800 transition-colors font-bold font-serif ">
-                      Login
-                    </a>
+                    <Link className="font-medium text-blue-600 hover:text-blue-800 transition-colors font-bold font-serif"
+                    to={"/Login"}
+                    >
+                    Login
+                    </Link>
                   </div>
                 </div>
               
