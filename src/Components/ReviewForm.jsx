@@ -51,7 +51,8 @@ function ReviewForm({ postdata, setModal, setRefresh, edit }) {
     } else {
       //first review for the album
       postdata.review = review;
-      postdata.userid = user[0].uid
+      postdata.userid = user.userData.userid
+      postdata.publisher = user.userData.username
       axios
         .post("http://localhost:8080/reviewed-albums", postdata)
         .then((response) => {

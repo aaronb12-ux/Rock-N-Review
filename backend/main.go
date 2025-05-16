@@ -31,6 +31,7 @@ type reviewedAlbum struct {
 	AlbumID string `json:"albumid"`
 	Name string `json:"name"`
 	Artist string `json:"artist"`
+	Publisher string `json:"publisher"`
 	UserID string `json:"userid"`
 	Release_Date string `json:"release_date"`
 	Image string `json:"image"`

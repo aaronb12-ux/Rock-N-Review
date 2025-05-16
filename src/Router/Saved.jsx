@@ -8,7 +8,7 @@ import SavedBanner from "../Components/SavedBanner";
 
 function Saved() {
     //this page when navigated to, will send a get request to the api and fetch all the saved albums, then display them.
-    const context = useContext(AuthContext)
+    const user = useContext(AuthContext)
 
     const location = useLocation()
     const currentsearch = location.state?.searchInput
@@ -25,8 +25,8 @@ function Saved() {
                     setAlbums(response.data)
         
       }
-        getSavedAlbums(context[0].uid)
-    }, [context[0].uid])
+        getSavedAlbums(user.userData.userid)
+    }, [user.userData.userid])
 
   
     if (albums === null) {

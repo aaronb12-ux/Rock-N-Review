@@ -52,10 +52,7 @@ func getUserById(c *gin.Context) {
 		return
 	 }
 
-	 c.IndentedJSON(http.StatusOK, gin.H{
-		"message" : "successfully fetched user",
-		"user info" : user,
-	 })
+	 c.IndentedJSON(http.StatusAccepted, user)
 
 }
 

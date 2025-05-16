@@ -4,7 +4,7 @@ import axios from "axios";
 import { AuthContext } from "../Context/AuthContext";
 //This is the review card.
 //It is a card that lists the review, the date made, the rating, and the user
-const Review = ({ userid, rating, date, text, _id, setRefresh, setModal, setEdit}) => {
+const Review = ({ userid, rating, date, text, _id, setRefresh, setModal, setEdit, publisher}) => {
   date = date.slice(0, 10);
 
   const user = useContext(AuthContext)
@@ -38,6 +38,8 @@ const Review = ({ userid, rating, date, text, _id, setRefresh, setModal, setEdit
     //need to change the CURRENT review
   }
 
+  console.l
+
   return (
     <div className="box-border px-4 py-2 bg-white rounded-lg shadow-md border border-gray-200 mb-4 w-full"
     onMouseEnter={() => setIsHovered(true)}
@@ -58,7 +60,7 @@ const Review = ({ userid, rating, date, text, _id, setRefresh, setModal, setEdit
           ))}
           <div className="ml-2 text-sm text-gray-600">{rating}.0</div>
         </div>
-          { user[0].uid === userid && ishovered ? <div className="flex items-center gap-2">
+          {user.userData.userid === userid && ishovered ? <div className="flex items-center gap-2">
           <button 
             onClick={handleEdit}
             className="rounded-full hover:bg-blue-50 transition-all duration-200 text-gray-500 hover:text-blue-500 cursor-pointer"
@@ -109,7 +111,7 @@ const Review = ({ userid, rating, date, text, _id, setRefresh, setModal, setEdit
       </div>
       <p className="text-gray-700">{text}</p>
       <div className="mt-3 flex justify-between items-center">
-        <span className="text-xs text-gray-500">Posted by {userid}</span>
+        <span className="text-xs text-gray-500">Posted by {publisher}</span>
         <span className="text-xs text-gray-500">{date}</span>
       </div>
     </div>

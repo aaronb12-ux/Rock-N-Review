@@ -5,6 +5,8 @@ import axios from "axios"
 
 
 
+
+
 function Signup({setSignedUp}) {
 
 
@@ -12,44 +14,28 @@ function Signup({setSignedUp}) {
     const [password, setPassword] = useState("")
     const [username, setUserName] = useState("")
     const auth = getAuth()
-     
 
-    const addUser = async (email, username, id) => {
-      
-      const POST_DATA = {
-        email: email,
-        created: new Date().toISOString(),
-        username: username,
-        userid: id,
-      }
-
-      try {
-        const response = await axios.post("http://localhost:8080/users", POST_DATA);
-        console.log("User added:", response.data)
-        return response.data
-      } catch (error) {
-        console.error("Error adding user: ", error)
-        throw error
-      }
-    }
 
     //after a user completes the form on the 'SignUp' page and clicks submit, call this method
-    function submit(auth, email, password, username) {
-        console.log("here")
-        createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          const id = userCredential.user.uid
-          addUser(email, username, id)
-          setSignedUp(true)
-        })
-        .catch((error) => {
-            console.log(error.errorCode)
-        })
-    }
+    const submit = async () => {
 
-    function handleSubmit(e) {
-        e.preventDefault()
-        submit(auth, email, password, username)
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const uid = userCredential.user.uid
+
+        axios.post(`http://localhost:8080/users`, {
+          userid: uid,
+          email: email,
+          username: username,
+          created: new Date(),
+        })
+        
+        setSignedUp(true)
+        
+      } catch (error) {
+        console.error('signup error: ', error)
+      }
+      
     }
 
 
@@ -70,7 +56,7 @@ function Signup({setSignedUp}) {
                     </div>
                     
                     <div className="px-8 py-6">
-                      <div onSubmit={handleSubmit}>
+                      <div onSubmit={submit}>
                         <div className="mb-2">
                           <label className="block text-gray-700 text-sm font-bold font-serif  font-medium mb-2" htmlFor="email">
                             Email Address
@@ -131,7 +117,7 @@ function Signup({setSignedUp}) {
                         </div>
                         
                         <button
-                          onClick={handleSubmit}
+                          onClick={submit}
                           className="w-full flex items-center justify-center  bg-indigo-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium py-3 px-4 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all"
                         >
                           <span className="font-bold font-serif">Sign Up</span>

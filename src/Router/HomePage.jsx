@@ -11,9 +11,6 @@ function HomePage({accessToken}) {
 
     const user = useContext(AuthContext)
 
-    console.log(user)
-
-    
     const location = useLocation() //location function for getting search input passed as state through page navigation
     const [currentsearch, setCurrentSearch] = useState(location.state?.searchInput) //search input passed through page navigation
     const token = window.localStorage.getItem('ACCESS_TOKEN') //access token stored in the local storage *fix this*
