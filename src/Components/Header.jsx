@@ -31,6 +31,10 @@ function Header({accessToken, currentSearch}) {
   const routeChangeReviewed = () => {
     navigate('/reviewed')
   }
+
+  const routeChangeAccount = () => {
+    navigate('/account')
+  }
  
   const [scrolled, setScrolled] = useState(false);
   
@@ -120,7 +124,9 @@ function Header({accessToken, currentSearch}) {
             </div>
           </button>
           
-          <button className="group relative overflow-hidden px-4 py-2.5 rounded-md transition-all duration-300 text-indigo-100 hover:text-white shadow-md hover:shadow-indigo-600/20 focus:outline-none border border-indigo-700/50">
+          <button className="group relative overflow-hidden px-4 py-2.5 rounded-md transition-all duration-300 text-indigo-100 hover:text-white shadow-md hover:shadow-indigo-600/20 focus:outline-none border border-indigo-700/50"
+          onClick={routeChangeAccount}
+          >
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-indigo-600 to-indigo-700 transition-opacity duration-300"></div>
             <div className="relative flex items-center space-x-2">
               <User className="h-4 w-4" />

@@ -28,7 +28,7 @@ const Login = () => {
         submit(auth, email, password)
     }
  
-    return ( <div className="flex items-center justify-center min-h-screen bg-white">
+    return ( <div className="flex items-center justify-center min-h-screen bg-indigo-50">
         <div className="w-fullpx-6">
             <div className='flex justify-center items-center mb-5'>
             <div className="text-5xl font-bold font-serif text-indigo-500  drop-shadow-md">

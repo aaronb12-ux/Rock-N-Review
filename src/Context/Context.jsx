@@ -7,9 +7,7 @@ import axios from "axios"
 
 export function AuthProvider({children}) {
   
-  
   const [userData, setUserData] = useState(null);
-
 
   useEffect(() => {
     const auth = getAuth();
@@ -22,7 +20,6 @@ export function AuthProvider({children}) {
         axios.get(`http://localhost:8080/users/${userid}`)
        
         .then((response) => { //fetching user info from backend by id
-          console.log(response.data)
           setUserData(response.data)
         })
         

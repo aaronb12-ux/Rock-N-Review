@@ -11,6 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import HomePage from './Router/HomePage.jsx';
 import { AuthProvider } from './Context/Context.jsx';
 import Login from './Router/Login.jsx';
+import Account from './Router/Account.jsx'
 
 
 const router = createBrowserRouter([
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
   {
     path: "/Login",
     element: <Login/>
+  },
+  {
+    path: '/account',
+    element: <Account/>
   }
 ]);
 

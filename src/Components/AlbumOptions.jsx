@@ -9,7 +9,6 @@ function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
   
   const user = useContext(AuthContext)
   
-  
 
   const [savestate, setSaveState] = useState(false); //save state for album
   const [savedId, setSavedId] = useState("")
@@ -131,7 +130,6 @@ function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
     }
     //first cherck if the album id is in the databse for 'reviewedalbums'
     //if yes, then 
-
     axios
         .get(`http://localhost:8080/users/${user.userData.userid}/reviewed-albums/${id}`)
         .then((response) => {
