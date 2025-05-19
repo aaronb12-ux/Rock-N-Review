@@ -67,11 +67,11 @@ func checkIfUserExists(c *gin.Context) {
 	err := mongoClient.Database("AlbumApp").Collection("Users").FindOne(context.TODO(), filter).Decode(&user)
 
 	if err != nil {
-		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error" : "username does not exist"})
+		c.IndentedJSON(http.StatusNotFound, gin.H{"error" : "username does not exist"})
 		return
 	}
 
-	c.IndentedJSON(http.StatusAccepted, user)
+	c.IndentedJSON(http.StatusOK, user)
 
 	
 }
