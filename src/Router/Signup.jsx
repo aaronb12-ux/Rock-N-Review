@@ -4,24 +4,34 @@ import { Link } from "react-router-dom";
 import axios from "axios"
 
 
-
-
-
 function Signup({setSignedUp}) {
-
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [username, setUserName] = useState("")
     const auth = getAuth()
 
-
     //after a user completes the form on the 'SignUp' page and clicks submit, call this method
+    
+    //need to check duplicate username, valid password, and email
+    const duplicateUserName = () => {
+        
+      axios.get(`http://localhost:8080/users/${username}`).then((response) => {
+        if (response.status === 500) {
+          console.log('username exists')
+          return true
+        }
+      })
+    }
+    
+    
     const submit = async () => {
+      
 
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const uid = userCredential.user.uid
+
 
         axios.post(`http://localhost:8080/users`, {
           userid: uid,
@@ -37,7 +47,6 @@ function Signup({setSignedUp}) {
       }
       
     }
-
 
     return (
             <div className="flex items-center justify-center min-h-screen bg-indigo-50">

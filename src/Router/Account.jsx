@@ -17,18 +17,10 @@ const Account = () => {
     const user_info = useContext(AuthContext)
     const [created, setCreated] = useState(user_info.userData.created.slice(0, 10))
 
-
-
     const auth = getAuth()
     let navigate = useNavigate()
     // Sample user data
-    const [userData] = useState({
-        username: "JohnDoe123",
-        email: "john.doe@example.com",
-        createdAt: "May 5, 2023"
-    })
-
-
+ 
     const handleSignOut = () => {
         // Sign out logic would go here
         signOut(auth).then(() => {

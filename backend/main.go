@@ -119,6 +119,8 @@ func main() {
 	router.POST("/users", addUser)
 
 	router.GET("/users/:userid", getUserById)
+
+	router.GET("/users/username/:username", checkIfUserExists)
 	
 	router.Run("localhost:8080") 
 }

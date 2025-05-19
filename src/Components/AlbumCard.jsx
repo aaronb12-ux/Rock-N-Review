@@ -1,7 +1,7 @@
 import React from "react";
 import AlbumOptions from "./AlbumOptions";
 
-function AlbumCard({ albumimage, albumdata, only_tracks, setModal, modal}) {
+function AlbumCard({ albumimage, albumdata, only_tracks, setModal, modal, setDuplicateReview}) {
   const formatReleaseDate = (dateString) => {
     return new Date(dateString).getFullYear(); // Just show the year to save space
   };
@@ -33,6 +33,7 @@ function AlbumCard({ albumimage, albumdata, only_tracks, setModal, modal}) {
               only_tracks={only_tracks}
               setModal={setModal}
               modal={modal}
+              setDuplicateReview={setDuplicateReview}
             />
           </div>
         </div>

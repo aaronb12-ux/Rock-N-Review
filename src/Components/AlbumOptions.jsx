@@ -4,7 +4,7 @@ import { AuthContext } from "../Context/AuthContext";
 
 
 
-function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
+function AlbumOptions({ albumdata, only_tracks, setModal, modal, setDuplicateReview}) {
 
   
   const user = useContext(AuthContext)
@@ -135,6 +135,7 @@ function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
         .then((response) => {
           if (response.status === 200) {
             console.log('review does exists')
+            setDuplicateReview(true)
             //do stuff to handle duplicate review attempt
           } else {
             setModal(!modal);
