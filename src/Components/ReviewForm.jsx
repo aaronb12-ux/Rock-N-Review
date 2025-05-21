@@ -5,6 +5,9 @@ import { AuthContext } from "../Context/AuthContext";
 
 
 function ReviewForm({ postdata, setModal, setRefresh, edit }) {
+  
+  
+  
   const [stars, setStars] = useState(0);
   const [review, setReview] = useState("");
   const [zerorating, setZeroRating] = useState(false);
@@ -28,10 +31,12 @@ function ReviewForm({ postdata, setModal, setRefresh, edit }) {
     postdata.rating = stars;
 
     if (postdata.rating === 0) {
-       setZeroRating(true);
+      setNoReview(false)
+      setZeroRating(true);
 
     } else if ((review === "" && edit[0] === false) || (existingReview == "" && edit[0] ===true)) {
-       setNoReview(true)
+      setZeroRating(false)
+      setNoReview(true)
 
     } else if (edit[0]) {
       //if we are making an edit
@@ -51,7 +56,8 @@ function ReviewForm({ postdata, setModal, setRefresh, edit }) {
     } else {
       //first review for the album
       postdata.review = review;
-      postdata.userid = user[0].uid
+      postdata.userid = user.userData.userid
+      postdata.publisher = user.userData.username
       axios
         .post("http://localhost:8080/reviewed-albums", postdata)
         .then((response) => {
@@ -87,12 +93,12 @@ function ReviewForm({ postdata, setModal, setRefresh, edit }) {
             </div>
             {zerorating && (
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 top-[98%] text-red-500 px-2 py-1 ">
-                Rating Cannot Be Zero
+                 <span className="font-bold font-serif">Rating Cannot Be Zero </span>
               </div>
             )}
             {noReview && (
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 top-[98%] text-red-500 px-2 py-1 ">
-                Review Cannot Be Empty
+                <span className="font-bold font-serif">Review Cannot Be Empty </span>
               </div>
             )}
           </div>

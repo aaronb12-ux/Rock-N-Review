@@ -2,33 +2,43 @@ import React, { useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import app from '../firebase';
 import { AuthContext } from './AuthContext';  // Import from the new file
+import axios from "axios"
+
 
 export function AuthProvider({children}) {
-  const [user, setUser] = useState(null);
-  const auth = getAuth();
   
+  const [userData, setUserData] = useState(null);
+
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        //user is signed in
-        const uid = user.uid;
-        const email = user.email;
-        setUser({
-          uid: uid,
-          email: email,
-          signedin: true,
-        });
-      } else {
-        //user is signed out
-        setUser(null);
+    const auth = getAuth();
+
+    onAuthStateChanged(auth, async (firebaseuser) => {
+     
+      if (firebaseuser) {
+        const userid = firebaseuser.uid //getting logged in user id
+
+        
+        axios.get(`http://localhost:8080/users/${userid}`)      
+        .then((response) => { //fetching user info from backend by id
+          setUserData(response.data)
+        })
+        .catch((error) => { //error fetching
+          console.log(error.message)
+          console.log('fetching user failed')
+        })
+          
       }
-    });
-  }, []);
+    }
+  
+  )},[])
   
   return (
-    <AuthContext.Provider value={[user, setUser]}>
+    <AuthContext.Provider value={{userData, setUserData}}>
       {children}
     </AuthContext.Provider>
   );
+
+
 }
+
 

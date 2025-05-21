@@ -4,10 +4,11 @@ import { AuthContext } from "../Context/AuthContext";
 
 
 
-function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
+function AlbumOptions({ albumdata, only_tracks, setModal, modal, setDuplicateReview}) {
 
   
   const user = useContext(AuthContext)
+  
 
   const [savestate, setSaveState] = useState(false); //save state for album
   const [savedId, setSavedId] = useState("")
@@ -23,17 +24,17 @@ function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
         albumid: albumdata.albumid,
         name: albumdata.name,
         artist: albumdata.artist,
-        userid: user[0].uid,
+        userid: user.userData.userid,
         release_date: albumdata.release_date,
         image: albumdata.image,
         tracks: only_tracks
       }
-    } else { //if we want to save this album via SEARCh
+    } else { //if we want to save this album via SEARCH
       POST_DATA = { 
       albumid: albumdata.id,
       name: albumdata.name,
       artist: albumdata.artists[0].name,
-      userid: user[0].uid,
+      userid: user.userData.userid,
       release_date: albumdata.release_date,
       image: albumdata.images[0].url,
       tracks: only_tracks,
@@ -56,8 +57,7 @@ function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
   const deletesave = async (e) => { //api call when someone deletes an album
     
     e.preventDefault();
-    console.log(albumdata)
-
+    
     let id
     if (!savedId) {
       id = albumdata._id
@@ -98,7 +98,7 @@ function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
       }
       
       axios
-        .get(`http://localhost:8080/users/${user[0].uid}/saved-albums/${id}`)
+        .get(`http://localhost:8080/users/${user.userData.userid}/saved-albums/${id}`)
         .then((response) => {
           if (response.status === 200) {
             setSaveState(true);
@@ -131,10 +131,11 @@ function AlbumOptions({ albumdata, only_tracks, setModal, modal }) {
     //first cherck if the album id is in the databse for 'reviewedalbums'
     //if yes, then 
     axios
-        .get(`http://localhost:8080/users/${user[0].uid}/reviewed-albums/${id}`)
+        .get(`http://localhost:8080/users/${user.userData.userid}/reviewed-albums/${id}`)
         .then((response) => {
           if (response.status === 200) {
             console.log('review does exists')
+            setDuplicateReview(true)
             //do stuff to handle duplicate review attempt
           } else {
             setModal(!modal);

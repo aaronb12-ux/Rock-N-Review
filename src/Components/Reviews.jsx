@@ -14,6 +14,9 @@ const Reviews = ({ id, name, refresh, setRefresh, setModal, setEdit }) => {
         const response = await axios.get(`http://localhost:8080/reviewed-albums/${id}`);
         
         let data = response.data;
+
+        console.log(data)
+        
         if (data === null) {
           setReviews([]);
           return;
@@ -25,6 +28,7 @@ const Reviews = ({ id, name, refresh, setRefresh, setModal, setEdit }) => {
           review.created,
           review.userid,
           review._id,
+          review.publisher,
         ]);
         
         setReviews(data);
@@ -76,6 +80,7 @@ const Reviews = ({ id, name, refresh, setRefresh, setModal, setEdit }) => {
                 date={review[2]}
                 text={review[0]}
                 _id={review[4]}
+                publisher={review[5]}
                 setRefresh={setRefresh}
                 setModal={setModal}
                 setEdit={setEdit}

@@ -20,8 +20,8 @@ function Reviewed() {
             console.log(response)
       
         }
-        getReviewedAlbums(user[0].uid)
-    }, [user[0].uid])
+        getReviewedAlbums(user.userData.userid)
+    }, [user.userData.userid])
 
     
     if (reviewedalbums === null) {

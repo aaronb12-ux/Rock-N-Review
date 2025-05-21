@@ -8,6 +8,7 @@ import ScrollToTop from "../Components/Layout";
 import TracksBanner from "../Components/TracksBanner";
 import Modal from "../Components/Modal";
 import Reviews from "../Components/Reviews";
+import DuplicateModal from '../Components/DuplicateModal'
 
 
 function Album() {
@@ -19,6 +20,10 @@ function Album() {
   const [modal, setModal] = useState(false) //Modal
   const [refresh, setRefresh] = useState(0)
   const [edit, setEdit] = useState([false, null, null, null]) 
+  const [duplicatereview, setDuplicateReview] = useState(false)
+
+  console.log(duplicatereview)
+
   
   const headers = { //headers for api call
     "Content-Type": "application/json",
@@ -75,6 +80,7 @@ function Album() {
               only_tracks={only_tracks}
               setModal={setModal}
               modal={modal}
+              setDuplicateReview={setDuplicateReview}
              
             />
           </div>
@@ -115,7 +121,7 @@ function Album() {
         </div>
       </div>
       
-      {/* Modal */}
+      {/* Modal For Review */}
       {modal && (
         <Modal
           setModal={setModal}
@@ -123,6 +129,13 @@ function Album() {
           only_tracks={only_tracks}
           setRefresh={setRefresh}
           edit={edit}
+        />
+      )}
+
+      {/* Modal For Duplicate Review */}
+      {duplicatereview && (
+        <DuplicateModal 
+         setDuplicateReview={setDuplicateReview}
         />
       )}
     </div>
