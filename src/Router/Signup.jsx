@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { createUserWithEmailAndPassword, getAuth} from 'firebase/auth'
 import { Link } from "react-router-dom";
 import axios from "axios"
-import { FALSE } from 'sass';
+
 
 
 function Signup({setSignedUp}) {
@@ -18,9 +18,6 @@ function Signup({setSignedUp}) {
     const [duplicateemail, setDuplicateEmail] = useState(false)
 
 
-    //after a user completes the form on the 'SignUp' page and clicks submit, call this method
-    
-    //need to check duplicate username, valid password, and email
     const duplicateUserName =  async (username) => {
       
         try {
@@ -40,6 +37,7 @@ function Signup({setSignedUp}) {
     }
 
 
+
     const badPassword = (password) => {
       return password.length <= 8
     }
@@ -47,15 +45,12 @@ function Signup({setSignedUp}) {
   
     const submit = async () => {
       
-
       const isDuplicate = await duplicateUserName(username)
 
       if (isDuplicate) {
         setDuplicateUser(true)
         return
       }
-
-
       if (badPassword(password)) {
         setBadPassWord(true)
         return
@@ -83,13 +78,13 @@ function Signup({setSignedUp}) {
             setBadEmail(true)
         }    
       }
-      
-    }
+}
+
 
     return (
       <div className="flex items-center justify-center min-h-screen bg-indigo-50">
         <div className="w-fullpx-6">
-          <div className="flex justify-center items-center mb-5">
+          <div className="flex justify-center items-center mb-3">
             <div className="text-center">
               <div className="text-4xl mb-1">🎧</div>
               <div className="text-5xl font-bold font-serif text-indigo-500 drop-shadow-md mb-1">
