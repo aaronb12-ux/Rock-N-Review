@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import { createUserWithEmailAndPassword, getAuth} from 'firebase/auth'
+import { submit }from "../API/user"
 
 
 function Signup({setSignedUp}) {
@@ -24,8 +25,6 @@ function Signup({setSignedUp}) {
         e.preventDefault()
         submit(auth, email, password)
     }
-
-
 
     return (
             <div className="flex items-center justify-center min-h-screen bg-white">
