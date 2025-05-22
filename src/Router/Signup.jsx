@@ -1,88 +1,43 @@
 import React, {useState} from 'react'
-import { createUserWithEmailAndPassword, getAuth} from 'firebase/auth'
+import { getAuth } from 'firebase/auth'
 import { Link } from "react-router-dom";
-import axios from "axios"
-
+import { submitUser } from "../API/signin"
 
 
 function Signup({setSignedUp}) {
-
+    
+    const auth = getAuth()
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [username, setUserName] = useState("")
-    const auth = getAuth()
-
     const [duplicateuser, setDuplicateUser] = useState(false)
-    const [badpassword, setBadPassWord] = useState(false)
+    const [badpassword, setBadPassword] = useState(false)
     const [bademail, setBadEmail] = useState(false)
     const [duplicateemail, setDuplicateEmail] = useState(false)
 
-
-    const duplicateUserName =  async (username) => {
-      
-        try {
-          
-          const response = await axios.get(`http://localhost:8080/users/username/${username}`);
-                   
-           if (response.status === 200) {
-            return true
-          } 
-
-        } catch (err) {
-            if (err.response && err.response.status === 404) {
-              console.log("user not found")
-              return false
-            }
-        }
-    }
-
-
-    const badPassword = (password) => {
-      return password.length <= 8
-    }
     
-  
-    const submit = async () => {
-      
-      const isDuplicate = await duplicateUserName(username)
-
-      if (isDuplicate) {
-        setDuplicateUser(true)
-        return
-      }
-      if (badPassword(password)) {
-        setBadPassWord(true)
-        return
-      }
-
-      try {
-        
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const uid = userCredential.user.uid
-
-        axios.post(`http://localhost:8080/users`, {
-          userid: uid,
-          email: email,
-          username: username,
-          created: new Date(),
-        })
-        
-        setSignedUp(true)
-        
-      } catch (error) {
-        if (error.code === "auth/email-already-in-use") {
-            setDuplicateEmail(true)
-          
-        } else if (error.code === "auth/invalid-email") {
-            setBadEmail(true)
-        }    
-      }
-}
-
-
-    function handleSubmit(e) {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        submit(auth, email, password)
+        const result = await submitUser(username, email, password, auth)
+        switch (result.error) {
+          case "duplicateUsername":
+            setDuplicateUser(true);
+            break;
+          case "badPassword":
+            setBadPassword(true);
+            break;
+          case "duplicateEmail":
+            setDuplicateEmail(true);
+            break;
+          case "badEmail":
+            setBadEmail(true);
+            break;
+          case "unknown":
+            console.error("An unknown error occurred.");
+            break;
+          default:
+            setSignedUp(true);
+        }
     }
 
     return (
@@ -108,7 +63,7 @@ function Signup({setSignedUp}) {
             </div>
     
             <div className="px-8 py-6">
-              <div onSubmit={submit}>
+              <div onSubmit={handleSubmit}>
                 <div className="mb-2">
                   <div
                     className="inline-block text-gray-700 text-sm font-bold font-serif font-medium mb-2"
@@ -194,7 +149,7 @@ function Signup({setSignedUp}) {
                 </div>
     
                 <button
-                  onClick={submit}
+                  onClick={handleSubmit}
                   className="w-full flex items-center justify-center bg-indigo-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium py-3 px-4 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all"
                 >
                   <span className="font-bold font-serif">Sign Up</span>

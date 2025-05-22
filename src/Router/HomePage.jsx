@@ -1,56 +1,59 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../Components/Header";
-import Axios from "axios"
 import { Link, useLocation } from 'react-router-dom';
 import TrendingBanner from "../Components/TrendingBanner";
 import { AuthContext } from "../Context/AuthContext";
 import ScrollToTop from "../Components/Layout";
+import {getaccesstoken} from "../API/spotify"
+import {getTopAlbums} from "../API/spotify"
 
 
-function HomePage({accessToken}) {
+function HomePage() {
 
-    const user = useContext(AuthContext)
-    console.log(user)
-    
     const location = useLocation() //location function for getting search input passed as state through page navigation
     const [currentsearch, setCurrentSearch] = useState(location.state?.searchInput) //search input passed through page navigation
-    const token = window.localStorage.getItem('ACCESS_TOKEN') //access token stored in the local storage *fix this*
     const [topalbums, setTopAlbums] = useState([]) //state that will store the data retrieved from the API call 'getinfo()'
-
+    const [token, setToken] = useState("")
 
     const headers = { //headers for spotify API call
-        "Content-Type": "application/json",
-        Authorization : "Bearer " + token,
-    }
+      "Content-Type": "application/json",
+      Authorization : "Bearer " + token,
+  }
 
-    useEffect(() => { //useEffect function that runs when the access token is retrieved
-        async function getinfo() {     
-            //function returns a promise as it is async
-            if (token) {
-              await Axios.get('https://api.spotify.com/v1/search', {
-                params: {
-                  q: 'genre:"rock"',
-                  type: 'album',
-                  market: 'US',
-                  limit: 20
-                },
-                headers: headers
-              }).then((response) => setTopAlbums(response.data.albums.items))
-                      .catch((error) => {
-                          console.log(error.message)
-                          console.log(error.message)
-                    }) 
-                  }
-                }    
-        if (token) {
-          getinfo()
-        }             
+    useEffect(() => { //getting access token
+
+       const getToken = async () => {
+          try {
+            const response = await getaccesstoken()
+            setToken(response)
+          } catch (err) {
+            console.log("Failed to fetch token:", err)
+          }
+        }
+          getToken()
+}, [])
+
+    
+    useEffect(() => { //getting top albums 
+        
+      const getAlbums = async () => {
+
+        try {
+          const response = await getTopAlbums(headers)
+          setTopAlbums(response)
+        } catch (err) {
+          console.log("Failed to fetch albums", err)
+        }
+      }
+      if (token) {
+          getAlbums()
+        }       
     }, [token])
+
 
        return (
            <div className="bg-indigo-50 h-min-screen">
                <Header
-               accessToken={accessToken}
                currentSearch={currentsearch}
                />
                <ScrollToTop/>
@@ -65,7 +68,7 @@ function HomePage({accessToken}) {
                     key={album.id}
                      className="bg-indigo-100 border-2 border-indigo-700 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 w-full overflow-hidden"
                     to={`/album/${encodeURIComponent(album.name)}`}
-                    state={{album : album, token : accessToken}}
+                    state={{album : album}}
                     >
                     <div className="relative">
                       <div className="h-64 overflow-hidden border-b-2 border-indigo-700">

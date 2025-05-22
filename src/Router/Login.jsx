@@ -2,30 +2,27 @@ import React, {useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
-
 const Login = () => {
 
      const navigate = useNavigate()
-
      const [email, setEmail] = useState("")
      const [password, setPassword] = useState("")
      const auth = getAuth()
 
-    const submit = (auth, email, password) => {
-            signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                //signed in
-                const user = userCredential.user
-                navigate("/HomePage")
-                
-            }).catch((error) => {
-                console.log(error.message)
-            })
-    }
+     const login = async (auth, email, password) => {
+      
+      signInWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+              navigate('/Homepage') 
+          })
+          .catch((error) => {
+              console.log(error.message)
+          })
+  }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        submit(auth, email, password)
+        login(auth, email, password)   
     }
  
     return ( <div className="flex items-center justify-center min-h-screen bg-indigo-50">
