@@ -21,7 +21,6 @@ function SearchResults() {
 
     const [albums, setAlbums] = useState([])
 
-
     const token = window.localStorage.getItem('ACCESS_TOKEN')
   
     const headers = {

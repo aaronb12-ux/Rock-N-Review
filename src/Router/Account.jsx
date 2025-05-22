@@ -3,14 +3,11 @@ import { useState } from 'react'
 import { LogOut, User, Mail, Calendar } from 'lucide-react'
 import { getAuth, signOut } from 'firebase/auth'
 import { useNavigate } from "react-router-dom";
-import AccountBanner from '../Components/AccountBannder';
+import AccountBanner from '../Components/AccountBanner';
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import { AuthContext } from "../Context/AuthContext";
 import { useContext } from 'react';
-
-
-
 
 const Account = () => {
 
@@ -20,14 +17,13 @@ const Account = () => {
     const auth = getAuth()
     let navigate = useNavigate()
     // Sample user data
- 
     const handleSignOut = () => {
         // Sign out logic would go here
         signOut(auth).then(() => {
             //navigate('/')
             navigate('/')
         }).catch((error) => {
-
+            console.log("Error signing out:", error)
         })
     }
 

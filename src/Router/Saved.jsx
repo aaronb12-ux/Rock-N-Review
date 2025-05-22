@@ -3,32 +3,25 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios"
 import { Link, useLocation} from 'react-router-dom';
 import { AuthContext } from "../Context/AuthContext";
+import { getSavedAlbums } from "../API/saved";
 
 import SavedBanner from "../Components/SavedBanner";
 
 function Saved() {
-    //this page when navigated to, will send a get request to the api and fetch all the saved albums, then display them.
+  
     const user = useContext(AuthContext)
-
     const location = useLocation()
     const currentsearch = location.state?.searchInput
-
-
     const [albums, setAlbums] = useState([]) //state that will store all the saved albums
 
     useEffect(() => {  //useEffect hook ran on initial page rendering
-        
-      async function getSavedAlbums(userid) {
-          
-       
-                const response = await axios.get(`http://localhost:8080/saved-albums/${userid}`) //get request from api
-                    setAlbums(response.data)
-        
+      const getsavedalbums = async (userid) => {
+              const response = await getSavedAlbums(userid)
+              setAlbums(response)
       }
-        getSavedAlbums(user.userData.userid)
+        getsavedalbums(user.userData.userid)
     }, [user.userData.userid])
 
-  
     if (albums === null) {
       return (<div className="bg-indigo-50 min-h-screen">
             <Header
@@ -39,7 +32,6 @@ function Saved() {
             </div>
       </div>)
     }
-
 
     return (
         <div className="bg-indigo-50 min-h-screen">
