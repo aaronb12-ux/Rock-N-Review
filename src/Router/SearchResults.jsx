@@ -2,52 +2,51 @@ import React from "react";
 import Header from "../Components/Header";
 import { useSearchParams, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Axios from "axios"
 import { Link } from 'react-router-dom';
-
-
+import { getaccesstoken } from "../API/spotify";
+import { getSearchedAlbums } from "../API/spotify";
 
 
 function SearchResults() {
 
-    const location = useLocation()
-    const accessToken = location.state?.accessToken
+    const location = useLocation() 
     const currentsearch = location.state?.searchInput
-  
 
     const [searchParams] = useSearchParams()
     const albumquery = searchParams.get('album')
-    
 
     const [albums, setAlbums] = useState([])
+    const [token, setToken] = useState("")
 
-    const token = window.localStorage.getItem('ACCESS_TOKEN')
-  
     const headers = {
         "Content-Type": "application/json",
         Authorization : "Bearer " + token,
     }
 
-    useEffect(() => {
-        async function getinfo() {     
+    useEffect(() => { //getting access token
+    
+        const getToken = async () => {
+              try {
+                const response = await getaccesstoken()
+                setToken(response)
+              } catch (err) {
+                console.log("Failed to fetch token:", err)
+              }
+            }
+              getToken()
+    }, [])
 
+    useEffect(() => { //getting albums by search query
+        const getAlbums = async () => {     
             if (albumquery && token) {
-                 
-                  const response = await Axios.get('https://api.spotify.com/v1/search?', {
-                    params: {
-                        q: albumquery,
-                        type: 'album',
-                        limit: 20
-                    },
-                    headers: headers       
-                })
-                setAlbums(response.data.albums.items)  
+                  const response = await getSearchedAlbums(headers, albumquery)
+                  setAlbums(response)  
             }
         }    
-        if (albumquery) {
-          getinfo()
+        if (token, albumquery) {
+          getAlbums()
         }             
-    }, [albumquery])
+    }, [token, albumquery])
 
 
     return (
@@ -55,7 +54,7 @@ function SearchResults() {
           <Header 
           currentSearch={currentsearch}
           />
-           <div className="py-8 mx-auto px-5">
+          <div className="py-8 mx-auto px-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 px-1">
               {albums.map((album) => {
                 return (
@@ -63,7 +62,7 @@ function SearchResults() {
                     key={album.id}
                     className="bg-indigo-100 m-6 rounded-none border-2 border-indigo-700 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 max-w-xs overflow-hidden"
                     to={`/album/${encodeURIComponent(album.name)}`}
-                    state={{album : album, token : accessToken, search: currentsearch}}
+                    state={{album : album, search: currentsearch}}
                     >
                     <div className="relative">
                       <div className="h-64 overflow-hidden border-b-2 border-indigo-700">

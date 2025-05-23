@@ -36,7 +36,28 @@ export async function getTracks(headers, apiquery) { //function that gets the tr
     })
     return response.data.items
   } catch(error) {
-    console.log("Failed to fetch tracks:", error)
+    console.log("Failed to fetch tracks: ", error)
   }
    
+}
+
+
+export async function getSearchedAlbums(headers, albumquery) {
+  
+  try {
+    const response = await axios.get('https://api.spotify.com/v1/search?', {
+      params: {
+          q: albumquery,
+          type: 'album',
+          limit: 20
+      },
+      headers: headers       
+  })
+    return response.data.albums.items
+  } catch (error) {
+    console.log("Error fetching albums by search: ", error)
+  }
+
+
+
 }

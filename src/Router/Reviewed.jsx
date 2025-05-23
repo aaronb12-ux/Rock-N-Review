@@ -1,26 +1,27 @@
 import React, { useEffect, useContext } from "react"
 import Header from "../Components/Header"
 import ReviewedBanner from "../Components/ReviewedBanner"
-import axios from "axios"
 import { useState } from "react"
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import ScrollToTop from "../Components/Layout"
 import { AuthContext } from "../Context/AuthContext"
+import {getReviewedAlbums} from "../API/reviewed"
 
 function Reviewed() {
 
     const user = useContext(AuthContext)
-    
+
+    const location = useLocation()
+    const currentSearch = location.state?.searchInput
+
     const [reviewedalbums, setReviewedAlbums] = useState([])
     
     useEffect(() => { //fetching the reviewed albums
-        async function getReviewedAlbums(id) {
-            const response = await axios.get(`http://localhost:8080/reviewed-albums/user/${id}`)
-            setReviewedAlbums(response.data)
-            console.log(response)
-      
+        const getreviewedalbums = async (id) => {
+            const response = await getReviewedAlbums(id)
+            setReviewedAlbums(response)
         }
-        getReviewedAlbums(user.userData.userid)
+        getreviewedalbums(user.userData.userid)
     }, [user.userData.userid])
 
     
@@ -35,7 +36,9 @@ function Reviewed() {
 
     return (
         <div className="bg-indigo-50 min-h-screen">
-                <Header/>
+                <Header
+                currentSearch={currentSearch}
+                />
                 <div className="flex items-center justify-center mt-5">
                 <ReviewedBanner/>
                 <ScrollToTop/>

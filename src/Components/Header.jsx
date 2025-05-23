@@ -29,11 +29,15 @@ function Header({accessToken, currentSearch}) {
   }
 
   const routeChangeReviewed = () => {
-    navigate('/reviewed')
+    navigate('/reviewed', {
+      state: {searchInput}
+    })
   }
 
   const routeChangeAccount = () => {
-    navigate('/account')
+    navigate('/account', {
+      state: {searchInput}
+    })
   }
  
   const [scrolled, setScrolled] = useState(false);
@@ -140,3 +144,15 @@ function Header({accessToken, currentSearch}) {
 }
 
 export default Header;
+
+
+/*
+useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+*/

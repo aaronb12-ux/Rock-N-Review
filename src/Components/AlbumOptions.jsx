@@ -1,122 +1,75 @@
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../Context/AuthContext";
+import { addReviewedAlbum } from "../API/reviewed";
+import { deleteSavedAlbum } from "../API/saved";
+import { checkIfSaved } from "../API/saved";
 
 
 
 function AlbumOptions({ albumdata, only_tracks, setModal, modal, setDuplicateReview}) {
 
-  
-  const user = useContext(AuthContext)
-  
-
-  const [savestate, setSaveState] = useState(false); //save state for album
-  const [savedId, setSavedId] = useState("")
-  const [fetchsaved, setFetchedSaved] = useState(0)
+  const user = useContext(AuthContext) //user data
+  const [savestate, setSaveState] = useState(false); //state for whether the album is saved or not
+  const [savedId, setSavedId] = useState("") 
+  const [fetchsaved, setFetchedSaved] = useState(0) ///updates each time an album is reviewed
 
   const handlesave = async (e) => { //api call when saving an album when clicking the 'save' button
     
     e.preventDefault();
-    let POST_DATA
     
-    if (albumdata.artist) { //if we want to save the album again WITHIN the saved albums page
-      POST_DATA = {
-        albumid: albumdata.albumid,
-        name: albumdata.name,
-        artist: albumdata.artist,
-        userid: user.userData.userid,
-        release_date: albumdata.release_date,
-        image: albumdata.image,
-        tracks: only_tracks
-      }
-    } else { //if we want to save this album via SEARCH
-      POST_DATA = { 
-      albumid: albumdata.id,
+    const post_data = { //depending on whether the album we are reviewing is coming from a current saved or reviewed album, or from search, we adjust the fields
+      albumid: albumdata.albumid || albumdata.id,
       name: albumdata.name,
-      artist: albumdata.artists[0].name,
+      artist: albumdata.artist || albumdata.artists[0].name,
       userid: user.userData.userid,
-      release_date: albumdata.release_date,
-      image: albumdata.images[0].url,
+      release_date:  albumdata.release_date,
+      image: albumdata.image || albumdata.images[0].url,
       tracks: only_tracks,
-    };
-  }
-    axios
-      .post("http://localhost:8080/saved-albums", POST_DATA)
-      .then((response) => {
-        console.log(response.data);
-        setSaveState(true);
-        setFetchedSaved(fetchsaved => fetchsaved + 1)
-      }) //POST request via Axios
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+    }
+    
+    const response = await addReviewedAlbum(post_data) //post request -> returns true if submitted successfully
 
+    if (response) { //if the post request was successfull
+       setSaveState(true) 
+       setFetchedSaved(fetchsaved => fetchsaved + 1)
+    }
+
+};
 
   //delete does not work from search. this is because when we delete, we delete the entire document with the '_id'. Whe
   const deletesave = async (e) => { //api call when someone deletes an album
     
     e.preventDefault();
     
-    let id
-    if (!savedId) {
-      id = albumdata._id
-    } else {
-      id = savedId
+    const ID = { //
+      id: albumdata._id || savedId
     }
+  
+    const response = await deleteSavedAlbum(ID.id)
+    if (response) {setSaveState(false)}
 
-    axios
-      .delete(`http://localhost:8080/saved-albums/${id}`)
-      .then((response) => {
-        setSaveState(false);
-        console.log(response.data)
-      })
-      .catch(function (error) {
-        if (error.response) {
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          console.log(error.request);
-        } else {
-          console.log("Error", error.message);
-        }
-        console.log(error.config);
-      });
   };
 
 
   
   useEffect(() => { //useEffect hook for checking if an album is saved. This is for when people travel to a saved album of theirs by search. 
                     //this same logic can also be done when going to album from their saved albums...
-    const checkifsaved = () => {
-      let id
-      if (albumdata.albumid) {
-        id = albumdata.albumid //if this album is from the 'saved' or reviewed albums albums. 
-      } else {
-        id = albumdata.id //if this album is from search
-      }
+    const checkifsaved = async () => {
       
-      axios
-        .get(`http://localhost:8080/users/${user.userData.userid}/saved-albums/${id}`)
-        .then((response) => {
-          if (response.status === 200) {
-            setSaveState(true);
-            setSavedId(response.data._id)
-          }
-        })
-        .catch(function (error) {
-          if (error.response) {
-            console.log(error.response.data);
-          } else if (error.request) {
-            console.log(error.request);
-          } else {
-            console.log("Error", error.message);
-          }
-          return;
-        });
+        const ID = {
+          id: albumdata.albumid || albumdata.id
+        }
+
+        const response = await checkIfSaved(user.userData.userid, ID.id)
+
+        if (response) {
+          setSaveState(true)
+          setSavedId(response.data._id)
+        }
+        
     };
-    checkifsaved()
+      checkifsaved()
   }, [fetchsaved])
 
   

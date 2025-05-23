@@ -1,6 +1,5 @@
 import Header from "../Components/Header";
 import { useState, useEffect, useContext } from "react";
-import axios from "axios"
 import { Link, useLocation} from 'react-router-dom';
 import { AuthContext } from "../Context/AuthContext";
 import { getSavedAlbums } from "../API/saved";
@@ -10,8 +9,10 @@ import SavedBanner from "../Components/SavedBanner";
 function Saved() {
   
     const user = useContext(AuthContext)
+
     const location = useLocation()
     const currentsearch = location.state?.searchInput
+
     const [albums, setAlbums] = useState([]) //state that will store all the saved albums
 
     useEffect(() => {  //useEffect hook ran on initial page rendering
