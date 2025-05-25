@@ -1,54 +1,33 @@
 import { useState, useContext } from "react";
 import React from "react";
-import axios from "axios";
 import { AuthContext } from "../Context/AuthContext";
 import { PencilIcon, TrashIcon } from "lucide-react";
+import { deleteReview } from "../API/reviewed";
 
-const Review = ({
-  userid, 
-  rating,
-  date,
-  text,
-  _id,
-  setRefresh,
-  setModal,
-  setEdit,
-  publisher,
-}) => {
+const Review = ({userid, rating, date, text, _id, setRefresh, setModal, setEditReview, publisher,}) => {
+  
   date = date.slice(0, 10);
 
   const user = useContext(AuthContext);
   const [ishovered, setIsHovered] = useState(false);
 
-  //api call to delete the review
-  function handleDelete() {
-    axios
-      .delete(`http://localhost:8080/reviewed-albums/${_id}`)
-      .then((response) => {
-        console.log(response.data);
-        setRefresh((refresh) => refresh + 1);
-      })
-      .catch(function (error) {
-        if (error.response) {
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          console.log(error.request);
-        } else {
-          console.log("Error", error.message);
-        }
-        console.log(error.config);
-      });
+  const handleDelete = async () => {
+    const response = await deleteReview(_id)
+    if (response) {
+      setRefresh((refresh) => refresh + 1);
+    }
   }
 
   function handleEdit() {
     setModal((modal) => !modal);
-    setEdit([true, text, rating, _id]);
+    setEditReview({
+      being_edited: true, //0
+      existing_review: text, //1
+      stars: rating,
+      document_id: _id,
+    })
     //need to change the CURRENT review
   }
-
-  console.l;
 
   return (
     <div

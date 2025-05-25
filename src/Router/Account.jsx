@@ -1,33 +1,27 @@
-import Header from "../Components/Header";
-import { User, Mail, Calendar } from "lucide-react";
-import { getAuth, signOut } from "firebase/auth";
+import React, { useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import AccountBanner from "../Components/AccountBanner";
-import React from "react";
+import { signOut } from "firebase/auth";
+import { User, Mail, Calendar } from "lucide-react";
 import { Button } from "react-bootstrap";
+import AccountBanner  from "../Components/AccountBanner"
+import Header from "../Components/Header";
 import { AuthContext } from "../Context/AuthContext";
-import { useContext } from "react";
+import { auth } from "../firebase"
 
 const Account = () => {
-  const user_info = useContext(AuthContext); 
-  const created = user_info.userData.created.slice(0, 10)
-  
+
+  const user_info = useContext(AuthContext);
+  const userData = user_info?.userData || {};
+  const created = userData.created ? userData.created.slice(0, 10) : "Unknown";
+
   const location = useLocation();
   const currentSearch = location.state?.searchInput;
 
-  const auth = getAuth();
-
   const navigate = useNavigate();
-  // Sample user data
   const handleSignOut = () => {
-    // Sign out logic would go here
     signOut(auth)
-      .then(() => {
-        navigate("/");
-      })
-      .catch((error) => {
-        console.log("Error signing out:", error);
-      });
+      .then(() => navigate("/"))
+      .catch((error) => console.log("Error signing out:", error));
   };
 
   return (
@@ -35,7 +29,7 @@ const Account = () => {
       <Header currentSearch={currentSearch} />
 
       <div className="flex justify-center items-center mt-5">
-        <AccountBanner />
+        <AccountBanner/>
       </div>
 
       <div className="flex flex-col items-center mt-10 space-y-4">
@@ -90,3 +84,5 @@ const Account = () => {
 };
 
 export default Account;
+
+

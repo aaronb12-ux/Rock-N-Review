@@ -1,12 +1,11 @@
 import React, {useState} from 'react'
-import { getAuth } from 'firebase/auth'
+import { auth } from '../firebase'
 import { Link } from "react-router-dom";
 import { submitUser } from "../API/signin"
 
 
 function Signup({setSignedUp}) {
     
-    const auth = getAuth()
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [username, setUserName] = useState("")

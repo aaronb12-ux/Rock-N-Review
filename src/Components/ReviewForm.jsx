@@ -1,12 +1,11 @@
 import Stars from "./Stars";
 import { useState, useContext } from "react";
-import axios from "axios";
 import { AuthContext } from "../Context/AuthContext";
+import { addReview } from "../API/reviewed";
+import { editReview } from "../API/reviewed";
 
 
-function ReviewForm({ postdata, setModal, setRefresh, edit }) {
-  
-  
+function ReviewForm({ postdata, setModal, setRefresh, editreview }) {
   
   const [stars, setStars] = useState(0);
   const [review, setReview] = useState("");
@@ -15,7 +14,7 @@ function ReviewForm({ postdata, setModal, setRefresh, edit }) {
 
   const user = useContext(AuthContext)
 
-  const [existingReview, setExistingReview] = useState(edit[1]);
+  const [existingReview, setExistingReview] = useState(editreview.existing_review);
 
   const clear = () => {
     setModal(false);
@@ -23,50 +22,37 @@ function ReviewForm({ postdata, setModal, setRefresh, edit }) {
     setReview("");
     setStars("");
     setExistingReview("");
-    edit[0] = false;
+    editreview.being_edited = false;
   };
 
-  const handleSubmit = () => {
+
+  const handleSubmit = async () => {
 
     postdata.rating = stars;
 
-    if (postdata.rating === 0) {
+    if (postdata.rating === 0) {  //invalid rating (0 stars)
+      
       setNoReview(false)
       setZeroRating(true);
 
-    } else if ((review === "" && edit[0] === false) || (existingReview == "" && edit[0] ===true)) {
+    } else if ((review === "" && editreview.being_edited === false) || (existingReview == "" && editreview.being_edited === true)) { //invalid review (empty textbox)
+      
       setZeroRating(false)
       setNoReview(true)
 
-    } else if (edit[0]) {
-      //if we are making an edit
+    } else if (editreview.being_edited) { //if we are making an active edit for an existing review
+      
       postdata.review = existingReview;
-      axios
-        .patch(`http://localhost:8080/reviewed-albums/${edit[3]}`, {
-          Rating: postdata.rating,
-          Review: postdata.review,
-        })
-        .then((response) => {
-          console.log(response.data);
-          clear();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      //first review for the album
-      postdata.review = review;
-      postdata.userid = user.userData.userid
-      postdata.publisher = user.userData.username
-      axios
-        .post("http://localhost:8080/reviewed-albums", postdata)
-        .then((response) => {
-          console.log(response.data);
-          clear();
-        }) //POST request via Axios
-        .catch((error) => {
-          console.log(error);
-        });
+      const response = await editReview(postdata, editreview.document_id)
+      if (response) { clear() }
+
+    } else { //first review for the album by user
+  
+        postdata.review = review;
+        postdata.userid = user.userData.userid
+        postdata.publisher = user.userData.username
+        const response = await addReview(postdata)
+        if (response) { clear() } 
     }
   };
 
@@ -89,7 +75,7 @@ function ReviewForm({ postdata, setModal, setRefresh, edit }) {
               Your Rating
             </span>
             <div className="mt-2 flex justify-center">
-              <Stars setStars={setStars} edit={edit} />
+              <Stars setStars={setStars} editreview={editreview} />
             </div>
             {zerorating && (
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 top-[98%] text-red-500 px-2 py-1 ">
@@ -111,7 +97,7 @@ function ReviewForm({ postdata, setModal, setRefresh, edit }) {
               Your Review
             </label>
 
-            {edit[0] ? (
+            {editreview.being_edited ? (
               <textarea
                 id="review"
                 rows="6"

@@ -1,13 +1,13 @@
 import React, {useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../firebase'
 
 const Login = () => {
 
      const navigate = useNavigate()
      const [email, setEmail] = useState("")
      const [password, setPassword] = useState("")
-     const auth = getAuth()
 
      const login = async (auth, email, password) => {
       

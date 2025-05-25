@@ -1,4 +1,4 @@
-import { initializeApp } from 'firebase/app'
+import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth'
 
 //initializing firebase and creating a Firebase App object
@@ -19,7 +19,8 @@ const firebaseConfig = {
       
       };
 
-const app = initializeApp(firebaseConfig)
 
-export default app
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig); 
+
 export const auth = getAuth(app)
+export default app

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import app from '../firebase';
 import { AuthContext } from './AuthContext';  // Import from the new file
 import axios from "axios"
 
@@ -17,7 +16,6 @@ export function AuthProvider({children}) {
       if (firebaseuser) {
         const userid = firebaseuser.uid //getting logged in user id
 
-        
         axios.get(`http://localhost:8080/users/${userid}`)      
         .then((response) => { //fetching user info from backend by id
           setUserData(response.data)

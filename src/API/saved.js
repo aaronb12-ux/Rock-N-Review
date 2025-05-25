@@ -22,7 +22,10 @@ export async function deleteSavedAlbum(id) {
 export async function checkIfSaved(userid, albumid) {
     try {
         const response = await axios.get(`http://localhost:8080/users/${userid}/saved-albums/${albumid}`)
-        return response.status === 200
+        if (response.status === 200) {
+            console.log(response)
+            return response.data._id
+        }
     } catch (error) {
         console.log("error checking saved state: ", error)
     }

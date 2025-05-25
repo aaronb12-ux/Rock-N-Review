@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
 import React from "react"
-function Stars({setStars, edit}) {
+function Stars({setStars, editreview}) {
     
     let [colors, setColors] = useState(["text-gray-400", "text-gray-400", "text-gray-400", "text-gray-400", "text-gray-400"])
    //user clicks on star three
    //pass three to the function
    useEffect(() => {
-        if (edit[0]) {
-            switch (edit[2]) {
+        if (editreview.being_edited) {
+            switch (editreview.stars) {
                 case 1:
                     setColors(["text-yellow-400", "text-gray-400", "text-gray-400", "text-gray-400", "text-gray-400"])
                     setStars(1)

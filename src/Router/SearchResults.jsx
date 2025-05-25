@@ -18,6 +18,8 @@ function SearchResults() {
     const [albums, setAlbums] = useState([])
     const [token, setToken] = useState("")
 
+    const [loading, setLoading] = useState(true)
+
     const headers = {
         "Content-Type": "application/json",
         Authorization : "Bearer " + token,
@@ -41,6 +43,7 @@ function SearchResults() {
             if (albumquery && token) {
                   const response = await getSearchedAlbums(headers, albumquery)
                   setAlbums(response)  
+                  setLoading(false)
             }
         }    
         if (token, albumquery) {
@@ -50,10 +53,16 @@ function SearchResults() {
 
 
     return (
-        <div className="bg-indigo-50 min-h-screen">
+        <div className="bg-indigo-50 min-h-screen flex flex-col">
           <Header 
           currentSearch={currentsearch}
           />
+          {loading ? (
+          <div className="flex-1 flex items-center justify-center bg-indigo-50">
+            <div className="text-indigo-200 text-xl animate-pulse font-semibold">
+              Loading Albums...
+            </div>
+          </div> ) : (
           <div className="py-8 mx-auto px-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 px-1">
               {albums.map((album) => {
@@ -96,8 +105,9 @@ function SearchResults() {
               })}
             </div>
           </div>
+          )}
         </div>
       )
     }
       
-      export default SearchResults
+export default SearchResults

@@ -22,8 +22,16 @@ function Album() {
   const [albumtracks, setAlbumTracks] = useState([]) //State to hold the tracks fetched in the API call
   const [modal, setModal] = useState(false) //Modal
   const [refresh, setRefresh] = useState(0)
-  const [edit, setEdit] = useState([false, null, null, null]) 
+  //const [edit, setEdit] = useState([false, null, null, null]) 
   const [duplicatereview, setDuplicateReview] = useState(false)
+
+  const [editreview, setEditReview] = useState(
+    {
+     being_edited: false, //0
+     existing_review: null, //1
+     stars: null,
+     document_id: null,
+                        })
 
 
   const albumqueries = {
@@ -95,7 +103,7 @@ function Album() {
               refresh={refresh}
               setRefresh={setRefresh}
               setModal={setModal}
-              setEdit={setEdit}
+              setEditReview={setEditReview}
             />
           </div>
         </div>
@@ -131,7 +139,7 @@ function Album() {
           album={albumdata}
           only_tracks={only_tracks}
           setRefresh={setRefresh}
-          edit={edit}
+          editreview={editreview}
         />
       )}
 

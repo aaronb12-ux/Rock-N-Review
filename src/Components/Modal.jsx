@@ -1,33 +1,20 @@
 import ReviewForm from "./ReviewForm"
-const Modal = ({setModal, album, only_tracks, setRefresh, edit}) => {
+const Modal = ({setModal, album, only_tracks, setRefresh, editreview}) => {
 
-  let post_data
+   const post_data = {
+    albumid: album.albumid || album.id,
+    name: album.name,
+    artist: album.artist || album.artists[0].name,
+    release_date: album.release_date,
+    image: album.image || album.images[0].url ,
+    tracks: only_tracks,
+    created: new Date()
 
-   if (album.artist) { //if we are tying to review an already 'saved' album from the database. fields are different.
-      post_data = {
-        albumid: album.albumid,
-        name: album.name,
-        artist: album.artist,
-        release_date: album.release_date,
-        image: album.image,
-        tracks: only_tracks,
-        created: new Date()
-      }
-   } else {
-    post_data = { //from search
-      albumid: album.id,
-      name: album.name,
-      artist: album.artists[0].name,
-      release_date: album.release_date,
-      image: album.images[0].url,
-      tracks: only_tracks,
-      created: new Date()
-  } 
    }
 
     const handlemodal = () => {
         setModal(modal => !modal)
-        edit[0] = false
+        editreview.being_edited = false
     }
 
     return (
@@ -45,7 +32,7 @@ const Modal = ({setModal, album, only_tracks, setRefresh, edit}) => {
                   postdata={post_data}
                   setModal={setModal}
                   setRefresh={setRefresh}
-                  edit={edit}
+                  editreview={editreview}
                   />
                   </div>
                 </div>

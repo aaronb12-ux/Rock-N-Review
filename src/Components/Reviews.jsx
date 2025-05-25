@@ -1,40 +1,25 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import Review from "./Review";
 import Rating from "./Rating";
+import { getReviewsByAlbum } from "../API/reviewed";
 
-const Reviews = ({ id, name, refresh, setRefresh, setModal, setEdit }) => {
+const Reviews = ({id, name, refresh, setRefresh, setModal, setEditReview }) => {
   const [reviews, setReviews] = useState();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function getReviews(id) {
+    async function getReviews(albumid) {
       setLoading(true);
       try {
-        const response = await axios.get(`http://localhost:8080/reviewed-albums/${id}`);
-        
-        let data = response.data;
+        const response = await getReviewsByAlbum(albumid) //fetching reviews by albumid
 
-        console.log(data)
-        
-        if (data === null) {
+        if (!response) { //response is null -> no reviews for the album
           setReviews([]);
-          return;
+            return;
+        } else {
+          setReviews(response);
         }
-        
-        data = data.map((review) => [
-          review.review,
-          review.rating,
-          review.created,
-          review.userid,
-          review._id,
-          review.publisher,
-        ]);
-        
-        setReviews(data);
-      } catch (error) {
-        console.error("Error fetching reviews:", error);
-        setReviews([]);
+
       } finally {
         setLoading(false);
       }
@@ -83,7 +68,7 @@ const Reviews = ({ id, name, refresh, setRefresh, setModal, setEdit }) => {
                 publisher={review[5]}
                 setRefresh={setRefresh}
                 setModal={setModal}
-                setEdit={setEdit}
+                setEditReview={setEditReview}
               />
             ))}
           </div>

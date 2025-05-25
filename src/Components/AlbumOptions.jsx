@@ -1,9 +1,9 @@
-import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../Context/AuthContext";
 import { addReviewedAlbum } from "../API/reviewed";
 import { deleteSavedAlbum } from "../API/saved";
 import { checkIfSaved } from "../API/saved";
+import { checkIfReviewExists } from "../API/reviewed";
 
 
 
@@ -45,7 +45,7 @@ function AlbumOptions({ albumdata, only_tracks, setModal, modal, setDuplicateRev
     const ID = { //
       id: albumdata._id || savedId
     }
-  
+
     const response = await deleteSavedAlbum(ID.id)
     if (response) {setSaveState(false)}
 
@@ -65,7 +65,7 @@ function AlbumOptions({ albumdata, only_tracks, setModal, modal, setDuplicateRev
 
         if (response) {
           setSaveState(true)
-          setSavedId(response.data._id)
+          setSavedId(response)
         }
         
     };
@@ -73,31 +73,23 @@ function AlbumOptions({ albumdata, only_tracks, setModal, modal, setDuplicateRev
   }, [fetchsaved])
 
   
-  function handlereview() {
+  const handlereview = async () => {
     
-    let id
-    if (albumdata.albumid) {
-      id = albumdata.albumid //if this album is from the 'saved' or reviewed albums albums. 
-    } else {
-      id = albumdata.id //if this album is from search
+    const ID = {
+      id: albumdata.albumid || albumdata.id
     }
     //first cherck if the album id is in the databse for 'reviewedalbums'
     //if yes, then 
-    axios
-        .get(`http://localhost:8080/users/${user.userData.userid}/reviewed-albums/${id}`)
-        .then((response) => {
-          if (response.status === 200) {
-            console.log('review does exists')
-            setDuplicateReview(true)
-            //do stuff to handle duplicate review attempt
-          } else {
-            setModal(!modal);
-          } 
-        }) 
-        .catch((error) => {
-          setModal(!modal);
-        })
+
+    const response = await checkIfReviewExists(user.userData.userid, ID.id)
+
+    if (response) {
+      setDuplicateReview(true)
+    } else {
+      setModal(!modal)
+    }
   }
+        
 
   return (
     <div className="mt-6 flex space-x-3">
