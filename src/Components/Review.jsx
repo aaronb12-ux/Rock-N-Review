@@ -54,14 +54,14 @@ const Review = ({userid, rating, date, text, _id, setRefresh, setModal, setEditR
           <div className="flex items-center gap-2">
             <button
               onClick={handleEdit}
-              className=" hover:bg-gray-100 rounded-full text-gray-400 hover:text-blue-500 transition"
+              className=" rounded-full text-gray-400 hover:text-blue-500 transition"
               aria-label="Edit"
             >
               <PencilIcon className="w-4 h-4" />
             </button>
             <button
               onClick={handleDelete}
-              className=" hover:bg-gray-100 rounded-full text-gray-400 hover:text-red-500 transition"
+              className=" rounded-full text-gray-400 hover:text-red-500 transition"
               aria-label="Delete"
             >
               <TrashIcon className="w-4 h-4" />

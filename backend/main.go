@@ -53,7 +53,7 @@ type user struct {
 func init() {
 	//this initializer function is run first when the program gets compiled, it establishes our connection to the mongodb client
  //load env file if it exists
- 	godotenv.Load() 
+ 	//godotenv.Load() 
 
 	if err := connect_to_mongodb(); err != nil {
 		log.Fatal("Could not connect to MongoDB")
@@ -63,7 +63,14 @@ func init() {
 func connect_to_mongodb() error {
 
 
-    uri := os.Getenv("MONGODB_URI")
+    err := godotenv.Load(".env.backend")
+
+	if err != nil {
+		log.Fatal("Error loading .env file: ", err)
+	}
+
+	uri := os.Getenv("MONGODB_URI")
+	
 
 	if uri == "" {
 		log.Fatal("MONGODB_URI environment variable is not set")

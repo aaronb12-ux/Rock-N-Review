@@ -12,6 +12,7 @@ function SearchResults() {
     const location = useLocation() 
     const currentsearch = location.state?.searchInput
 
+
     const [searchParams] = useSearchParams()
     const albumquery = searchParams.get('album')
 
@@ -71,7 +72,7 @@ function SearchResults() {
                     key={album.id}
                     className="bg-indigo-100 m-6 rounded-none border-2 border-indigo-700 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 max-w-xs overflow-hidden"
                     to={`/album/${encodeURIComponent(album.name)}`}
-                    state={{album : album, search: currentsearch}}
+                    state={{album : album, searchInput: currentsearch}}
                     >
                     <div className="relative">
                       <div className="h-64 overflow-hidden border-b-2 border-indigo-700">

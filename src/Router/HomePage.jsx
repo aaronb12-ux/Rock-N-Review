@@ -10,10 +10,13 @@ import { getTopAlbums } from "../API/spotify"
 function HomePage() {
 
     const location = useLocation() //location function for getting search input passed as state through page navigation
-    const [currentsearch, setCurrentSearch] = useState(location.state?.searchInput) //search input passed through page navigation
+    const [searchInput, setCurrentSearch] = useState(location.state?.searchInput) //search input passed through page navigation
     const [topalbums, setTopAlbums] = useState([]) //state that will store the data retrieved from the API call 'getinfo()'
     const [token, setToken] = useState("")
     const [loading, setLoading] = useState(true);
+
+
+
 
     const headers = { //headers for spotify API call
       "Content-Type": "application/json",
@@ -55,7 +58,7 @@ function HomePage() {
 
     return (
       <div className="bg-indigo-50 min-h-screen flex flex-col">
-        <Header currentSearch={currentsearch} />
+        <Header currentSearch={searchInput} />
         <ScrollToTop />
     
         {loading ? (
@@ -76,7 +79,7 @@ function HomePage() {
                     key={album.id}
                     className="bg-indigo-100 border-2 border-indigo-700 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 w-full overflow-hidden"
                     to={`/album/${encodeURIComponent(album.name)}`}
-                    state={{ album }}
+                    state={{ album, searchInput }}
                   >
                     <div className="relative">
                       <div className="h-64 overflow-hidden border-b-2 border-indigo-700">
@@ -117,6 +120,5 @@ function HomePage() {
 }
 
 export default HomePage
-
 
 //'https://api.spotify.com/v1/browse/new-releases?country=US&limit=20'

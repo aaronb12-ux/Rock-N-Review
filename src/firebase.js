@@ -1,21 +1,20 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth'
 
-//initializing firebase and creating a Firebase App object
 
 const firebaseConfig = {
 
-        apiKey: "AIzaSyCYWfWiTDnGzfuIw2KS4UusPsekAcW-mdA",
+        apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
       
-        authDomain: "albumadventures-dev.firebaseapp.com",
+        authDomain: import.meta.env.VITE_FIREBASE_AUTHDOMAIN,
       
-        projectId: "albumadventures-dev",
+        projectId: import.meta.env.VITE_FIREBASE_PROJECTID,
       
-        storageBucket: "albumadventures-dev.firebasestorage.app",
+        storageBucket: import.meta.env.VITE_FIREBASE_STORAGEBUCKET,
       
-        messagingSenderId: "61696534013",
+        messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGINGSENDERID,
       
-        appId: "1:61696534013:web:32720c6153132500e42594"
+        appId: import.meta.env.VITE_FIREBASE_APPID,
       
       };
 

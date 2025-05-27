@@ -17,13 +17,16 @@ function Album() {
   const location = useLocation()
 
   const albumdata = location.state?.album //Album Data
-  const search = location.state?.search //Search Query
+  const search = location.state?.searchInput //Search Query
   const [token, setToken] = useState("")
   const [albumtracks, setAlbumTracks] = useState([]) //State to hold the tracks fetched in the API call
   const [modal, setModal] = useState(false) //Modal
   const [refresh, setRefresh] = useState(0)
   //const [edit, setEdit] = useState([false, null, null, null]) 
   const [duplicatereview, setDuplicateReview] = useState(false)
+
+  console.log(search)
+
 
   const [editreview, setEditReview] = useState(
     {

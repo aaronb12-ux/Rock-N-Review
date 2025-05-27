@@ -7,11 +7,12 @@ import ScrollToTop from "../Components/Layout";
 import { AuthContext } from "../Context/AuthContext";
 import { getReviewedAlbums } from "../API/reviewed";
 
+
 function Reviewed() {
   const user = useContext(AuthContext);
 
   const location = useLocation();
-  const currentSearch = location.state?.searchInput;
+  const searchInput = location.state?.searchInput;
 
   const [reviewedalbums, setReviewedAlbums] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -29,20 +30,30 @@ function Reviewed() {
   if (reviewedalbums === null) {
     return (
       <div className="bg-indigo-50 min-h-screen">
-        <Header />
+        <Header
+        currentSearch={searchInput}
+         />
         <div className="flex justify-center items-center mt-5">
           <ReviewedBanner />
         </div>
+        <div className="flex flex-col items-center justify-center mt-50 px-4 text-center">
+     
+      <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 bg-clip-text text-transparent mb-4">
+        No Reviewed Albums
+      </h2>
+      
+    </div>
       </div>
     );
   }
 
   return (
     <div className="bg-indigo-50 min-h-screen flex flex-col">
-      <Header currentSearch={currentSearch} />
+      <Header currentSearch={searchInput} />
       <div className="flex items-center justify-center mt-5">
         <ReviewedBanner />
         <ScrollToTop />
+       
       </div>
 
       {loading ? (
@@ -60,7 +71,7 @@ function Reviewed() {
                   key={album.id}
                   className="bg-indigo-100 m-6 rounded-none border-2 border-indigo-700 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 max-w-xs overflow-hidden"
                   to={`/reviewed/${encodeURIComponent(album.name)}`}
-                  state={{ album: album, saved: false }}
+                  state={{ album: album, saved: false, searchInput : searchInput}}
                 >
                   <div className="relative">
                     <div className="h-64 overflow-hidden border-b-2 border-indigo-700">

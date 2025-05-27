@@ -4,16 +4,23 @@ import (
 	"encoding/base64"
 	//"fmt"
 	"io"
-	//"log"
+	"log"
 	"net/http"
 	"os"
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	//"github.com/joho/godotenv"
 )
 
 func getAccessToken(c *gin.Context) {
+
+	err := godotenv.Load(".env.backend")
+
+	if err != nil {
+		log.Fatal("Error loading env file:", err)
+	}
 
 	client_id := os.Getenv("SPOTIFY_CLIENT_ID")
 	client_secret := os.Getenv("SPOTIFY_CLIENT_SECRET")

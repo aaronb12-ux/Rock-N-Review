@@ -3,14 +3,13 @@ import { useState, useEffect, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
 import { getSavedAlbums } from "../API/saved";
-
 import SavedBanner from "../Components/SavedBanner";
 
 function Saved() {
   const user = useContext(AuthContext);
 
   const location = useLocation();
-  const currentsearch = location.state?.searchInput;
+  const searchInput = location.state?.searchInput;
 
   const [albums, setAlbums] = useState([]); //state that will store all the saved albums
   const [loading, setLoading] = useState(true);
@@ -28,23 +27,30 @@ function Saved() {
   if (albums === null) {
     return (
       <div className="bg-indigo-50 min-h-screen">
-        <Header currentSearch={currentsearch} />
+        <Header currentSearch={searchInput} />
         <div className="flex items-center justify-center mt-5 ">
           <SavedBanner />
         </div>
+        <div className="flex flex-col items-center justify-center mt-50 px-4 text-center">
+     
+      <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 bg-clip-text text-transparent mb-4">
+        No Saved Albums
+      </h2>
+      
+    </div>
       </div>
     );
   }
 
   return (
     <div className="bg-indigo-50 min-h-screen flex flex-col">
-      <Header currentSearch={currentsearch} />
-      <div className="flex items-center justify-center mt-20 ">
+      <Header currentSearch={searchInput} />
+      <div className="flex items-center justify-center mt-5 ">
         <SavedBanner />
       </div>
 
       {loading ? (
-        <div className="flex-1 flex items-center justify-center bg-indigo-50 mb-5">
+        <div className="flex-1 flex items-center justify-center bg-indigo-50">
           <div className="text-indigo-200 text-xl animate-pulse font-semibold">
             Loading Albums...
           </div>
@@ -58,7 +64,7 @@ function Saved() {
                   key={album.id}
                   className="bg-indigo-100 m-6 rounded-none border-2 border-indigo-700 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 max-w-xs overflow-hidden"
                   to={`/saved/${encodeURIComponent(album.name)}`}
-                  state={{ album: album, saved: true }}
+                  state={{ album: album, saved: true, searchInput: searchInput }}
                 >
                   <div className="relative">
                     <div className="h-64 overflow-hidden border-b-2 border-indigo-700">
