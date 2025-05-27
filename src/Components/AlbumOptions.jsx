@@ -144,8 +144,3 @@ function AlbumOptions({ albumdata, only_tracks, setModal, modal, setDuplicateRev
   );
 }
 
-<<<<<<< HEAD
-export default AlbumOptions;
-=======
-export default AlbumOptions
->>>>>>> 1b0b083a6e1e79e6cfa3dedfb18dabba32dc00b8
