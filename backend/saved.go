@@ -11,18 +11,11 @@ import (
 )
 
 func DeleteSavedAlbum(c *gin.Context) {
-<<<<<<< HEAD
-		//delete document of specific user album
-	    document_id := c.Param("id") 
 
-		objectId, err := primitive.ObjectIDFromHex(document_id) 
-=======
 	
-		
-	   id := c.Param("id") 
+		id := c.Param("id") 
 	
 		objectId, err := primitive.ObjectIDFromHex(id) 
->>>>>>> 1b0b083a6e1e79e6cfa3dedfb18dabba32dc00b8
 	
 		if err != nil {
 			c.IndentedJSON(http.StatusBadRequest, gin.H{"error" : err.Error()})
@@ -36,47 +29,12 @@ func DeleteSavedAlbum(c *gin.Context) {
 			return
 		}
 		
-<<<<<<< HEAD
 		c.IndentedJSON(http.StatusAccepted, gin.H{"deletedID" : objectId.Hex()})
 	
 }
 	
-=======
-		c.IndentedJSON(http.StatusAccepted, cursor)
-	
-	}
 
-func UpdateSavedAlbum(c *gin.Context) {
-		
-		
-		id := c.Param("id") 
-		
-		coll := mongoClient.Database("AlbumApp").Collection("Albums")
-		
-		objectId, _ := primitive.ObjectIDFromHex(id) 
-	
-		filter := bson.M{"_id": objectId} 
-	
-		var a album//new movie that will contain the rating
-	
-		if err := c.ShouldBindJSON(&a); err != nil {
-			c.IndentedJSON(http.StatusBadRequest, gin.H{"error" : err.Error()})
-		}
-	 
-		update := bson.D{{"$set", bson.D{{"genre", a.Genre}}}}
-	
-		result, err := coll.UpdateOne(context.TODO(), filter, update)
-	
-		if err != nil {
-			panic(err)
-		}
-	
-		c.IndentedJSON(http.StatusAccepted, result)
-	
-}
-
-
-
+/*
 func GetSavedAlbums(c *gin.Context){
 	
 	 
@@ -96,9 +54,8 @@ func GetSavedAlbums(c *gin.Context){
  
 	 c.IndentedJSON(http.StatusOK, albums)
  }
+*/
 
-
->>>>>>> 1b0b083a6e1e79e6cfa3dedfb18dabba32dc00b8
 
  func AddSavedAlbum(c *gin.Context) {
 
@@ -125,12 +82,8 @@ func SavedAlbumById(c *gin.Context) {
 	//check all documents that contains the user ID
 	//then check if any of those documents contain the album id for the albumid field
 
-<<<<<<< HEAD
 	userid := c.Param("userid")
 	albumid := c.Param("albumid")
-=======
-	
->>>>>>> 1b0b083a6e1e79e6cfa3dedfb18dabba32dc00b8
 
 	filter := bson.D{
 		{"userid", userid},
@@ -148,7 +101,7 @@ func SavedAlbumById(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error" : err.Error()})
 		return
 	}
-<<<<<<< HEAD
+
 
 	c.JSON(http.StatusOK, album)
 } 
@@ -178,10 +131,3 @@ func GetSavedAlbums(c *gin.Context){
  
 	 c.IndentedJSON(http.StatusOK, albums)
  }
-
-
-=======
-		
-	c.IndentedJSON(http.StatusOK, album)
-}
->>>>>>> 1b0b083a6e1e79e6cfa3dedfb18dabba32dc00b8
