@@ -130,7 +130,7 @@ func main() {
 	router.GET("/users/username/:username", checkIfUserExists)
 
 	//endpoints for spotify token handling
-	router.POST("api/spotify/token", getAccessToken)
+	router.POST("api/spotify/token", GetAccessToken)
 	
 	router.Run("localhost:8080") 
 }

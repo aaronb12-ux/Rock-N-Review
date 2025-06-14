@@ -24,63 +24,64 @@ const Account = () => {
       .catch((error) => console.log("Error signing out:", error));
   };
 
-  return (
-    <div className="min-h-screen bg-indigo-50">
-      <Header currentSearch={currentSearch} />
-
-      <div className="flex justify-center items-center mt-5">
-        <AccountBanner/>
+  if (user_info.userData) {
+    return (
+      <div className="min-h-screen bg-indigo-50">
+        <Header currentSearch={currentSearch} />
+    
+        <div className="flex justify-center items-center mt-5">
+          <AccountBanner />
+        </div>
+    
+        <div className="max-w-lg mx-auto px-4 mt-8">
+          {/* Profile Card */}
+          <div className="p-6 mb-6">
+            
+    
+            <div className="space-y-4 ">
+              {/* Username */}
+              <div className="flex items-center p-3  border-2  border-indigo-800 rounded-lg">
+                <User className="w-5 h-5 text-indigo-600 mr-3" />
+                <div className="flex-1">
+                  <p className="text-sm text-indigo-800 font-bold font-serif font-medium">Username</p>
+                  <p className="text-indigo-800 font-semibold font-serif">{user_info.userData.username}</p>
+                </div>
+              </div>
+    
+              {/* Email */}
+              <div className="flex items-center p-3 border-indigo-800 border-2  rounded-lg">
+                <Mail className="w-5 h-5 text-indigo-600 mr-3" />
+                <div className="flex-1">
+                  <p className="text-sm text-indigo-800 font-medium font-bold font-serif ">Email</p>
+                  <p className="text-indigo-800 font-semibold font-bold font-serif break-all">{user_info.userData.email}</p>
+                </div>
+              </div>
+    
+              {/* Account Created */}
+              <div className="flex items-center p-3 border-indigo-800 border-2 rounded-lg">
+                <Calendar className="w-5 h-5 text-indigo-600 mr-3" />
+                <div className="flex-1">
+                  <p className="text-sm text-indigo-800 font-medium font-bold font-serif">Account Created</p>
+                  <p className="text-indigo-800 font-semibold font-bold font-serif">{created}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+          {/* Sign Out Button */}
+          <Button
+            variant="danger"
+            size="lg"
+            className="w-full py-3 rounded-xl "
+            onClick={handleSignOut}
+          >
+            <span className="font-bold font-serif"> Sign Out</span>
+          </Button>
+        </div>
       </div>
+    );
+  }
 
-      <div className="flex flex-col items-center mt-10 space-y-4">
-        <div className="bg-indigo/80 border-3 border-indigo-500 shadow-lg rounded-2xl px-6 py-4 w-[600px] text-left">
-          <div className="flex items-center space-x-3">
-            <User className="text-indigo-600" />
-            <p className="text-xl font-bold font-serif text-indigo-700">
-              Username:
-            </p>
-          </div>
-          <p className="ml-8 mt-2 font-semibold font-serif text-indigo-600">
-            {user_info.userData.username}
-          </p>
-        </div>
-
-        <div className="bg-indigo/80 border-3 border-indigo-500 shadow-lg rounded-2xl px-6 py-4 w-[600px] text-left">
-          <div className="flex items-center space-x-3">
-            <Mail className="text-indigo-600" />
-            <p className="text-xl font-bold font-serif text-indigo-700">
-              Email:
-            </p>
-          </div>
-          <p className="ml-8 mt-2 font-semibold font-serif text-indigo-600">
-            {user_info.userData.email}
-          </p>
-        </div>
-
-        {/* Date Created Card */}
-        <div className="bg-indigo/80 border-2 border-indigo-500 shadow-lg rounded-2xl px-6 py-4 w-[600px] text-left">
-          <div className="flex items-center space-x-3">
-            <Calendar className="text-indigo-600" />
-            <p className="text-xl font-bold font-serif text-indigo-700">
-              Account Created:
-            </p>
-          </div>
-          <p className="ml-8 mt-2 font-semibold font-serif text-indigo-600">
-            {created}
-          </p>
-        </div>
-
-        <Button
-          variant="danger"
-          size="lg"
-          className="mt-6"
-          onClick={handleSignOut}
-        >
-          <span className="font-serif font-bold">Sign Out</span>
-        </Button>
-      </div>
-    </div>
-  );
 };
 
 export default Account;

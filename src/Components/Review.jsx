@@ -1,19 +1,31 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import React from "react";
 import { AuthContext } from "../Context/AuthContext";
 import { PencilIcon, TrashIcon } from "lucide-react";
 import { deleteReview } from "../API/reviewed";
+import ReviewToast from "./ReviewToast";
 
 const Review = ({userid, rating, date, text, _id, setRefresh, setModal, setEditReview, publisher,}) => {
   
   date = date.slice(0, 10);
+  const [userID, setUserID] = useState()
+  const [showerror, setShowError] = useState(false)
 
   const user = useContext(AuthContext);
+
+  useEffect(() => {
+    if (user.userData && user.userData.userid) {
+      setUserID(user.userData.userid);
+    }
+  }, [user])
+
   const [ishovered, setIsHovered] = useState(false);
 
   const handleDelete = async () => {
     const response = await deleteReview(_id)
-    if (response) {
+    if (response === "error") {
+      setShowError(true)
+    }else if (response) {
       setRefresh((refresh) => refresh + 1);
     }
   }
@@ -50,7 +62,7 @@ const Review = ({userid, rating, date, text, _id, setRefresh, setModal, setEditR
           ))}
           <div className="ml-2 text-sm text-gray-600">{rating}.0</div>
         </div>
-        {user.userData.userid === userid && ishovered ? (
+        {userID === userid && ishovered ? (
           <div className="flex items-center gap-2">
             <button
               onClick={handleEdit}
@@ -73,9 +85,20 @@ const Review = ({userid, rating, date, text, _id, setRefresh, setModal, setEditR
       </div>
       <p className="text-gray-700">{text}</p>
       <div className="mt-3 flex justify-between items-center">
-        <span className="text-xs text-gray-500">Posted by {publisher}</span>
+        <span className="text-xs text-gray-500">Posted by: {publisher}</span>
         <span className="text-xs text-gray-500">{date}</span>
       </div>
+
+      {showerror ? (
+        <ReviewToast
+        err={"deleting"}
+        setShowError={setShowError}
+        showerror={showerror}
+        />
+      ) :
+      <div>
+      </div>
+      }
     </div>
   );
 };

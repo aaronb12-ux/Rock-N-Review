@@ -6,9 +6,11 @@ import { Link, useLocation } from "react-router-dom";
 import ScrollToTop from "../Components/Layout";
 import { AuthContext } from "../Context/AuthContext";
 import { getReviewedAlbums } from "../API/reviewed";
+import { Music } from "lucide-react";
 
 
 function Reviewed() {
+
   const user = useContext(AuthContext);
 
   const location = useLocation();
@@ -16,33 +18,76 @@ function Reviewed() {
 
   const [reviewedalbums, setReviewedAlbums] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [fetcherror, setFetchError] = useState(false)
 
   useEffect(() => {
     //fetching the reviewed albums
     const getreviewedalbums = async (id) => {
-      const response = await getReviewedAlbums(id);
-      setReviewedAlbums(response);
-      setLoading(false);
+
+        const response = await getReviewedAlbums(id);
+
+        if (response === "error") {
+          setFetchError(true)
+        } else {
+          setReviewedAlbums(response);
+        }
+          setLoading(false);
     };
-    getreviewedalbums(user.userData.userid);
-  }, [user.userData.userid]);
+   
+    if (user.userData && user.userData.userid) {
+      getreviewedalbums(user.userData.userid);
+    }
+    
+  }, [user]);
+
+  console.log(reviewedalbums)
+
+  if (fetcherror) {
+    return (
+      <div className="bg-indigo-50 min-h-screen">
+        <Header currentSearch={searchInput} />
+        <div className="flex items-center justify-center mt-5 ">
+          <ReviewedBanner />
+        </div>
+        <div className="flex flex-col items-center justify-center mt-30 px-4 text-center">
+          <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mb-6">
+            <Music className="mr-1 text-indigo-700 h-10 w-10" />
+          </div>
+          
+          <h2 className="text-2xl font-bold text-indigo-800 mb-3">
+          Error getting reviewed albums :(
+          </h2>
+          
+          <p className="text-indigo-900 text-2xl mb-6 max-w-md">
+          Please try again soon. We apologize for the inconvenience.
+          </p>
+        
+        </div>
+      </div>
+    );
+  }
 
   if (reviewedalbums === null) {
     return (
       <div className="bg-indigo-50 min-h-screen">
-        <Header
-        currentSearch={searchInput}
-         />
-        <div className="flex justify-center items-center mt-5">
+        <Header currentSearch={searchInput} />
+        <div className="flex items-center justify-center mt-5 ">
           <ReviewedBanner />
         </div>
-        <div className="flex flex-col items-center justify-center mt-50 px-4 text-center">
-     
-      <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 bg-clip-text text-transparent mb-4">
-        No Reviewed Albums
-      </h2>
-      
-    </div>
+        <div className="flex flex-col items-center justify-center mt-30 px-4 text-center">
+          <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mb-6">
+            <Music className="mr-1 text-indigo-700 h-10 w-10" />
+          </div>
+          
+          <h2 className="text-2xl font-bold text-indigo-800 mb-3">
+            No Reviewed Albums Yet
+          </h2>
+          
+          <p className="text-indigo-900 text-2xl mb-6 max-w-md">
+            Start exploring and review albums to see them here
+          </p>
+        
+        </div>
       </div>
     );
   }
@@ -51,20 +96,17 @@ function Reviewed() {
     <div className="bg-indigo-50 min-h-screen flex flex-col">
       <Header currentSearch={searchInput} />
       <div className="flex items-center justify-center mt-5">
-        <ReviewedBanner />
-        <ScrollToTop />
-       
-      </div>
-
+          <ReviewedBanner />
+        </div>
       {loading ? (
-        <div className="flex-1 flex items-center justify-center bg-indigo-50 mb-5">
-          <div className="text-indigo-200 text-xl animate-pulse font-semibold">
+        <div className="flex-1 flex items-center justify-center bg-indigo-50 mb-10">
+          <div className="text-indigo-800 text-xl animate-pulse font-semibold">
             Loading Albums...
           </div>
         </div>
       ) : (
-        <div className="py-8 mx-auto px-5">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 px-4">
+        <div className="px-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {reviewedalbums.map((album) => {
               return (
                 <Link
@@ -95,6 +137,10 @@ function Reviewed() {
                       <div className="text-xs text-indigo-700 mt-2 flex items-center">
                         <span className="mr-2">Released:</span>
                         <span className="font-mono">{album.release_date}</span>
+                      </div>
+                      <div className="text-xs text-indigo-700 mt-2 flex items-center">
+                      <span className="mr-2">Review Made:</span> 
+                        <span className="font-mono">{album.createdat.slice(0,10)}</span>
                       </div>
                     </div>
                   </div>

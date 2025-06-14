@@ -2,10 +2,13 @@ import { useEffect, useState } from "react";
 import Review from "./Review";
 import Rating from "./Rating";
 import { getReviewsByAlbum } from "../API/reviewed";
-
+import ReviewToast from "./ReviewToast";
 const Reviews = ({id, name, refresh, setRefresh, setModal, setEditReview }) => {
+  
   const [reviews, setReviews] = useState();
   const [loading, setLoading] = useState(true);
+  const [errorFetching, setErrorFetching] = useState(false)
+  const [showerror, setShowError] = useState(false)
 
   useEffect(() => {
     async function getReviews(albumid) {
@@ -13,11 +16,16 @@ const Reviews = ({id, name, refresh, setRefresh, setModal, setEditReview }) => {
       try {
         const response = await getReviewsByAlbum(albumid) //fetching reviews by albumid
 
-        if (!response) { //response is null -> no reviews for the album
-          setReviews([]);
+        if (response === "error") { //response is null -> no reviews for the album
+            setErrorFetching(true)
+            setShowError(true)
             return;
-        } else {
+        } else if (response) {
           setReviews(response);
+          return
+        } else if (!response) {
+          setReviews([]);
+          return
         }
 
       } finally {
@@ -29,15 +37,48 @@ const Reviews = ({id, name, refresh, setRefresh, setModal, setEditReview }) => {
   }, [refresh]);
 
 
-  return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-indigo-100 w-full max-w-3xl mx-auto h-full">
+
+  if (errorFetching) return (
+    <div className="bg-white rounded-xl shadow-lg  overflow-hidden border border-indigo-100 w-full max-w-3xl mx-auto h-full">
       {/* Header section with gradient */}
-      <div className="bg-gradient-to-r from-indigo-600 to-indigo-800 px-3 py-4">
+      <div className="bg-indigo-900 px-3 py-4">
         <h1 className="text-5xl md:text-5xl font-bold font-serif text-white tracking-wide flex items-center gap-2 overflow-hidden">
         <span className="flex-shrink-0 font-medium text-indigo-300 uppercase tracking-wide text-base md:text-lg bg-indigo-900/30 px-4 py-2 rounded-full shadow-sm backdrop-blur-sm">Reviews for:</span>
           <span className="overflow-hidden text-ellipsis whitespace-nowrap max-w-md font-medium">
-            {name}
-          </span>
+            {name} 
+          </span>  
+        </h1>
+      </div>
+      
+      {/* Rating summary section */}
+      <div className="bg-indigo-50 py-2 border-b border-indigo-100">
+        <Rating reviews={reviews} />
+      </div>
+      
+      <div className="flex justify-center items-center h-64 text-sm font-bold text-black">
+            <p className="inlie-block">error getting reveiws </p> 
+      </div>
+
+      <ReviewToast
+      err={"loading"}
+      showerror={showerror}
+      setShowError={setShowError}
+      />
+
+
+    </div>
+  )
+
+
+  return (
+    <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-indigo-100 w-full max-w-3xl mx-auto h-full">
+      {/* Header section with gradient */}
+      <div className="bg-indigo-900 px-3 py-4">
+        <h1 className="text-5xl md:text-5xl font-bold font-serif text-white tracking-wide flex items-center gap-2 overflow-hidden">
+        <span className="flex-shrink-0 font-medium text-indigo-300 uppercase tracking-wide text-base md:text-lg bg-indigo-900/30 px-4 py-2 rounded-full shadow-sm backdrop-blur-sm">Reviews for:</span>
+          <span className="overflow-hidden text-ellipsis whitespace-nowrap max-w-md font-medium">
+            {name} 
+          </span>  
         </h1>
       </div>
       
@@ -48,6 +89,7 @@ const Reviews = ({id, name, refresh, setRefresh, setModal, setEditReview }) => {
       
       {/* Reviews list section */}
       <div className="px-3 py-3">
+        
         {loading ? (
           <div className="flex justify-center items-center h-70">
             <div className="animate-pulse text-indigo-400">Loading reviews...</div>
@@ -84,16 +126,4 @@ const Reviews = ({id, name, refresh, setRefresh, setModal, setEditReview }) => {
 
 export default Reviews;
 
-/*
-0: "I love this album!"
-​​
-1: 4
-​​
-2: "2025-04-21T23:59:54.315Z"
-​​
-3: ""
-​​
-length: 4
-*/
 
-//<span className="flex justify-center text-7xl font-bold font-serif text-yellow-400 tracking-widest drop-shadow-md">&#9733;</span>

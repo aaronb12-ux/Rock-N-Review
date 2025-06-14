@@ -15,7 +15,6 @@ import { getTracks } from "../API/spotify";
 function Album() {
 
   const location = useLocation()
-
   const albumdata = location.state?.album //Album Data
   const search = location.state?.searchInput //Search Query
   const [token, setToken] = useState("")
@@ -24,8 +23,8 @@ function Album() {
   const [refresh, setRefresh] = useState(0)
   //const [edit, setEdit] = useState([false, null, null, null]) 
   const [duplicatereview, setDuplicateReview] = useState(false)
+  const [trackerr, setTrackErr] = useState(false)
 
-  console.log(search)
 
 
   const [editreview, setEditReview] = useState(
@@ -36,10 +35,9 @@ function Album() {
      document_id: null,
                         })
 
-
   const albumqueries = {
     id: albumdata.albumid || albumdata.id,
-    image: albumdata.image || albumdata.images[0].url
+    image: albumdata.image || albumdata.images[0].url 
   }
 
   const headers = { //headers for api call
@@ -63,7 +61,15 @@ function Album() {
     const gettracks = async () => {
       try{
         const response = await getTracks(headers, albumqueries.id)
+          
+        if (response === "error") {
+          setTrackErr(true)
+          setAlbumTracks([])
+          return
+        } else {
           setAlbumTracks(response)
+        }  
+
       } catch(error) {
           console.log("Failed to fetch tracks:", error)
       }  
@@ -75,7 +81,10 @@ function Album() {
 
   
   const only_tracks = albumtracks.map(album => [album.name, String(album.duration_ms)]) //getting only the tracks
+
   
+  console.log(only_tracks)
+
   return (
     <div className="flex flex-col min-h-screen bg-indigo-50 w-full">
       {/* Header and Scroll To Top on page render*/}
@@ -95,7 +104,6 @@ function Album() {
               setModal={setModal}
               modal={modal}
               setDuplicateReview={setDuplicateReview}
-             
             />
           </div>
           {/* Reviews Column - 60% width */}
@@ -113,7 +121,7 @@ function Album() {
         
         {/* Tracks Section */}
         <div className="bg-white rounded-xl shadow-md border border-indigo-100 overflow-hidden mb-8">
-          <div className="bg-gradient-to-r from-indigo-600 to-indigo-800 py-3 px-6">
+          <div className="bg-gradient-to-r from-indigo-900 to-indigo-900 py-3 px-6">
             <TracksBanner />
           </div>
           

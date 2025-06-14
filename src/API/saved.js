@@ -1,11 +1,26 @@
 import axios from "axios"
 
+
+export async function addSavedAlbum(post_data) {
+
+    try {
+        const response = await axios.post("http://localhost:8080/saved-albums", post_data)
+        return response.status >= 200 && response.status < 300;
+    } catch (error) {
+        console.log('Error adding album to database: ', error)
+        return "error"
+    }
+
+}
+
+
 export async function getSavedAlbums(userid) {
     try {
         const response = await axios.get(`http://localhost:8080/saved-albums/${userid}`)
         return response.data
     } catch (error) {
         console.log("Error fetching saved albums: ", error)
+        return "error"
     }
 }
 
@@ -15,6 +30,7 @@ export async function deleteSavedAlbum(id) {
         return response.status >= 200 && response.status < 300;
     } catch (error) {
         console.log("error deleting saved album:", error)
+        return "error"
     }
 }
 

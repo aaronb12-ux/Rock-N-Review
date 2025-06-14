@@ -3,6 +3,7 @@ import axios from "axios"
 export async function getaccesstoken() { //function to get the access token
     try {
       const response = await axios.post('http://localhost:8080/api/spotify/token')
+      console.log(response)
       return response.data.access_token
     } catch (error) {
       console.log(error)
@@ -37,10 +38,10 @@ export async function getTracks(headers, apiquery) { //function that gets the tr
     return response.data.items
   } catch(error) {
     console.log("Failed to fetch tracks: ", error)
+    return "error"
   }
    
 }
-
 
 export async function getSearchedAlbums(headers, albumquery) {
   
@@ -53,11 +54,11 @@ export async function getSearchedAlbums(headers, albumquery) {
       },
       headers: headers       
   })
+    
     return response.data.albums.items
   } catch (error) {
     console.log("Error fetching albums by search: ", error)
+    return []
   }
-
-
 
 }

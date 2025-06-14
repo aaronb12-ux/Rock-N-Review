@@ -11,8 +11,8 @@ function Track({trackname, trackduration}) {
   return (
     <div className="flex items-center justify-between p-2 mb-2 bg-indigo-100 hover:bg-indigo-200 rounded-lg transition-colors duration-200 cursor-pointer border-l-4 border-indigo-400">
       <div className="flex items-center">
-        <div className="p-2 mr-3 bg-indigo-400 rounded-full text-indigo-800">
-          <Music className="h-5 w-5" />
+        <div className="p-2 mr-3 bg-indigo-800 rounded-full text-indigo-800">
+          <Music className="h-5 w-5 text-white" />
         </div>
         <div className="text-indigo-900 font-medium">{trackname}</div>
       </div>

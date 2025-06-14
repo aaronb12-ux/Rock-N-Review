@@ -5,7 +5,7 @@ import TrendingBanner from "../Components/TrendingBanner";
 import ScrollToTop from "../Components/Layout";
 import { getaccesstoken } from "../API/spotify"
 import { getTopAlbums } from "../API/spotify"
-
+import {featuredalbums} from "../Data/featured"
 
 function HomePage() {
 
@@ -16,8 +16,7 @@ function HomePage() {
     const [loading, setLoading] = useState(true);
 
 
-
-
+  
     const headers = { //headers for spotify API call
       "Content-Type": "application/json",
       Authorization : "Bearer " + token,
@@ -56,14 +55,31 @@ function HomePage() {
     }, [token])
 
 
+    /*
+    useEffect(() => {
+      
+      const getimage = async () => {
+
+            const query = "Dangerous: The Double Album"
+            const response = await getSearchedAlbums(headers, query )
+            console.log(response)   
+      }
+
+      getimage()
+     
+    }, [token])
+*/
+
     return (
       <div className="bg-indigo-50 min-h-screen flex flex-col">
+
+        
         <Header currentSearch={searchInput} />
         <ScrollToTop />
     
         {loading ? (
           <div className="flex-1 flex items-center justify-center bg-indigo-50">
-            <div className="text-indigo-200 text-xl animate-pulse font-semibold">
+            <div className="text-indigo-800 text-xl animate-pulse font-semibold">
               Loading Albums...
             </div>
           </div>
@@ -74,7 +90,7 @@ function HomePage() {
             </div>
             <div className="py-8 mx-auto px-10">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-15 px-2">
-                {topalbums.map((album) => (
+                {featuredalbums.map((album) => (
                   <Link
                     key={album.id}
                     className="bg-indigo-100 border-2 border-indigo-700 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 w-full overflow-hidden"

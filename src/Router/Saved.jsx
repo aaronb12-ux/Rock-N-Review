@@ -4,6 +4,8 @@ import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
 import { getSavedAlbums } from "../API/saved";
 import SavedBanner from "../Components/SavedBanner";
+import { Music } from "lucide-react";
+import ReviewedBanner from "../Components/ReviewedBanner";
 
 function Saved() {
   const user = useContext(AuthContext);
@@ -13,51 +15,97 @@ function Saved() {
 
   const [albums, setAlbums] = useState([]); //state that will store all the saved albums
   const [loading, setLoading] = useState(true);
+  const [fetcherror, setFetchError] = useState(false)
 
   useEffect(() => {
     //useEffect hook ran on initial page rendering
     const getsavedalbums = async (userid) => {
       const response = await getSavedAlbums(userid);
-      setAlbums(response);
+      if (response === "error") {
+        setFetchError(true)
+      } else {
+        setAlbums(response);
+      }
       setLoading(false);
     };
-    getsavedalbums(user.userData.userid);
-  }, [user.userData.userid]);
 
-  if (albums === null) {
-    return (
-      <div className="bg-indigo-50 min-h-screen">
-        <Header currentSearch={searchInput} />
-        <div className="flex items-center justify-center mt-5 ">
-          <SavedBanner />
+    if (user.userData && user.userData.userid) {
+      getsavedalbums(user.userData.userid);
+    }
+  }, [user]);
+
+  
+
+
+
+
+    if (fetcherror) {
+      return (
+        <div className="bg-indigo-50 min-h-screen">
+          <Header currentSearch={searchInput} />
+          <div className="flex items-center justify-center mt-5 ">
+            <SavedBanner />
+          </div>
+          <div className="flex flex-col items-center justify-center mt-30 px-4 text-center">
+            <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mb-6">
+              <Music className="mr-1 text-indigo-700 h-10 w-10" />
+            </div>
+            
+            <h2 className="text-2xl font-bold text-indigo-800 mb-3">
+              Error getting saved albums :(
+            </h2>
+            
+            <p className="text-indigo-900 text-2xl mb-6 max-w-md">
+              Please try again soon. We apologize for the inconvenience.
+            </p>
+          
+          </div>
         </div>
-        <div className="flex flex-col items-center justify-center mt-50 px-4 text-center">
-     
-      <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 bg-clip-text text-transparent mb-4">
-        No Saved Albums
-      </h2>
-      
-    </div>
-      </div>
-    );
+      );
   }
+    
+    if (albums === null) {
+      return (
+        <div className="bg-indigo-50 min-h-screen">
+          <Header currentSearch={searchInput} />
+          <div className="flex items-center justify-center mt-5 ">
+            <SavedBanner />
+          </div>
+          <div className="flex flex-col items-center justify-center mt-30 px-4 text-center">
+            <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mb-6">
+              <Music className="mr-1 text-indigo-700 h-10 w-10" />
+            </div>
+            
+            <h2 className="text-2xl font-bold text-indigo-800 mb-3">
+              No Saved Albums Yet
+            </h2>
+            
+            <p className="text-indigo-900 text-2xl mb-6 max-w-md">
+              Start exploring and save albums to see them here
+            </p>
+          
+          </div>
+        </div>
+      );
+  }
+
 
   return (
     <div className="bg-indigo-50 min-h-screen flex flex-col">
       <Header currentSearch={searchInput} />
-      <div className="flex items-center justify-center mt-5 ">
-        <SavedBanner />
+      <div className="flex items-center justify-center mt-5">
+            <SavedBanner />
       </div>
 
       {loading ? (
-        <div className="flex-1 flex items-center justify-center bg-indigo-50">
-          <div className="text-indigo-200 text-xl animate-pulse font-semibold">
+        <div className="flex-1 flex items-center justify-center bg-indigo-50 mb-10">
+          <div className="text-indigo-800 text-xl animate-pulse font-semibold">
             Loading Albums...
           </div>
         </div>
       ) : (
-        <div className="py-8 mx-auto px-5">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 px-4">
+        <div className="px-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
             {albums.map((album) => {
               return (
                 <Link

@@ -2,10 +2,13 @@ import React, {useState} from 'react'
 import { auth } from '../firebase'
 import { Link } from "react-router-dom";
 import { submitUser } from "../API/signin"
+import { useNavigate } from 'react-router-dom';
+import Header from '../Components/Header';
 
 
 function Signup({setSignedUp}) {
     
+    const navigate = useNavigate();
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [username, setUserName] = useState("")
@@ -14,7 +17,7 @@ function Signup({setSignedUp}) {
     const [bademail, setBadEmail] = useState(false)
     const [duplicateemail, setDuplicateEmail] = useState(false)
 
-    
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         const result = await submitUser(username, email, password, auth)
@@ -27,9 +30,11 @@ function Signup({setSignedUp}) {
             break;
           case "duplicateEmail":
             setDuplicateEmail(true);
+            setBadEmail(false)
             break;
           case "badEmail":
             setBadEmail(true);
+            setDuplicateEmail(false)
             break;
           case "unknown":
             console.error("An unknown error occurred.");
@@ -41,11 +46,17 @@ function Signup({setSignedUp}) {
 
     return (
       <div className="flex items-center justify-center min-h-screen bg-indigo-50">
+
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-20 w-72 h-72 bg-indigo-800 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+        <div className="absolute top-40 right-20 w-72 h-72 bg-blue-700 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-2000"></div>
+        <div className="absolute -bottom-8 left-40 w-72 h-72 bg-indigo-600 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-4000"></div>
+      </div>
+      
         <div className="w-fullpx-6">
           <div className="flex justify-center items-center mb-3">
             <div className="text-center">
-              <div className="text-4xl mb-1">🎧</div>
-              <div className="text-5xl font-bold font-serif text-indigo-500 drop-shadow-md mb-1">
+              <div className="text-5xl font-bold font-serif text-indigo-800 drop-shadow-md mb-1">
                 <div className="cursor-pointer">Album Adventures</div>
               </div>
               <p className="text-md text-gray-600 font-serif italic mt-1">
@@ -55,7 +66,7 @@ function Signup({setSignedUp}) {
           </div>
     
           <div className="overflow-hidden bg-white rounded-2xl shadow-xl">
-            <div className="bg-indigo-600 py-6 px-8">
+            <div className="bg-indigo-800 py-6 px-8">
               <h2 className="text-center text-2xl font-bold font-serif drop-shadow-lg text-white mb-1">
                 Create Account
               </h2>
@@ -149,7 +160,7 @@ function Signup({setSignedUp}) {
     
                 <button
                   onClick={handleSubmit}
-                  className="w-full flex items-center justify-center bg-indigo-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium py-3 px-4 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all"
+                  className="w-full flex items-center justify-center bg-indigo-800 text-white font-medium py-3 px-4 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all"
                 >
                   <span className="font-bold font-serif">Sign Up</span>
                 </button>
@@ -158,14 +169,15 @@ function Signup({setSignedUp}) {
           </div>
     
           <div className="text-center mt-6 text-gray-600 font-bold font-serif">
-            Already have an account?{" "}
-            <Link
-              className="font-medium text-blue-600 hover:text-blue-800 transition-colors font-bold font-serif"
-              to={"/Login"}
-            >
-              Login
-            </Link>
-          </div>
+  Already have an account?{" "}
+  <Link 
+    className="font-medium text-blue-600 hover:text-blue-800 transition-colors font-bold font-serif underline hover:no-underline"
+    to={"/Login"}
+    style={{ position: 'relative', zIndex: 10 }}
+  >
+    Login
+  </Link>
+</div>
         </div>
       </div>
     );

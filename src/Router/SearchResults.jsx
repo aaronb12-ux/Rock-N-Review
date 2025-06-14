@@ -20,6 +20,7 @@ function SearchResults() {
     const [token, setToken] = useState("")
 
     const [loading, setLoading] = useState(true)
+    const [badreq, setBadReq] = useState(false)
 
     const headers = {
         "Content-Type": "application/json",
@@ -43,16 +44,50 @@ function SearchResults() {
         const getAlbums = async () => {     
             if (albumquery && token) {
                   const response = await getSearchedAlbums(headers, albumquery)
+                  
+                  if (response.length === 0) {
+                    setBadReq(true)
+                  } else {
                   setAlbums(response)  
+               
+                  }
                   setLoading(false)
             }
         }    
-        if (token, albumquery) {
+
+        if (token && albumquery) {
           getAlbums()
         }             
     }, [token, albumquery])
 
+    console.log(badreq)
 
+    if (badreq) {
+      return (
+        
+        <div className="bg-indigo-50 min-h-screen flex flex-col">
+          <Header 
+          currentSearch={currentsearch}
+          />
+            {loading ? (
+          <div className="flex-1 flex items-center justify-center bg-indigo-50">
+            <div className="text-indigo-800 text-xl animate-pulse font-semibold">
+              Loading Albums...
+            </div>
+          </div> ) : (
+              <div className="flex-1 flex items-center justify-center">
+      
+              
+              <p className="text-indigo-900 text-2xl mb-6">
+                 Failed To Load Albums :(
+              </p>
+            
+            </div>
+          )}
+        </div>
+      )
+    }
+    
     return (
         <div className="bg-indigo-50 min-h-screen flex flex-col">
           <Header 
@@ -60,7 +95,7 @@ function SearchResults() {
           />
           {loading ? (
           <div className="flex-1 flex items-center justify-center bg-indigo-50">
-            <div className="text-indigo-200 text-xl animate-pulse font-semibold">
+            <div className="text-indigo-800 text-xl animate-pulse font-semibold">
               Loading Albums...
             </div>
           </div> ) : (

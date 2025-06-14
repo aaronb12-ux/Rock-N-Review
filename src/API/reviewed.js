@@ -7,21 +7,10 @@ export async function getReviewedAlbums(userid) {
         return response.data
     } catch (error) {
         console.log("Error fetching albums", error)
+        return "error"
     }
     
 }
-
-export async function addReviewedAlbum(post_data) {
-
-    try {
-        const response = await axios.post("http://localhost:8080/saved-albums", post_data)
-        return response.status >= 200 && response.status < 300;
-    } catch (error) {
-        console.log('Error adding album to database: ', error)
-    }
-
-}
-
 
 export async function checkIfReviewExists(userid, albumid) {
     try {
@@ -43,7 +32,6 @@ export async function getReviewsByAlbum(id) {
         if (data === null) {
             return false
         }
-
         data = data.map((review) => [
             review.review,
             review.rating,
@@ -54,9 +42,10 @@ export async function getReviewsByAlbum(id) {
           ]);
 
         return data  
-
+        
     } catch (error) {
         console.log("error fetching reviews")
+        return "error"
     }
 }
 
@@ -67,6 +56,7 @@ export async function addReview(postdata) {
         return response.status >= 200 && response.status < 300;
     } catch (error) {
         console.log("error submitting post request:". error)
+        return "error"
     }
 }
 
@@ -80,6 +70,7 @@ export async function editReview(postdata, documentid) {
           return response.status >= 200 && response.status < 300;
     } catch (error) {
          console.log("error updating review data", error)
+         return "error"
     }
 }
 
@@ -91,6 +82,7 @@ export async function deleteReview(document_id) {
         return response.status >= 200 && response.status < 300;
     } catch (error) {
         console.log("error deleting the review", error)
+        return "error"
     }
 
 }

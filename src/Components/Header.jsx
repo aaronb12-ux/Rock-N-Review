@@ -93,7 +93,7 @@ function Header({ currentSearch }) {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="md:hidden px-4 mt-2 space-y-3 pb-4">
+        <div className="md:hidden px-4 mt-2 space-y-3 pb-2">
           {/* Search (Mobile) */}
           <div className="relative">
             <input
@@ -112,7 +112,7 @@ function Header({ currentSearch }) {
           </div>
 
           {/* Mobile Buttons with original styles */}
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 mt-4">
             <OriginalButton label="Reviewed" icon={Library} onClick={routeChangeReviewed} fullWidth />
             <OriginalButton label="Saved" icon={Music} onClick={routeChangeSaved} fullWidth />
             <OriginalButton label="Account" icon={User} onClick={routeChangeAccount} fullWidth />
