@@ -131,4 +131,7 @@ func GetSavedAlbums(c *gin.Context){
 	 }
  
 	 c.IndentedJSON(http.StatusOK, albums)
+
  }
+
+

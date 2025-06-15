@@ -136,9 +136,9 @@ func UpdateReviewedAlbum(c *gin.Context) {
 	
 	objectId, _ := primitive.ObjectIDFromHex(id) 
 
-	filter := bson.M{"_id": objectId} 
+	filter := bson.M{"_id": objectId}
 
-	var a reviewedAlbum//new movie that will contain the rating
+	var a reviewedAlbum
 
 	if err := c.ShouldBindJSON(&a); err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"error" : err.Error()})
