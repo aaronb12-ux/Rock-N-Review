@@ -75,6 +75,8 @@ func connect_to_mongodb() error {
         return fmt.Errorf("MONGODB_URI environment variable is not set") // ← Change this
     }
 
+	fmt.Printf("%s", uri)
+
     serverAPI := options.ServerAPI(options.ServerAPIVersion1)
     opts := options.Client().ApplyURI(uri).SetServerAPIOptions(serverAPI)
 
