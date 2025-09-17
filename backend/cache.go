@@ -3,10 +3,10 @@ package main
 import (
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"sync"
 	"time"
 
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -30,6 +30,12 @@ var (
 	tokenMutex sync.Mutex
 )
 
+func init() {
+	if err := godotenv.Load(".env.backend"); err != nil {
+		log.Printf("Warning: could not load .env.backend file: %v", err)
+	}
+}
+
 func GetAccessToken(c *gin.Context) {
 
 	token, err := getSpotifyToken()
@@ -48,38 +54,38 @@ func getSpotifyToken() (string, error) {
 	tokenMutex.Lock()
 	defer tokenMutex.Unlock()
 
+	//check if we have a valid cached token
 	if cachedToken != "" && time.Now().Before(tokenExpiry) {
-        fmt.Println("✅ Using cached Spotify token")
         return cachedToken, nil
     }
 
-	if cachedToken != "" && time.Now().Before(tokenExpiry) {
-		return cachedToken, nil
-	}
-
-	err := godotenv.Load(".env.backend")
-
-	if err != nil {
-		log.Fatal("Error loading env file:", err)
-	}
-
+	//get credentials from enviornment
 	client_id := os.Getenv("SPOTIFY_CLIENT_ID")
 	client_secret := os.Getenv("SPOTIFY_CLIENT_SECRET")
+
+	if client_id == "" || client_secret == "" {
+		return "", fmt.Errorf("missing spotify credentials in environment variables")
+	}
 
 	//Encoding the credentials
 	authHeader := base64.StdEncoding.EncodeToString([]byte(client_id + ":" + client_secret))
 
 	//Prepare the request
 	body := strings.NewReader("grant_type=client_credentials")
-	req, _ := http.NewRequest("POST", "https://accounts.spotify.com/api/token", body)
+	req, err:= http.NewRequest("POST", "https://accounts.spotify.com/api/token", body)
+
+	if err != nil {
+		return "", fmt.Errorf("failed to create request: %w", err)
+	}
+	
+	
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("Authorization", "Basic "+authHeader)
 
 	//Send the request
 	resp, err := http.DefaultClient.Do(req)
-
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("failed to send the request, %w", err)
 	}
 
 	defer resp.Body.Close()

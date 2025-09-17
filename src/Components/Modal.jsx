@@ -8,9 +8,11 @@ const Modal = ({setModal, album, only_tracks, setRefresh, editreview}) => {
     release_date: album.release_date,
     image: album.image || album.images[0].url ,
     tracks: only_tracks,
-    created: new Date()
+    created: new Date().toISOString()
 
    }
+
+   console.log('printing the post data', post_data)
 
     const handlemodal = () => {
         setModal(modal => !modal)

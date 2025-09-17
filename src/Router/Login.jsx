@@ -18,10 +18,8 @@ const Login = () => {
               navigate('/Homepage') 
           })
           .catch((error) => {
-  
               setInvalidCredential(true)
-              console.log("hello")
-            
+              console.log("hello")      
           })
   }
 
@@ -32,12 +30,6 @@ const Login = () => {
  
     return ( <div className="flex items-center justify-center min-h-screen bg-indigo-50">
         
-
-        <div className="absolute inset-0">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-indigo-800 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-        <div className="absolute top-40 right-20 w-72 h-72 bg-blue-700 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-2000"></div>
-        <div className="absolute -bottom-8 left-40 w-72 h-72 bg-indigo-600 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-4000"></div>
-        </div>
 
         <div className="w-fullpx-6">
         <div className="flex justify-center items-center mb-3">

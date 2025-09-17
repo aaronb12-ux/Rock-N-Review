@@ -3,7 +3,6 @@ import Header from "../Components/Header";
 import ReviewedBanner from "../Components/ReviewedBanner";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import ScrollToTop from "../Components/Layout";
 import { AuthContext } from "../Context/AuthContext";
 import { getReviewedAlbums } from "../API/reviewed";
 import { Music } from "lucide-react";
@@ -40,7 +39,6 @@ function Reviewed() {
     
   }, [user]);
 
-  console.log(reviewedalbums)
 
   if (fetcherror) {
     return (
@@ -109,6 +107,7 @@ function Reviewed() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {reviewedalbums.map((album) => {
               return (
+               
                 <Link
                   key={album.id}
                   className="bg-indigo-100 m-6 rounded-none border-2 border-indigo-700 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 max-w-xs overflow-hidden"
@@ -140,7 +139,7 @@ function Reviewed() {
                       </div>
                       <div className="text-xs text-indigo-700 mt-2 flex items-center">
                       <span className="mr-2">Review Made:</span> 
-                        <span className="font-mono">{album.createdat.slice(0,10)}</span>
+                        <span className="font-mono">{new Date(album.createdat).toLocaleString().split(',')[0]}</span>
                       </div>
                     </div>
                   </div>

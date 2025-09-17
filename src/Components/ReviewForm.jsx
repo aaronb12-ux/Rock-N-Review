@@ -13,6 +13,8 @@ function ReviewForm({ postdata, setModal, setRefresh, editreview }) {
   const [makereviewerror, setMakeReviewError] = useState("")
   const [showerror, setShowError] = useState(false)
 
+  console.log(postdata)
+
 
   const user = useContext(AuthContext);
 
@@ -34,7 +36,6 @@ function ReviewForm({ postdata, setModal, setRefresh, editreview }) {
 
     if (postdata.rating === 0) {
       //invalid rating (0 stars)
-
       setNoReview(false);
       setZeroRating(true);
     } else if (
@@ -58,7 +59,6 @@ function ReviewForm({ postdata, setModal, setRefresh, editreview }) {
       }
     } else {
       //first review for the album by user
-
       postdata.review = review;
       postdata.userid = user.userData.userid;
       postdata.publisher = user.userData.username;
@@ -99,27 +99,25 @@ function ReviewForm({ postdata, setModal, setRefresh, editreview }) {
   </div>
 
   <div className="mt-6 relative">
-    <span className="flex items-center justify-center text-2xl font-bold font-serif text-indigo-800">
-      Your Rating
-    </span>
-    <div className="mt-2 flex justify-center">
-      <Stars setStars={setStars} editreview={editreview} />
-    </div>
+  <span className="flex items-center justify-center text-2xl font-bold font-serif text-indigo-800">
+    Your Rating
+  </span>
+  <div className="mt-2 flex justify-center">
+    <Stars setStars={setStars} editreview={editreview} />
+  </div>
+  <div className="mt-2 flex justify-center h-6"> {/* Fixed height container */}
     {zerorating && (
-      <div className="mt-2 flex justify-center">
-        <span className="text-red-500 font-bold font-serif text-sm">
-          Rating Cannot Be Zero
-        </span>
-      </div>
+      <span className="text-red-500 font-bold font-serif text-sm">
+        Rating Cannot Be Zero
+      </span>
     )}
     {noReview && (
-      <div className="mt-2 flex justify-center">
-        <span className="text-red-500 font-bold font-serif text-sm">
-          Review Cannot Be Empty
-        </span>
-      </div>
+      <span className="text-red-500 font-bold font-serif text-sm">
+        Review Cannot Be Empty
+      </span>
     )}
   </div>
+</div>
 
   <div className="mt-8">
     <label

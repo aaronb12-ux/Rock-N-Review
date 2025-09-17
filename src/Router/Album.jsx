@@ -82,8 +82,7 @@ function Album() {
   
   const only_tracks = albumtracks.map(album => [album.name, String(album.duration_ms)]) //getting only the tracks
 
-  
-  console.log(only_tracks)
+
 
   return (
     <div className="flex flex-col min-h-screen bg-indigo-50 w-full">

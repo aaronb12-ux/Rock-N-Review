@@ -1,14 +1,10 @@
 import React, {useState} from 'react'
 import { auth } from '../firebase'
 import { Link } from "react-router-dom";
-import { submitUser } from "../API/signin"
-import { useNavigate } from 'react-router-dom';
-import Header from '../Components/Header';
-
+import { submitUser } from "../API/signup"
 
 function Signup({setSignedUp}) {
     
-    const navigate = useNavigate();
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [username, setUserName] = useState("")
@@ -37,7 +33,6 @@ function Signup({setSignedUp}) {
             setDuplicateEmail(false)
             break;
           case "unknown":
-            console.error("An unknown error occurred.");
             break;
           default:
             setSignedUp(true);
@@ -47,11 +42,6 @@ function Signup({setSignedUp}) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-indigo-50">
 
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-indigo-800 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-        <div className="absolute top-40 right-20 w-72 h-72 bg-blue-700 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-2000"></div>
-        <div className="absolute -bottom-8 left-40 w-72 h-72 bg-indigo-600 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-4000"></div>
-      </div>
       
         <div className="w-fullpx-6">
           <div className="flex justify-center items-center mb-3">
@@ -169,15 +159,15 @@ function Signup({setSignedUp}) {
           </div>
     
           <div className="text-center mt-6 text-gray-600 font-bold font-serif">
-  Already have an account?{" "}
-  <Link 
-    className="font-medium text-blue-600 hover:text-blue-800 transition-colors font-bold font-serif underline hover:no-underline"
-    to={"/Login"}
-    style={{ position: 'relative', zIndex: 10 }}
-  >
-    Login
-  </Link>
-</div>
+                  Already have an account?{" "}
+          <Link 
+              className="font-medium text-blue-600 hover:text-blue-800 transition-colors font-bold font-serif underline hover:no-underline"
+              to={"/Login"}
+              style={{ position: 'relative', zIndex: 10 }}
+            >
+                  Login
+          </Link>
+          </div>
         </div>
       </div>
     );

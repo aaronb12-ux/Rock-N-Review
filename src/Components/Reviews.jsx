@@ -9,7 +9,6 @@ const Reviews = ({id, name, refresh, setRefresh, setModal, setEditReview }) => {
   const [loading, setLoading] = useState(true);
   const [errorFetching, setErrorFetching] = useState(false)
   const [showerror, setShowError] = useState(false)
-
   useEffect(() => {
     async function getReviews(albumid) {
       setLoading(true);

@@ -4,8 +4,6 @@ const ReviewToast = ({err, showerror, setShowError}) => {
 
   let message
 
-  console.log("geeeoeoeoe")
-
   if (err === "making") {message = "error making review"}
   if (err === "loading") {message = "error loading reviews"}
   if (err === "deleting") {message = "error deleting review"}

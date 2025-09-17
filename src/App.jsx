@@ -8,11 +8,9 @@ function App() {
 
   const [signedup, setSignedUp] = useState(false);
 
-
-
   return (
     <div>
-      {signedup === false ? (
+      {signedup === false ? ( //when user is signed up, go to homepage if not continue at signup page
         <Signup
           setSignedUp={setSignedUp}
         />

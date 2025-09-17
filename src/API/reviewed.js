@@ -32,6 +32,7 @@ export async function getReviewsByAlbum(id) {
         if (data === null) {
             return false
         }
+
         data = data.map((review) => [
             review.review,
             review.rating,

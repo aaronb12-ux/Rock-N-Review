@@ -7,7 +7,7 @@ import ReviewToast from "./ReviewToast";
 
 const Review = ({userid, rating, date, text, _id, setRefresh, setModal, setEditReview, publisher,}) => {
   
-  date = date.slice(0, 10);
+  const localeDate = new Date(date).toLocaleString().split(',')[0]
   const [userID, setUserID] = useState()
   const [showerror, setShowError] = useState(false)
 
@@ -86,7 +86,7 @@ const Review = ({userid, rating, date, text, _id, setRefresh, setModal, setEditR
       <p className="text-gray-700">{text}</p>
       <div className="mt-3 flex justify-between items-center">
         <span className="text-xs text-gray-500">Posted by: {publisher}</span>
-        <span className="text-xs text-gray-500">{date}</span>
+        <span className="text-xs text-gray-500">{localeDate}</span>
       </div>
 
       {showerror ? (

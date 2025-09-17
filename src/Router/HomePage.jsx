@@ -13,10 +13,8 @@ function HomePage() {
     const [searchInput, setCurrentSearch] = useState(location.state?.searchInput) //search input passed through page navigation
     const [topalbums, setTopAlbums] = useState([]) //state that will store the data retrieved from the API call 'getinfo()'
     const [token, setToken] = useState("")
-    const [loading, setLoading] = useState(true);
-
-
-  
+    const [loading, setLoading] = useState(false);
+/*
     const headers = { //headers for spotify API call
       "Content-Type": "application/json",
       Authorization : "Bearer " + token,
@@ -54,10 +52,8 @@ function HomePage() {
         }       
     }, [token])
 
-
-    /*
-    useEffect(() => {
-      
+    useEffect(() => { //FOR WHEN NEEDING TO CHANGE FEATURED ALBUMS
+       
       const getimage = async () => {
 
             const query = "Dangerous: The Double Album"
@@ -72,8 +68,7 @@ function HomePage() {
 
     return (
       <div className="bg-indigo-50 min-h-screen flex flex-col">
-
-        
+ 
         <Header currentSearch={searchInput} />
         <ScrollToTop />
     
