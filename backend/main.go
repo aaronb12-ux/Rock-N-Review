@@ -62,18 +62,18 @@ func init() {
 
 func connect_to_mongodb() error {
 
-
+    
     err := godotenv.Load(".env.backend")
 
 	if err != nil {
-		log.Fatal("Error loading .env file: ", err)
+		//log.Fatal("Error loading .env file: ", err)
 	}
-
+	
 	uri := os.Getenv("MONGODB_URI")
 	
 
 	if uri == "" {
-		log.Fatal("MONGODB_URI environment variable is not set")
+		//log.Fatal("MONGODB_URI environment variable is not set")
 	}
 
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
