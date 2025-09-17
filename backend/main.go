@@ -93,6 +93,12 @@ func main() {
 
 	router := gin.Default() //define the router
 
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		port = "8080"
+	}
+	
 	router.Use(cors.New(cors.Config{
 		AllowOrigins:		[]string{"http://localhost:5173"},
 		AllowMethods: 		[]string{"PUT", "PATCH", "POST", "DELETE", "GET"},
@@ -132,5 +138,5 @@ func main() {
 	//endpoints for spotify token handling
 	router.POST("api/spotify/token", GetAccessToken)
 	
-	router.Run("localhost:8080") 
+	router.Run(":" + port)  
 }
