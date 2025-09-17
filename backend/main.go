@@ -2,15 +2,19 @@ package main
 
 import (
 	"context"
-	"os"
+	"fmt"
+	//"fmt"
 	"log"
-	"github.com/gin-gonic/gin"
+	"os"
+
 	"github.com/gin-contrib/cors"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
+
 //mongoDB Atlas connection string
 //reference to the MongoDB Client
 var mongoClient *mongo.Client 
@@ -61,32 +65,27 @@ func init() {
 }
 
 func connect_to_mongodb() error {
-
-    
     err := godotenv.Load(".env.backend")
+    if err != nil {
+        fmt.Println("Warning: could not load .env.file")
+    }
+    
+    uri := os.Getenv("MONGODB_URI")
+    if uri == "" {
+        return fmt.Errorf("MONGODB_URI environment variable is not set") // ← Change this
+    }
 
-	if err != nil {
-		//log.Fatal("Error loading .env file: ", err)
-	}
-	
-	uri := os.Getenv("MONGODB_URI")
-	
+    serverAPI := options.ServerAPI(options.ServerAPIVersion1)
+    opts := options.Client().ApplyURI(uri).SetServerAPIOptions(serverAPI)
 
-	if uri == "" {
-		//log.Fatal("MONGODB_URI environment variable is not set")
-	}
+    client, err := mongo.Connect(context.TODO(), opts)
+    if err != nil {
+        return err // ← Change this from panic(err)
+    }
 
-	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
-	opts := options.Client().ApplyURI(uri).SetServerAPIOptions(serverAPI)
-
-	client, err := mongo.Connect(context.TODO(), opts)
-	if err != nil {
-		panic(err)
-	}
-
-	err = client.Ping(context.TODO(), nil)
-	mongoClient = client
-	return err
+    err = client.Ping(context.TODO(), nil)
+    mongoClient = client
+    return err
 }
 
 func main() {
