@@ -17,7 +17,7 @@ export function AuthProvider({children}) {
         const userid = firebaseuser.uid //getting logged in user id
 
         try {
-           const response = await axios.get(`http://localhost:8080/users/${userid}`)      
+           const response = await axios.get(`https://album-review-app-lnmu.onrender.com/users/${userid}`)      
         
         if (response.data) {
           console.log('got user data')
