@@ -15,6 +15,7 @@ function Signup({setSignedUp}) {
 
 
     const handleSubmit = async (e) => {
+      console.log(username, email, password)
         e.preventDefault()
         const result = await submitUser(username, email, password, auth)
         switch (result.error) {
@@ -47,7 +48,7 @@ function Signup({setSignedUp}) {
           <div className="flex justify-center items-center mb-3">
             <div className="text-center">
               <div className="text-5xl font-bold font-serif text-indigo-800 drop-shadow-md mb-1">
-                <div className="cursor-pointer">Album Adventures</div>
+                <div className="cursor-pointer">Rock N' Review</div>
               </div>
               <p className="text-md text-gray-600 font-serif italic mt-1">
                 Discover. Rate. Repeat.

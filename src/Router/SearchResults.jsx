@@ -16,6 +16,8 @@ function SearchResults() {
   const [loading, setLoading] = useState(true);
   const [badreq, setBadReq] = useState(false);
 
+  
+
   const getTokenandAlbums = async () => {
     try {
       setLoading(true);
@@ -31,6 +33,7 @@ function SearchResults() {
         const searchedAlbums = await getSearchedAlbums(headers, albumquery);
 
         setAlbums(searchedAlbums);
+        return
       }
     } catch (err) {
       setBadReq(true);
@@ -43,6 +46,7 @@ function SearchResults() {
     getTokenandAlbums();
   }, [albumquery]);
 
+  console.log(badreq)
   if (badreq) {
     return (
       <div className="bg-indigo-50 min-h-screen flex flex-col">

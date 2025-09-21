@@ -4,9 +4,11 @@ export async function getaccesstoken() {
   //function to get the access token
   try {
     const response = await axios.post(
-      "http://localhost:8080/api/spotify/token"
+      "http://https://album-review-app-lnmu.onrender.com/api/spotify/token"
     );
+
     return response.data.access_token;
+
   } catch (error) {}
 }
 
@@ -47,8 +49,12 @@ export async function getTracks(headers, apiquery) {
 }
 
 export async function getSearchedAlbums(headers, albumquery) {
+
+  console.log(headers, albumquery)
+
+
   try {
-    const response = await axios.get("https://api.spotify.com/v1/searc?", {
+    const response = await axios.get("https://api.spotify.com/v1/search?", {
       params: {
         q: albumquery,
         type: "album",
@@ -58,11 +64,13 @@ export async function getSearchedAlbums(headers, albumquery) {
       headers: headers,
     });
 
-    if (!response.ok) {
-      throw new Error("Spotify API error");
-    }
+   //if (!response.ok) {
+      //throw new Error("Spotify API error");
+    //}
+
     return response.data.albums.items;
   } catch (error) {
+    console.log('here in catch', error)
     throw error;
   }
 }

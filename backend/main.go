@@ -66,16 +66,19 @@ func init() {
 
 func connect_to_mongodb() error {
     err := godotenv.Load(".env.backend")
+
     if err != nil {
         fmt.Println("Warning: could not load .env.file")
     }
     
     uri := os.Getenv("MONGODB_URI")
+
+	fmt.Println(uri)
+
     if uri == "" {
         return fmt.Errorf("MONGODB_URI environment variable is not set") // ← Change this
     }
 
-	fmt.Printf("%s", uri)
 
     serverAPI := options.ServerAPI(options.ServerAPIVersion1)
     opts := options.Client().ApplyURI(uri).SetServerAPIOptions(serverAPI)
@@ -101,7 +104,7 @@ func main() {
 	}
 	
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:		[]string{"http://localhost:5173"},
+		AllowOrigins:		[]string{"https://album-review-ghzzasfvo-aaron-bernsteins-projects-89d0496e.vercel.app"},
 		AllowMethods: 		[]string{"PUT", "PATCH", "POST", "DELETE", "GET"},
 		AllowHeaders:		[]string{"Content-Type"},
 		AllowCredentials: 	true,	 		

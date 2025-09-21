@@ -50,7 +50,7 @@ function Header({ currentSearch }) {
           <div>
             <span className="text-2xl md:text-3xl font-bold font-serif text-indigo-100 tracking-widest drop-shadow-md">
               <button onClick={routeChangeHome} className="cursor-pointer">
-                Album Adventures
+                Rock N' Review
               </button>
             </span>
             <div className="h-0.5 w-0 bg-gradient-to-r from-indigo-300 to-transparent group-hover:w-full transition-all duration-500"></div>
