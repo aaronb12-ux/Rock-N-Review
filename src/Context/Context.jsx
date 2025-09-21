@@ -16,7 +16,7 @@ export function AuthProvider({children}) {
       if (firebaseuser) {
         const userid = firebaseuser.uid //getting logged in user id
 
-        axios.get(` https://album-review-app-lnmu.onrender.com/users/${userid}`)      
+        axios.get(`https://album-review-app-lnmu.onrender.com/users/${userid}`)      
         .then((response) => { //fetching user info from backend by id
           setUserData(response.data)
         })
