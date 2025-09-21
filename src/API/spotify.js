@@ -4,7 +4,7 @@ export async function getaccesstoken() {
   //function to get the access token
   try {
     const response = await axios.post(
-      "http://https://album-review-app-lnmu.onrender.com/api/spotify/token"
+      "https://album-review-app-lnmu.onrender.com/api/spotify/token"
     );
 
     return response.data.access_token;
