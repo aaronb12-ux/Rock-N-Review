@@ -104,7 +104,7 @@ func main() {
 	}
 	
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:		[]string{"https://album-review-ghzzasfvo-aaron-bernsteins-projects-89d0496e.vercel.app"},
+		AllowOrigins:		[]string{"https://album-review-app-blond.vercel.app"},
 		AllowMethods: 		[]string{"PUT", "PATCH", "POST", "DELETE", "GET"},
 		AllowHeaders:		[]string{"Content-Type"},
 		AllowCredentials: 	true,	 		
