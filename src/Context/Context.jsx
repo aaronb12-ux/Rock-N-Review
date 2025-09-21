@@ -11,6 +11,8 @@ export function AuthProvider({children}) {
    useEffect(() => {
     const auth = getAuth();
 
+    setUserData(null); 
+
     onAuthStateChanged(auth, async (firebaseuser) => {
      
       if (firebaseuser) {
@@ -28,7 +30,8 @@ export function AuthProvider({children}) {
           console.log('fetching user failed')
         }
  
-      }
+      } else {
+        setUserData(null)
     }
 
   )},[])
