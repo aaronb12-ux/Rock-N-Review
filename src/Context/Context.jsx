@@ -8,7 +8,7 @@ export function AuthProvider({children}) {
   
   const [userData, setUserData] = useState(null);
 
-  useEffect(() => {
+   useEffect(() => {
     const auth = getAuth();
 
     onAuthStateChanged(auth, async (firebaseuser) => {
@@ -16,18 +16,21 @@ export function AuthProvider({children}) {
       if (firebaseuser) {
         const userid = firebaseuser.uid //getting logged in user id
 
-        axios.get(`https://album-review-app-lnmu.onrender.com/users/${userid}`)      
-        .then((response) => { //fetching user info from backend by id
-          setUserData(response.data)
-        })
-        .catch((error) => { //error fetching
+        try {
+           const response = await axios.get(`http://localhost:8080/users/${userid}`)      
+        
+        if (response.data) {
+          console.log('got user data')
+          setUserData(response.data)    
+        } 
+        } catch (error) {
           console.log(error.message)
           console.log('fetching user failed')
-        })
-          
+        }
+ 
       }
     }
-  
+
   )},[])
   
   return (
