@@ -11,30 +11,39 @@ export function AuthProvider({ children }) {
     
     const unsubscribe = onAuthStateChanged(auth, async (firebaseuser) => {
       if (firebaseuser) {
-        const userid = firebaseuser.uid; // getting logged in user id
-        
-        // Clear previous user data immediately when auth state changes
+        const userid = firebaseuser.uid;
         setUserData(null);
         
-        try {
-          const response = await axios.get(`https://album-review-app-lnmu.onrender.com/users/${userid}`);      
-          
-          if (response.data) {
-            console.log('got user data');
-            setUserData(response.data);    
-          } 
-        } catch (error) {
-          console.log(error.message);
-          console.log('fetching user failed');
-          // Keep userData as null for failed requests/new users
+        // Add retry logic for newly created users
+        let attempts = 0;
+        const maxAttempts = 5;
+        const delay = 1000; // 1 second
+        
+        while (attempts < maxAttempts) {
+          try {
+            const response = await axios.get(`https://album-review-app-lnmu.onrender.com/users/${userid}`);      
+            
+            if (response.data) {
+              console.log('got user data');
+              setUserData(response.data);
+              break; // Success, exit the loop
+            } 
+          } catch (error) {
+            attempts++;
+            console.log(`Attempt ${attempts} failed, retrying in ${delay}ms...`);
+            
+            if (attempts < maxAttempts) {
+              await new Promise(resolve => setTimeout(resolve, delay));
+            } else {
+              console.log('fetching user failed after all attempts');
+            }
+          }
         }
       } else {
-        // User signed out
         setUserData(null);
       }
     });
-
-    // Cleanup subscription on unmount
+    
     return () => unsubscribe();
   }, []);
   
