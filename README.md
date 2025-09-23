@@ -1,4 +1,4 @@
-# Album Review App
+# Rock N' Review - Song Album Review Application
 
 A full-stack web application where users can discover, review, and save their favorite albums. Browse trending music, share your thoughts, and build your personal music collection.
 
@@ -39,15 +39,17 @@ A full-stack web application where users can discover, review, and save their fa
 - `GET /users/username/:username` - Check username availability
 
 ### Reviews
-- `GET /reviews/:albumid` - Get reviews for an album
-- `POST /reviews` - Create new review
-- `PUT /reviews/:reviewid` - Update existing review
-- `DELETE /reviews/:reviewid` - Delete review
+- `GET /users/:userid/reviewed-albums/:albumid` - Check if review exists by user
+- `POST /reviewed-albums` - Create new review
+- `GET /reviewed-albums/user/:userid` - Get reviewed albums by user
+- `PATCH /reviewed-albums/:id` - Update reviewed album (id = document id)
+- `DELETE /reviewed-albums/:id` - Delete review
 
 ### Saved Albums
-- `GET /saved/:userid` - Get user's saved albums
-- `POST /saved` - Save an album
-- `DELETE /saved/:userid/:albumid` - Remove saved album
+- `GET /saved-albums/:id` - Get user's saved albums
+- `GET /users/:userid/saved-albums/:albumid` - Get specific saved album
+- `POST /saved-albums` - Save an album
+- `DELETE /saved-albums/:id` - Remove saved album
 
 ## 🎯 Usage
 
