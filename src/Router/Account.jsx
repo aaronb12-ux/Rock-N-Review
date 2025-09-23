@@ -120,7 +120,7 @@ const Profile = () => {
 
             {/* Sign Out */}
             <div className="bg-white rounded-lg shadow-md border border-indigo-100 overflow-hidden mx-auto w-[300px]">
-  <button
+   <button
     onClick={handleSignOut}
     className="w-full flex items-center p-4 text-left hover:bg-red-50 transition-colors"
   >
