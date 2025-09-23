@@ -13,34 +13,35 @@ const duplicateUserName =  async (username) => { //function checks if username a
     }
 }
 
-export const submitUser = async (username, email, password, auth) => { //function checks for dup username and valid fields, then creates the user
-
-    if (password.length < 8) return { error: "badPassword" } //invalid password check
-
-    const isDuplicate = await duplicateUserName(username) //duplicate username check
-
-    if (isDuplicate) return { error: "duplicateUsername"}
-
-    try {
-
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password); //creating the user in firebase
-      const uid = userCredential.user.uid
-
-      const response = await axios.post(`https://album-review-app-lnmu.onrender.com/users`, { //adding the user to *my* backend
-        userid: uid,
-        email: email,
-        username: username,
-        created: new Date().toLocaleString().split(',')[0],
-      })
-      
-      if (response.status === 201 ) {
-        return {status : true} //new user created
-      }  
-      
-    } catch (error) {
-      if (error.code === "auth/email-already-in-use") return { error: "duplicateEmail" } //duplicate email
-      if (error.code === "auth/invalid-email") return { error: "badEmail" } //invalid email
-      return { error: "unknown" } //unknown error
+export const submitUser = async (username, email, password, auth) => {
+  if (password.length < 8) return { error: "badPassword" }
+  const isDuplicate = await duplicateUserName(username)
+  if (isDuplicate) return { error: "duplicateUsername"}
+  
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const uid = userCredential.user.uid
+    
+    //Wait for backend user creation to complete
+    const response = await axios.post(`https://album-review-app-lnmu.onrender.com/users`, {
+      userid: uid,
+      email: email,
+      username: username,
+      created: new Date().toLocaleString().split(',')[0],
+    })
+    
+    if (response.status === 201) {
+      return {status: true}
     }
+    
+  } catch (error) {
+    if (userCredential?.user) {
+      await userCredential.user.delete();
+    }
+    
+    if (error.code === "auth/email-already-in-use") return { error: "duplicateEmail" }
+    if (error.code === "auth/invalid-email") return { error: "badEmail" }
+    return { error: "unknown" }
+  }
 }
 
