@@ -1,5 +1,7 @@
 # Rock N' Review - Song Album Review Application
 
+VISIT THE APP HERE: https://album-review-app-blond.vercel.app/
+
 A full-stack web application where users can discover, review, and save their favorite albums. Browse trending music, share your thoughts, and build your personal music collection.
 
 ## 🎵 Features
