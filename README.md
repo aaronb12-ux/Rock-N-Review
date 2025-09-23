@@ -1,12 +1,69 @@
-# React + Vite
+# Album Review App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack web application where users can discover, review, and save their favorite albums. Browse trending music, share your thoughts, and build your personal music collection.
 
-Currently, two official plugins are available:
+## 🎵 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **User Authentication** - Secure account creation and login
+- **Music Discovery** - Browse current top trending albums
+- **Search Functionality** - Find albums and artists instantly
+- **Album Reviews** - Rate albums out of 5 stars and write detailed reviews
+- **Review Management** - View, edit, and delete your past reviews
+- **Album Collection** - Save albums to your personal library
+- **Community Ratings** - See average ratings from all users
+- **Review History** - Browse all past reviews from the community
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Frontend
+- **React** - Modern UI library for building interactive user interfaces
+- **Firebase Authentication** - Secure user authentication and session management
+
+### Backend
+- **Go** - High-performance RESTful API server
+- **MongoDB** - NoSQL database for flexible data storage
+
+### External APIs
+- **Spotify API** - Rich music metadata and trending album data
+
+### Database Collections
+- `users` - User profiles and account information
+- `reviewedalbums` - Album reviews with ratings and comments
+- `savedalbums` - User's saved album collections
+
+## 🔗 API Endpoints
+
+### Users
+- `GET /users/:userid` - Get user by ID
+- `POST /users` - Create new user
+- `GET /users/username/:username` - Check username availability
+
+### Reviews
+- `GET /reviews/:albumid` - Get reviews for an album
+- `POST /reviews` - Create new review
+- `PUT /reviews/:reviewid` - Update existing review
+- `DELETE /reviews/:reviewid` - Delete review
+
+### Saved Albums
+- `GET /saved/:userid` - Get user's saved albums
+- `POST /saved` - Save an album
+- `DELETE /saved/:userid/:albumid` - Remove saved album
+
+## 🎯 Usage
+
+1. **Create Account** - Sign up with email and password
+2. **Browse Music** - Explore trending albums on the homepage
+3. **Search** - Use the search bar to find specific albums or artists
+4. **Review Albums** - Click on any album to leave a rating and review
+5. **Save Albums** - Add albums to your personal collection
+6. **Manage Reviews** - Edit or delete your past reviews from your profile
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [Spotify Web API](https://developer.spotify.com/documentation/web-api/) for music data
+- [Firebase](https://firebase.google.com/) for authentication services
+- [MongoDB](https://www.mongodb.com/) for database solutions
