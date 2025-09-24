@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { AuthContext } from './AuthContext';  // Import from the new file
 import axios from "axios";
-import {API_BASE_URL} from '../Config/api';
 
 export function AuthProvider({ children }) {
   const [userData, setUserData] = useState(null);
@@ -15,18 +14,19 @@ export function AuthProvider({ children }) {
         const userid = firebaseuser.uid;
         setUserData(null);
         
+        // Add retry logic for newly created users
         let attempts = 0;
         const maxAttempts = 5;
-        const delay = 1000; 
+        const delay = 1000; // 1 second
         
         while (attempts < maxAttempts) {
           try {
-            const response = await axios.get(`${API_BASE_URL}/users/${userid}`);      
+            const response = await axios.get(`https://album-review-app-lnmu.onrender.com/users/${userid}`);      
             
             if (response.data) {
               console.log('got user data');
               setUserData(response.data);
-              break;
+              break; // Success, exit the loop
             } 
           } catch (error) {
             attempts++;

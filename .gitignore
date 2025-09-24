@@ -25,5 +25,3 @@ dist-ssr
 .qodo
 .env
 .env.backend
-.env.local
-.env.production

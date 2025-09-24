@@ -1,11 +1,9 @@
 import axios from "axios"
 import { createUserWithEmailAndPassword} from 'firebase/auth'
-import {API_BASE_URL} from '../Config/api'
 
 const duplicateUserName =  async (username) => { //function checks if username already exists
     try {
-      console.log(API_BASE_URL)
-      const response = await axios.get(`${API_BASE_URL}/users/username/${username}`);   //api call to backend to see if username already exists, will return 200 if found 
+      const response = await axios.get(`https://album-review-app-lnmu.onrender.com/users/username/${username}`);   //api call to backend to see if username already exists, will return 200 if found 
 
         return response.status === 200; //user name found
  
@@ -28,7 +26,7 @@ export const submitUser = async (username, email, password, auth) => {
     const uid = userCredential.user.uid;
     console.log("Firebase user created with UID:", uid);
     
-
+    console.log("Creating backend user...");
     const userData = {
       userid: uid,
       email: email,
@@ -37,7 +35,7 @@ export const submitUser = async (username, email, password, auth) => {
     };
     console.log("Sending user data:", userData);
     
-    const response = await axios.post(`${API_BASE_URL}/users`, userData);
+    const response = await axios.post(`https://album-review-app-lnmu.onrender.com/users`, userData);
     
     console.log("Backend response:", response.status, response.data);
     

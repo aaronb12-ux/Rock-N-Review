@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	//"fmt"
 	"log"
 	"os"
 
@@ -72,6 +73,8 @@ func connect_to_mongodb() error {
     
     uri := os.Getenv("MONGODB_URI")
 
+	fmt.Println(uri)
+
     if uri == "" {
         return fmt.Errorf("MONGODB_URI environment variable is not set") // ← Change this
     }
@@ -94,18 +97,16 @@ func main() {
 
 	router := gin.Default() //define the router
 
-	frontendURL := os.Getenv("VITE_VERCEL_URL") 
+	port := os.Getenv("PORT")
 
-	if frontendURL == "" {
-		frontendURL = "http://localhost:5173"
+	if port == "" {
+		port = "8080"
 	}
-
-
 	
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:		[]string{frontendURL},
-		AllowMethods: 		[]string{"PUT", "PATCH", "POST", "DELETE", "GET"},
-		AllowHeaders:		[]string{"Content-Type", "Authorization", "Access-Control-Allow-Origin"},
+		AllowOrigins:		[]string{"https://album-review-app-blond.vercel.app"},
+		AllowMethods: 		[]string{"PUT", "PATCH", "POST", "DELETE", "GET", "OPTIONS"},
+		AllowHeaders:		[]string{"Content-Type"},
 		AllowCredentials: 	true,	 		
 	}))
 
@@ -141,5 +142,5 @@ func main() {
 	//endpoints for spotify token handling
 	router.POST("api/spotify/token", GetAccessToken)
 	
-	router.Run(":8080")  
+	router.Run(":" + port)  
 }
