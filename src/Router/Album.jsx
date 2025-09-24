@@ -51,7 +51,7 @@ function Album() {
               const token = await getaccesstoken()
                 setToken(token)
             } catch (err) {
-              console.log("Failed to fetch token:", err)
+                console.log("Failed to fetch token:", err)
             }
           }
             getToken()
@@ -81,8 +81,6 @@ function Album() {
 
   
   const only_tracks = albumtracks.map(album => [album.name, String(album.duration_ms)]) //getting only the tracks
-
-
 
   return (
     <div className="flex flex-col min-h-screen bg-indigo-50 w-full">
