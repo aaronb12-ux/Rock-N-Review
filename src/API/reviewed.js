@@ -1,10 +1,9 @@
 import axios from "axios"
-import {API_BASE_URL} from '../Config/api'
 
 export async function getReviewedAlbums(userid) {
 
     try {
-        const response = await axios.get(`${API_BASE_URL}/reviewed-albums/user/${userid}`)
+        const response = await axios.get(`https://album-review-app-lnmu.onrender.com/reviewed-albums/user/${userid}`)
         return response.data
     } catch (error) {
         console.log("Error fetching albums", error)
@@ -15,7 +14,7 @@ export async function getReviewedAlbums(userid) {
 
 export async function checkIfReviewExists(userid, albumid) {
     try {
-        const response = await axios.get(`${API_BASE_URL}/users/${userid}/reviewed-albums/${albumid}`)
+        const response = await axios.get(`https://album-review-app-lnmu.onrender.com/users/${userid}/reviewed-albums/${albumid}`)
         console.log("review exists")
         return response.status === 200
 
@@ -27,7 +26,7 @@ export async function checkIfReviewExists(userid, albumid) {
 export async function getReviewsByAlbum(id) {
 
     try {
-        const response = await axios.get(`${API_BASE_URL}/reviewed-albums/${id}`);
+        const response = await axios.get(`https://album-review-app-lnmu.onrender.com/reviewed-albums/${id}`);
         let data = response.data;
 
         if (data === null) {
@@ -54,7 +53,7 @@ export async function getReviewsByAlbum(id) {
 
 export async function addReview(postdata) {
     try {
-    const response = await axios.post(`${API_BASE_URL}/reviewed-albums`, postdata)
+    const response = await axios.post("https://album-review-app-lnmu.onrender.com/reviewed-albums", postdata)
         return response.status >= 200 && response.status < 300;
     } catch (error) {
         console.log("error submitting post request:". error)
@@ -65,7 +64,7 @@ export async function addReview(postdata) {
 
 export async function editReview(postdata, documentid) {
     try{
-        const response = await axios.patch(`${API_BASE_URL}/reviewed-albums/${documentid}`, {
+        const response = await axios.patch(`https://album-review-app-lnmu.onrender.com/reviewed-albums/${documentid}`, {
             Rating: postdata.rating,
             Review: postdata.review,
           })
@@ -79,7 +78,7 @@ export async function editReview(postdata, documentid) {
 
 export async function deleteReview(document_id) {
     try {
-        const response = await axios.delete(`${API_BASE_URL}/reviewed-albums/${document_id}`)
+        const response = await axios.delete(`https://album-review-app-lnmu.onrender.com/reviewed-albums/${document_id}`)
         console.log(response)
         return response.status >= 200 && response.status < 300;
     } catch (error) {

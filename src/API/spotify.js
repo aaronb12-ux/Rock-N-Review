@@ -1,11 +1,10 @@
 import axios from "axios";
-import {API_BASE_URL} from '../Config/api'
 
 export async function getaccesstoken() {
   //function to get the access token
   try {
     const response = await axios.post(
-      `${API_BASE_URL}/api/spotify/token`
+      "https://album-review-app-lnmu.onrender.com/api/spotify/token"
     );
 
     return response.data.access_token;
@@ -68,6 +67,7 @@ export async function getSearchedAlbums(headers, albumquery) {
    //if (!response.ok) {
       //throw new Error("Spotify API error");
     //}
+
     return response.data.albums.items;
   } catch (error) {
     console.log('here in catch', error)
