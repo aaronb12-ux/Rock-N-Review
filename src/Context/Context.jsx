@@ -24,13 +24,11 @@ export function AuthProvider({ children }) {
             const response = await axios.get(`${API_BASE_URL}/users/${userid}`);      
             
             if (response.data) {
-              console.log('got user data');
               setUserData(response.data);
               break;
             } 
           } catch (error) {
             attempts++;
-            console.log(`Attempt ${attempts} failed, retrying in ${delay}ms...`);
             
             if (attempts < maxAttempts) {
               await new Promise(resolve => setTimeout(resolve, delay));

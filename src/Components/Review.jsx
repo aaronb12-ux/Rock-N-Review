@@ -5,11 +5,20 @@ import { PencilIcon, TrashIcon } from "lucide-react";
 import { deleteReview } from "../API/reviewed";
 import ReviewToast from "./ReviewToast";
 
-const Review = ({userid, rating, date, text, _id, setRefresh, setModal, setEditReview, publisher,}) => {
-  
-  const localeDate = new Date(date).toLocaleString().split(',')[0]
-  const [userID, setUserID] = useState()
-  const [showerror, setShowError] = useState(false)
+const Review = ({
+  userid,
+  rating,
+  date,
+  text,
+  _id,
+  setRefresh,
+  setModal,
+  setEditReview,
+  publisher,
+}) => {
+  const localeDate = new Date(date).toLocaleString().split(",")[0];
+  const [userID, setUserID] = useState();
+  const [showerror, setShowError] = useState(false);
 
   const user = useContext(AuthContext);
 
@@ -17,18 +26,23 @@ const Review = ({userid, rating, date, text, _id, setRefresh, setModal, setEditR
     if (user.userData && user.userData.userid) {
       setUserID(user.userData.userid);
     }
-  }, [user])
+  }, [user]);
 
   const [ishovered, setIsHovered] = useState(false);
 
   const handleDelete = async () => {
-    const response = await deleteReview(_id)
-    if (response === "error") {
-      setShowError(true)
-    }else if (response) {
-      setRefresh((refresh) => refresh + 1);
+    try {
+      const response = await deleteReview(_id);
+
+      if (response === "error") {
+        throw error;
+      } else {
+        setRefresh((refresh) => refresh + 1);
+      }
+    } catch (error) {
+      setShowError(true);
     }
-  }
+  };
 
   function handleEdit() {
     setModal((modal) => !modal);
@@ -37,7 +51,7 @@ const Review = ({userid, rating, date, text, _id, setRefresh, setModal, setEditR
       existing_review: text, //1
       stars: rating,
       document_id: _id,
-    })
+    });
     //need to change the CURRENT review
   }
 
@@ -91,14 +105,13 @@ const Review = ({userid, rating, date, text, _id, setRefresh, setModal, setEditR
 
       {showerror ? (
         <ReviewToast
-        err={"deleting"}
-        setShowError={setShowError}
-        showerror={showerror}
+          err={"deleting"}
+          setShowError={setShowError}
+          showerror={showerror}
         />
-      ) :
-      <div>
-      </div>
-      }
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };

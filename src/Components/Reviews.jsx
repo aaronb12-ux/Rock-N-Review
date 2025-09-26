@@ -9,31 +9,37 @@ const Reviews = ({id, name, refresh, setRefresh, setModal, setEditReview }) => {
   const [loading, setLoading] = useState(true);
   const [errorFetching, setErrorFetching] = useState(false)
   const [showerror, setShowError] = useState(false)
-  useEffect(() => {
-    async function getReviews(albumid) {
-      setLoading(true);
-      try {
-        const response = await getReviewsByAlbum(albumid) //fetching reviews by albumid
-
-        if (response === "error") { //response is null -> no reviews for the album
-            setErrorFetching(true)
-            setShowError(true)
-            return;
-        } else if (response) {
-          setReviews(response);
-          return
-        } else if (!response) {
-          setReviews([]);
-          return
-        }
-
-      } finally {
-        setLoading(false);
-      }
-    }
+ 
+ useEffect(() => {
+  const fetchReviews = async () => {
+    //Reset error state and start loading
+    setErrorFetching(false);
+    setShowError(false);
+    setLoading(true);
     
-    getReviews(id);
-  }, [refresh]);
+    try {
+      const response = await getReviewsByAlbum(id);
+      
+      //Handle different response states
+      if (response === "error") {
+        setErrorFetching(true);
+        setShowError(true);
+      } else {
+        //Set reviews array (empty array if no response/falsy response)
+        setReviews(response || []);
+      }
+    } catch (error) {
+
+      console.error("Failed to fetch reviews:", error);
+      setErrorFetching(true);
+      setShowError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  fetchReviews();
+}, [refresh, id]); 
 
 
 

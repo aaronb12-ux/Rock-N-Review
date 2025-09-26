@@ -25,8 +25,7 @@ function Album() {
   const [duplicatereview, setDuplicateReview] = useState(false)
   const [trackerr, setTrackErr] = useState(false)
 
-
-
+  
   const [editreview, setEditReview] = useState(
     {
      being_edited: false, //0

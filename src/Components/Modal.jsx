@@ -12,7 +12,6 @@ const Modal = ({setModal, album, only_tracks, setRefresh, editreview}) => {
 
    }
 
-   console.log('printing the post data', post_data)
 
     const handlemodal = () => {
         setModal(modal => !modal)
