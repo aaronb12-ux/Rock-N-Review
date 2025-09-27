@@ -4,7 +4,9 @@ import axios from "axios"
 export async function addSavedAlbum(post_data) {
 
     try {
+
         const response = await axios.post("https://album-review-app-lnmu.onrender.com/saved-albums", post_data)
+
         return response.status >= 200 && response.status < 300;
     } catch (error) {
         console.log('Error adding album to database: ', error)

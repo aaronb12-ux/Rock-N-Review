@@ -85,7 +85,7 @@ func connect_to_mongodb() error {
 
     client, err := mongo.Connect(context.TODO(), opts)
     if err != nil {
-        return err // ← Change this from panic(err)
+        return err 
     }
 
     err = client.Ping(context.TODO(), nil)
@@ -102,12 +102,12 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
-	
+
 	router.Use(cors.New(cors.Config{
 		AllowOrigins:		[]string{"https://album-review-app-blond.vercel.app"},
 		AllowMethods: 		[]string{"PUT", "PATCH", "POST", "DELETE", "GET", "OPTIONS"},
 		AllowHeaders:		[]string{"Content-Type"},
-		AllowCredentials: 	true,	 		
+	 		
 	}))
 
 	//endpoints for saved album
@@ -144,3 +144,4 @@ func main() {
 	
 	router.Run(":" + port)  
 }
+

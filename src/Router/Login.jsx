@@ -18,8 +18,7 @@ const Login = () => {
               navigate('/Homepage') 
           })
           .catch((error) => {
-              setInvalidCredential(true)
-              console.log("hello")      
+              setInvalidCredential(true)     
           })
   }
 

@@ -6,7 +6,6 @@ import { checkIfSaved } from "../API/saved";
 import { checkIfReviewExists } from "../API/reviewed";
 import SaveToast from "./SaveToast";
 
-
 export default function AlbumOptions({
   albumdata,
   only_tracks,
@@ -19,8 +18,8 @@ export default function AlbumOptions({
   const [savedId, setSavedId] = useState("");
   const [fetchsaved, setFetchedSaved] = useState(0); ///updates each time an album is reviewed
   const [savefail, setSaveFail] = useState(false);
-  const [unsavefail, setUnsaveFail] = useState(false)
-  
+  const [unsavefail, setUnsaveFail] = useState(false);
+
   const handlesave = async (e) => {
     //api call when saving an album when clicking the 'save' button
 
@@ -37,20 +36,20 @@ export default function AlbumOptions({
       tracks: only_tracks,
     };
 
-    const response = await addSavedAlbum(post_data); //post request -> returns true if submitted successfully
+    try {
+      const response = await addSavedAlbum(post_data);
 
-    if (response === "error") {
-      console.log("error saving");
+      if (response === "error") {
+        throw error;
+      } else {
+        setSaveState(true);
+        setFetchedSaved((fetchsaved) => fetchsaved + 1);
+      }
+    } catch (error) {
       setSaveFail(true);
-      return;
-    } else if (response) {
-      //if the post request was successfull
-      setSaveState(true);
-      setFetchedSaved((fetchsaved) => fetchsaved + 1);
     }
   };
 
-  //delete does not work from search. this is because when we delete, we delete the entire document with the '_id'. Whe
   const deletesave = async (e) => {
     //api call when someone deletes an album
 
@@ -60,16 +59,16 @@ export default function AlbumOptions({
       id: albumdata._id || savedId,
     };
 
-    const response = await deleteSavedAlbum(ID.id);
-    
-    
-    if (response === "error") {
-      console.log("error unsaving")
-      setUnsaveFail(true)
-      return
-    } else if (response) {
-      setSaveState(false);
+    try {
+      const response = await deleteSavedAlbum(ID.id); //deleting album by id
 
+      if (response === "error") {
+        throw error;
+      } else {
+        setSaveState(false);
+      }
+    } catch (error) {
+      setUnsaveFail(true);
     }
   };
 
@@ -81,11 +80,17 @@ export default function AlbumOptions({
         id: albumdata.albumid || albumdata.id,
       };
 
-      const response = await checkIfSaved(user.userData.userid, ID.id);
+      try {
+        const response = await checkIfSaved(user.userData.userid, ID.id);
 
-      if (response) {
-        setSaveState(true);
-        setSavedId(response);
+        if (response) {
+          setSaveState(true);
+          setSavedId(response);
+        } else {
+          throw error;
+        }
+      } catch (error) {
+        return;
       }
     };
     checkifsaved();
@@ -98,11 +103,15 @@ export default function AlbumOptions({
     //first cherck if the album id is in the databse for 'reviewedalbums'
     //if yes, then
 
-    const response = await checkIfReviewExists(user.userData.userid, ID.id);
+    try {
+      const response = await checkIfReviewExists(user.userData.userid, ID.id);
 
-    if (response) {
-      setDuplicateReview(true);
-    } else {
+      if (response) {
+        setDuplicateReview(true);
+      } else {
+        throw error;
+      }
+    } catch (error) {
       setModal(!modal);
     }
   };
@@ -155,10 +164,17 @@ export default function AlbumOptions({
 
       {savefail ? (
         <div>
-          <div id="toast-success" class="fixed flex items-center p-4 text-gray-500  bg-white divide-gray-200 rounded-lg shadow-sm bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800" role="alert">
-          <button class="absolute top-0 right-3 bg-transparent border-none outline-none"
-          onClick={() => setSaveFail(false)}
-          >x</button>
+          <div
+            id="toast-success"
+            class="fixed flex items-center p-4 text-gray-500  bg-white divide-gray-200 rounded-lg shadow-sm bottom-5 left-5 dark:text-gray-400 dark:divide-gray-700 dark:bg-gray-800"
+            role="alert"
+          >
+            <button
+              class="absolute top-0 right-3 bg-transparent border-none outline-none"
+              onClick={() => setSaveFail(false)}
+            >
+              x
+            </button>
             <div class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
               <svg
                 class="w-5 h-5"
@@ -172,21 +188,13 @@ export default function AlbumOptions({
               <span class="sr-only">Error icon</span>
             </div>
             <div class="ms-3 mt-1 text-sm font-normal">error saving</div>
-            
           </div>
         </div>
       ) : (
         <div></div>
       )}
 
-      { unsavefail ? (
-        <SaveToast
-        setUnsaveFail={setUnsaveFail}
-        />
-      ) :
-        <div>
-        </div>
-      }  
+      {unsavefail ? <SaveToast setUnsaveFail={setUnsaveFail} /> : <div></div>}
     </div>
   );
 }

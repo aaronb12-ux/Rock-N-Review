@@ -24,13 +24,11 @@ export function AuthProvider({ children }) {
             const response = await axios.get(`https://album-review-app-lnmu.onrender.com/users/${userid}`);      
             
             if (response.data) {
-              console.log('got user data');
               setUserData(response.data);
               break; // Success, exit the loop
             } 
           } catch (error) {
             attempts++;
-            console.log(`Attempt ${attempts} failed, retrying in ${delay}ms...`);
             
             if (attempts < maxAttempts) {
               await new Promise(resolve => setTimeout(resolve, delay));

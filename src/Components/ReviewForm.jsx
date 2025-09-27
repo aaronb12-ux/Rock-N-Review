@@ -31,48 +31,60 @@ function ReviewForm({ postdata, setModal, setRefresh, editreview }) {
     editreview.being_edited = false;
   };
 
-  const handleSubmit = async () => {
-    postdata.rating = stars;
-
-    if (postdata.rating === 0) {
-      //invalid rating (0 stars)
-      setNoReview(false);
-      setZeroRating(true);
-    } else if (
-      (review === "" && editreview.being_edited === false) ||
-      (existingReview == "" && editreview.being_edited === true)
-    ) {
-      //invalid review (empty textbox)
-      setZeroRating(false);
-      setNoReview(true);
-    } else if (editreview.being_edited) {
-      //if we are making an active edit for an existing review
-
-      postdata.review = existingReview;
-      const response = await editReview(postdata, editreview.document_id);
-    
-      if (response === "error") {
-          setMakeReviewError("editing")
-          setShowError(true)
-      } else if (response) {
-        clear();
-      }
-    } else {
-      //first review for the album by user
-      postdata.review = review;
-      postdata.userid = user.userData.userid;
-      postdata.publisher = user.userData.username;
-      const response = await addReview(postdata);
-      
-      if (response === "error") {
-        setMakeReviewError("making")
-        setShowError(true)
-        return
-      } else if (response) {
-        clear();
-      }
-    }
+ const handleSubmit = async () => {
+  // Reset error states
+  setZeroRating(false);
+  setNoReview(false);
+  
+  // Validate rating
+  if (postdata.rating === 0) {
+    setZeroRating(true);
+    return;
+  }
+  
+  // Get current review text
+  const currentReview = editreview.being_edited ? existingReview : review;
+  
+  // Validate review text
+  if (!currentReview.trim()) {
+    setNoReview(true);
+    return;
+  }
+  
+  // Prepare submission data
+  const submissionData = {
+    ...postdata,
+    rating: stars,
+    review: currentReview
   };
+  
+  // Add user data for new reviews
+  if (!editreview.being_edited) {
+    submissionData.userid = user.userData.userid;
+    submissionData.publisher = user.userData.username;
+  }
+  
+  try {
+    // Submit review
+    const response = editreview.being_edited 
+      ? await editReview(submissionData, editreview.document_id)
+      : await addReview(submissionData);
+    
+    // Handle response
+    if (response === "error") {
+      const errorType = editreview.being_edited ? "editing" : "making";
+      setMakeReviewError(errorType);
+      setShowError(true);
+    } else if (response) {
+      clear();
+    }
+  } catch (error) {
+    // Handle unexpected errors
+    console.error("Review submission failed:", error);
+    setMakeReviewError(editreview.being_edited ? "editing" : "making");
+    setShowError(true);
+  }
+};
 
   const handlemodal = () => {
     setModal((modal) => !modal);
