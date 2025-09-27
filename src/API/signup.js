@@ -5,7 +5,7 @@ import {API_BASE_URL} from '../Config/api'
 const duplicateUserName =  async (username) => { //function checks if username already exists
     try {
       console.log(API_BASE_URL)
-      const response = await axios.get(`${API_BASE_URL}/users/username/${username}`);   //api call to backend to see if username already exists, will return 200 if found 
+      const response = await axios.get(`https://album-review-app-lnmu.onrender.com/users/username/${username}`);   //api call to backend to see if username already exists, will return 200 if found 
 
         return response.status === 200; //user name found
  
