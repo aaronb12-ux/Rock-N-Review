@@ -37,7 +37,6 @@ func addUser(c *gin.Context) {
 	
 }
 
-/*
 func getUserById(c *gin.Context) {
 
 	 userid := c.Param("userid")
@@ -56,23 +55,8 @@ func getUserById(c *gin.Context) {
 	 c.IndentedJSON(http.StatusAccepted, user)
 
 }
-*/
-func getUserById(c *gin.Context) {
-    userid := c.Param("userid")
-    filter := bson.D{{"userid", userid}}
-    var user user
-    err := mongoClient.Database("AlbumApp").Collection("Users").FindOne(context.TODO(), filter).Decode(&user)
-    if err != nil {
-        if err == mongo.ErrNoDocuments {
-            c.IndentedJSON(http.StatusNotFound, gin.H{"error": "User not found"})
-            return
-        }
-        log.Printf("Database error: %v", err)
-        c.IndentedJSON(http.StatusInternalServerError, gin.H{"error": "Database error"})
-        return
-    }
-    c.IndentedJSON(http.StatusOK, user)
-}
+
+
 
 func checkIfUserExists(c *gin.Context) {
 
