@@ -26,7 +26,7 @@ A full-stack web application where users can discover, review, and save their fa
 - **MongoDB** - NoSQL database for flexible data storage
 
 ### External APIs
-- **Spotify API** - Rich music metadata and trending album data
+- **Spotify API** - music data
 
 ### Database Collections
 - `users` - User profiles and account information
