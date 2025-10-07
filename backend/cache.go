@@ -19,7 +19,6 @@ import (
 )
 
 
-
 type SpotifyTokenResponse struct {
 	AccessToken string `json:"access_token"`
 	TokenType string `json:"token_type"`
@@ -106,4 +105,5 @@ func getSpotifyToken() (string, error) {
 	return cachedToken, nil
 
 }
-	
+
+
