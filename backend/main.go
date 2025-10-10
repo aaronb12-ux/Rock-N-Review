@@ -104,11 +104,14 @@ func main() {
 	}
 
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:		[]string{"https://rocknreview.app"},
-		AllowMethods: 		[]string{"PUT", "PATCH", "POST", "DELETE", "GET", "OPTIONS"},
-		AllowHeaders:		[]string{"Content-Type"},
-	 		
-	}))
+    AllowOrigins: []string{
+        "http://localhost:5173",              //For local development
+        "https://rocknreview.app",            //For production
+    },
+    AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
+    AllowHeaders:     []string{"Content-Type", "Authorization"},
+    AllowCredentials: true,
+}))
 
 	//endpoints for saved album
 	router.GET("/saved-albums/:id", GetSavedAlbums) 
