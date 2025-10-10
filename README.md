@@ -1,10 +1,10 @@
 # Rock N' Review - Song Album Review Application
 
-VISIT THE APP HERE: https://rocknreview.app/
+VISIT THE APP HERE: https://album-review-app-blond.vercel.app/
 
 A full-stack web application where users can discover, review, and save their favorite albums. Browse trending music, share your thoughts, and build your personal music collection.
 
-## Features
+## 🎵 Features
 
 - **User Authentication** - Secure account creation and login
 - **Music Discovery** - Browse current top trending albums
@@ -15,7 +15,7 @@ A full-stack web application where users can discover, review, and save their fa
 - **Community Ratings** - See average ratings from all users
 - **Review History** - Browse all past reviews from the community
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 ### Frontend
 - **React** - Modern UI library for building interactive user interfaces
@@ -26,14 +26,14 @@ A full-stack web application where users can discover, review, and save their fa
 - **MongoDB** - NoSQL database for flexible data storage
 
 ### External APIs
-- **Spotify API** - music data
+- **Spotify API** - Rich music metadata and trending album data
 
 ### Database Collections
 - `users` - User profiles and account information
 - `reviewedalbums` - Album reviews with ratings and comments
 - `savedalbums` - User's saved album collections
 
-## API Endpoints
+## 🔗 API Endpoints
 
 ### Users
 - `GET /users/:userid` - Get user by ID
@@ -53,7 +53,7 @@ A full-stack web application where users can discover, review, and save their fa
 - `POST /saved-albums` - Save an album
 - `DELETE /saved-albums/:id` - Remove saved album
 
-## Usage
+## 🎯 Usage
 
 1. **Create Account** - Sign up with email and password
 2. **Browse Music** - Explore trending albums on the homepage
@@ -62,11 +62,11 @@ A full-stack web application where users can discover, review, and save their fa
 5. **Save Albums** - Add albums to your personal collection
 6. **Manage Reviews** - Edit or delete your past reviews from your profile
 
-## License
+## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Acknowledgments
+## 🙏 Acknowledgments
 
 - [Spotify Web API](https://developer.spotify.com/documentation/web-api/) for music data
 - [Firebase](https://firebase.google.com/) for authentication services

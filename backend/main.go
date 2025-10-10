@@ -104,7 +104,7 @@ func main() {
 	}
 
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:		[]string{"https://rocknreview.app"},
+		AllowOrigins:		[]string{"https://album-review-app-blond.vercel.app"},
 		AllowMethods: 		[]string{"PUT", "PATCH", "POST", "DELETE", "GET", "OPTIONS"},
 		AllowHeaders:		[]string{"Content-Type"},
 	 		
