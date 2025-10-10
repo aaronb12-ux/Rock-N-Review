@@ -5,7 +5,7 @@ import axios from "axios"
 export async function getReviewedAlbums(userid) {
 
     try {
-        const response = await axios.get(`https://album-review-app-lnmu.onrender.com/reviewed-albums/user/${userid}`)
+        const response = await axios.get(`http://localhost:8080/reviewed-albums/user/${userid}`)
         return response.data
     } catch (error) {
         console.log("Error fetching albums", error)
@@ -16,7 +16,7 @@ export async function getReviewedAlbums(userid) {
 
 export async function checkIfReviewExists(userid, albumid) {
     try {
-        const response = await axios.get(`https://album-review-app-lnmu.onrender.com/users/${userid}/reviewed-albums/${albumid}`)
+        const response = await axios.get(`http://localhost:8080/users/${userid}/reviewed-albums/${albumid}`)
         console.log("review exists")
         return response.status === 200
 
@@ -28,7 +28,7 @@ export async function checkIfReviewExists(userid, albumid) {
 export async function getReviewsByAlbum(id) {
 
     try {
-        const response = await axios.get(`https://album-review-app-lnmu.onrender.com/reviewed-albums/${id}`);
+        const response = await axios.get(`http://localhost:8080/reviewed-albums/${id}`);
         let data = response.data;
 
         if (data === null) {
@@ -56,7 +56,7 @@ export async function getReviewsByAlbum(id) {
 export async function addReview(postdata) {
     try {
 
-    const response = await axios.post("https://album-review-app-lnmu.onrender.com/reviewed-albums", postdata)
+    const response = await axios.post("http://localhost:8080/reviewed-albums", postdata)
 
         return response.status >= 200 && response.status < 300;
     } catch (error) {
@@ -68,7 +68,7 @@ export async function addReview(postdata) {
 
 export async function editReview(postdata, documentid) {
     try{
-        const response = await axios.patch(`https://album-review-app-lnmu.onrender.com/reviewed-albums/${documentid}`, {
+        const response = await axios.patch(`http://localhost:8080/reviewed-albums/${documentid}`, {
             Rating: postdata.rating,
             Review: postdata.review,
           })
@@ -82,7 +82,7 @@ export async function editReview(postdata, documentid) {
 
 export async function deleteReview(document_id) {
     try {
-        const response = await axios.delete(`https://album-review-app-lnmu.onrender.com/reviewed-albums/${document_id}`)
+        const response = await axios.delete(`http://localhost:8080/reviewed-albums/${document_id}`)
         console.log(response)
         return response.status >= 200 && response.status < 300;
     } catch (error) {

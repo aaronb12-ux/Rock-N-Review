@@ -103,12 +103,12 @@ func main() {
 		port = "8080"
 	}
 
-	router.Use(cors.New(cors.Config{
-		AllowOrigins:		[]string{"https://rocknreview.app"},
-		AllowMethods: 		[]string{"PUT", "PATCH", "POST", "DELETE", "GET", "OPTIONS"},
-		AllowHeaders:		[]string{"Content-Type"},
-	 		
-	}))
+	  router.Use(cors.New(cors.Config{
+        AllowOrigins:     []string{"http://localhost:5173"},
+        AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
+        AllowHeaders:     []string{"Content-Type", "Authorization"},
+        AllowCredentials: true,
+    }))
 
 	//endpoints for saved album
 	router.GET("/saved-albums/:id", GetSavedAlbums) 
@@ -142,6 +142,6 @@ func main() {
 	//endpoints for spotify token handling
 	router.POST("api/spotify/token", GetAccessToken)
 	
-	router.Run(":" + port)  
+	router.Run(":8080")  
 }
 
