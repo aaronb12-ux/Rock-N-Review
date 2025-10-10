@@ -27,36 +27,36 @@ const Login = () => {
         login(auth, email, password)   
     }
  
-    return ( <div className="flex items-center justify-center min-h-screen bg-indigo-50">
+    return ( <div className="flex items-center justify-center min-h-screen bg-slate-950">
         
 
-        <div className="w-fullpx-6">
+        <div className="w-full max-w-xl px-6">
         <div className="flex justify-center items-center mb-3">
             <div className="text-center">
-              <div className="text-5xl font-bold font-serif text-indigo-800 drop-shadow-md mb-1">
+              <div className="text-5xl font-bold text-white mb-1">
                 <div className="cursor-pointer">Rock N' Review</div>
               </div>
-              <p className="text-md text-gray-600 font-serif italic mt-1">
+              <p className="text-md text-slate-400 italic mt-1">
                 Discover. Rate. Repeat.
               </p>
             </div>
           </div>
-          <div className="overflow-hidden bg-white rounded-2xl shadow-xl">
-            <div className="bg-indigo-800 py-6 px-8">
-              <h2 className="text-center text-2xl font-bold font-serif drop-shadow-lg text-white mb-1">Login</h2>
+          <div className="overflow-hidden bg-slate-900 rounded-2xl shadow-2xl border border-slate-800">
+            <div className="bg-slate-800 py-6 px-8">
+              <h2 className="text-center text-2xl font-bold text-white mb-1">Login</h2>
             </div>
             
             <div className="px-8 py-6">
               <div onSubmit={handleSubmit}>
               <div className="h-6 flex items-center justify-center">
                 {invalidcredential && (
-                  <div className="font-bold font-serif text-red-500">
+                  <div className="font-bold text-red-400">
                     Invalid Credentials
                 </div>
                       )}
               </div>
                 <div className="mb-5">
-                  <label className="block text-gray-700 text-sm font-bold font-serif font-medium mb-2" htmlFor="email">
+                  <label className="block text-slate-300 text-sm font-bold font-medium mb-2" htmlFor="email">
                     Email Address
                   </label>
                   <div className="relative">
@@ -66,7 +66,7 @@ const Login = () => {
                     <input
                       type="email"
                       id="email"
-                      className="pl-10 w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                      className="pl-10 w-full p-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-slate-600 focus:border-slate-600 transition-all"
                       placeholder="you@example.com"
                       onChange={(e) => setEmail(e.target.value)}
                       required
@@ -75,7 +75,7 @@ const Login = () => {
                 </div>
                 
                 <div className="mb-6">
-                  <label className="block text-gray-700 font-bold font-serif  text-sm font-medium mb-2" htmlFor="password">
+                  <label className="block text-slate-300 font-bold text-sm font-medium mb-2" htmlFor="password">
                     Password
                   </label>
                   <div className="relative">
@@ -85,7 +85,7 @@ const Login = () => {
                     <input
                       type="password"
                       id="password"
-                      className="pl-10 w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                      className="pl-10 w-full p-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:ring-2 focus:ring-slate-600 focus:border-slate-600 transition-all"
                       placeholder="••••••••"
                       onChange={(e) => setPassword(e.target.value)}
                       required
@@ -96,20 +96,20 @@ const Login = () => {
                 
                 <button
                   onClick={handleSubmit}
-                  className="w-full flex items-center justify-center  bg-indigo-800 text-white font-medium py-3 px-4 rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all"
+                  className="w-full flex items-center justify-center bg-slate-800 text-white font-medium py-3 px-4 rounded-lg hover:bg-slate-700 transition-all"
                    
                 >
-                  <span className="font-bold font-serif">Log In</span>
+                  <span className="font-bold">Log In</span>
                  
                 </button>
               </div>
             </div>
           </div>
           
-          <div className="text-center mt-6 text-gray-600 font-bold font-serif ">
+          <div className="text-center mt-6 text-slate-400 font-bold">
             Don't have an account?{" "}
              <Link 
-                className="font-medium text-blue-600 hover:text-blue-800 transition-colors font-bold font-serif underline hover:no-underline"
+                className="font-medium text-slate-300 hover:text-white transition-colors font-bold underline hover:no-underline"
                 to={"/"}
                 style={{ position: 'relative', zIndex: 10 }}
               >

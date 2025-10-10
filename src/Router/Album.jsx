@@ -84,7 +84,7 @@ function Album() {
 
 
   return (
-    <div className="flex flex-col min-h-screen bg-indigo-50 w-full">
+    <div className="flex flex-col min-h-screen bg-slate-950 w-full">
       {/* Header and Scroll To Top on page render*/}
       <ScrollToTop />
       <Header currentSearch={search} />
@@ -118,8 +118,8 @@ function Album() {
         </div>
         
         {/* Tracks Section */}
-        <div className="bg-white rounded-xl shadow-md border border-indigo-100 overflow-hidden mb-8">
-          <div className="bg-gradient-to-r from-indigo-900 to-indigo-900 py-3 px-6">
+        <div className="bg-slate-950 rounded-xl shadow-md border border-slate-800 overflow-hidden mb-8">
+          <div className="bg-slate-800 py-3 px-6">
             <TracksBanner />
           </div>
           
@@ -133,7 +133,7 @@ function Album() {
                 />
               ))
             ) : (
-              <div className="text-center py-8 text-indigo-400">
+              <div className="text-center py-8 text-slate-400">
                 Loading tracks...
               </div>
             )}

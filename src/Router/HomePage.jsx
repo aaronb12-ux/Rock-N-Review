@@ -67,14 +67,14 @@ function HomePage() {
 */
 
     return (
-      <div className="bg-indigo-50 min-h-screen flex flex-col">
+      <div className="bg-slate-950 min-h-screen flex flex-col">
  
         <Header currentSearch={searchInput} />
         <ScrollToTop />
     
         {loading ? (
-          <div className="flex-1 flex items-center justify-center bg-indigo-50">
-            <div className="text-indigo-800 text-xl animate-pulse font-semibold">
+          <div className="flex-1 flex items-center justify-center bg-slate-950">
+            <div className="text-white text-xl animate-pulse font-semibold">
               Loading Albums...
             </div>
           </div>
@@ -88,31 +88,31 @@ function HomePage() {
                 {featuredalbums.map((album) => (
                   <Link
                     key={album.id}
-                    className="bg-indigo-100 border-2 border-indigo-700 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 w-full overflow-hidden"
+                    className="bg-slate-900 border-2 border-slate-800 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 w-full overflow-hidden"
                     to={`/album/${encodeURIComponent(album.name)}`}
                     state={{ album, searchInput }}
                   >
                     <div className="relative">
-                      <div className="h-64 overflow-hidden border-b-2 border-indigo-700">
+                      <div className="h-64 overflow-hidden border-b-2 border-slate-800">
                         <img
                           src={album.images[0].url}
                           className="w-full h-full object-cover"
                           alt={album.name}
                         />
                       </div>
-                      <div className="absolute top-3 right-3 bg-indigo-800 text-indigo-100 text-xs px-2 py-1 font-serif">
+                      <div className="absolute top-3 right-3 bg-slate-800 text-slate-300 text-xs px-2 py-1">
                         {new Date(album.release_date).getFullYear()}
                       </div>
                     </div>
                     <div className="p-4">
-                      <div className="font-bold text-base mt-1 text-indigo-900 font-serif border-b border-indigo-300 pb-2 mb-2">
+                      <div className="font-bold text-base mt-1 text-white border-b border-slate-800 pb-2 mb-2">
                         {album.name}
                       </div>
-                      <div className="text-indigo-800 text-sm">
-                        <div className="font-serif font-medium mb-1">
+                      <div className="text-slate-300 text-sm">
+                        <div className="font-medium mb-1">
                           {album.artists[0].name}
                         </div>
-                        <div className="text-xs text-indigo-700 mt-2 flex items-center">
+                        <div className="text-xs text-slate-400 mt-2 flex items-center">
                           <span className="mr-2">Released:</span>
                           <span className="font-mono">{album.release_date}</span>
                         </div>

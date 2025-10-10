@@ -44,11 +44,11 @@ const Reviews = ({id, name, refresh, setRefresh, setModal, setEditReview }) => {
 
 
   if (errorFetching) return (
-    <div className="bg-white rounded-xl shadow-lg  overflow-hidden border border-indigo-100 w-full max-w-3xl mx-auto h-full">
+    <div className="bg-slate-950 rounded-xl shadow-lg  overflow-hidden border border-slate-800 w-full max-w-3xl mx-auto h-full">
       {/* Header section with gradient */}
-      <div className="bg-indigo-900 px-3 py-4">
-        <h1 className="text-5xl md:text-5xl font-bold font-serif text-white tracking-wide flex items-center gap-2 overflow-hidden">
-        <span className="flex-shrink-0 font-medium text-indigo-300 uppercase tracking-wide text-base md:text-lg bg-indigo-900/30 px-4 py-2 rounded-full shadow-sm backdrop-blur-sm">Reviews for:</span>
+      <div className="bg-slate-800 px-3 py-4">
+        <h1 className="text-5xl md:text-5xl font-bold text-white tracking-wide flex items-center gap-2 overflow-hidden">
+        <span className="flex-shrink-0 font-medium text-slate-300 uppercase tracking-wide text-base md:text-lg bg-slate-900/30 px-4 py-2 rounded-full shadow-sm backdrop-blur-sm">Reviews for:</span>
           <span className="overflow-hidden text-ellipsis whitespace-nowrap max-w-md font-medium">
             {name} 
           </span>  
@@ -56,11 +56,11 @@ const Reviews = ({id, name, refresh, setRefresh, setModal, setEditReview }) => {
       </div>
       
       {/* Rating summary section */}
-      <div className="bg-indigo-50 py-2 border-b border-indigo-100">
+      <div className="bg-slate-900 py-2 border-b border-slate-800">
         <Rating reviews={reviews} />
       </div>
       
-      <div className="flex justify-center items-center h-64 text-sm font-bold text-black">
+      <div className="flex justify-center items-center h-64 text-sm font-bold text-white">
             <p className="inlie-block">error getting reveiws </p> 
       </div>
 
@@ -76,11 +76,11 @@ const Reviews = ({id, name, refresh, setRefresh, setModal, setEditReview }) => {
 
 
   return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-indigo-100 w-full max-w-3xl mx-auto h-full">
+    <div className="bg-slate-950 rounded-xl shadow-lg overflow-hidden border border-slate-800 w-full max-w-3xl mx-auto h-full">
       {/* Header section with gradient */}
-      <div className="bg-indigo-900 px-3 py-4">
-        <h1 className="text-5xl md:text-5xl font-bold font-serif text-white tracking-wide flex items-center gap-2 overflow-hidden">
-        <span className="flex-shrink-0 font-medium text-indigo-300 uppercase tracking-wide text-base md:text-lg bg-indigo-900/30 px-4 py-2 rounded-full shadow-sm backdrop-blur-sm">Reviews for:</span>
+      <div className="bg-slate-800 px-3 py-4">
+        <h1 className="text-5xl md:text-5xl font-bold text-white tracking-wide flex items-center gap-2 overflow-hidden">
+        <span className="flex-shrink-0 font-medium text-slate-300 uppercase tracking-wide text-base md:text-lg bg-slate-900/30 px-4 py-2 rounded-full shadow-sm backdrop-blur-sm">Reviews for:</span>
           <span className="overflow-hidden text-ellipsis whitespace-nowrap max-w-md font-medium">
             {name} 
           </span>  
@@ -88,7 +88,7 @@ const Reviews = ({id, name, refresh, setRefresh, setModal, setEditReview }) => {
       </div>
       
       {/* Rating summary section */}
-      <div className="bg-indigo-50 py-2 border-b border-indigo-100">
+      <div className="bg-slate-900 py-2 border-b border-slate-800">
         <Rating reviews={reviews} />
       </div>
       
@@ -97,12 +97,12 @@ const Reviews = ({id, name, refresh, setRefresh, setModal, setEditReview }) => {
         
         {loading ? (
           <div className="flex justify-center items-center h-70">
-            <div className="animate-pulse text-indigo-400">Loading reviews...</div>
+            <div className="animate-pulse text-slate-400">Loading reviews...</div>
           </div>
         ) : reviews && reviews.length > 0 ? (
           <div 
             className="overflow-y-auto max-h-70 pr-2" 
-            style={{ scrollbarWidth: "thin", scrollbarColor: "#818cf8 #eff6ff" }}
+            style={{ scrollbarWidth: "thin", scrollbarColor: "#64748b #1e293b" }}
           >
             {reviews.map((review, index) => (
               <Review
@@ -120,7 +120,7 @@ const Reviews = ({id, name, refresh, setRefresh, setModal, setEditReview }) => {
             ))}
           </div>
         ) : (
-          <div className="flex justify-center items-center h-60 text-gray-500">
+          <div className="flex justify-center items-center h-60 text-slate-500">
             No reviews yet. Be the first to leave a review!
           </div>
         )}
