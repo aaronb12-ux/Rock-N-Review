@@ -22,6 +22,40 @@ const Profile = () => {
       .catch((error) => console.log("Error signing out:", error));
   };
 
+   if (user_info.userData === null) {
+    return (
+      <div className="bg-slate-950 min-h-screen">
+        <Header currentSearch={currentSearch} />
+        <div className="flex items-center justify-center mt-5 ">
+          <AccountBanner />
+        </div>
+        <div className="flex flex-col items-center justify-center mt-30 px-4 text-center">
+          <div className="w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center mb-6">
+            <Music className="mr-1 text-slate-400 h-10 w-10" />
+          </div>
+          
+          <h2 className="text-2xl font-bold text-white mb-3">
+            
+          </h2>
+          
+          <p className="text-slate-300 text-2xl mb-6 max-w-md">
+            <span>
+  <Link className="text-white"
+  to={'/signup'}
+  >Make an account</Link>
+  <text> or </text>
+  <Link className="text-white"
+   to={'/Login'}
+  >login</Link>
+  <text> to see your profile!</text>
+</span>
+          </p>
+        
+        </div>
+      </div>
+    );
+  }
+
   if (user_info.userData) {
     return (
       <div className="bg-slate-950 min-h-screen flex flex-col">

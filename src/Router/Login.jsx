@@ -110,7 +110,7 @@ const Login = () => {
             Don't have an account?{" "}
              <Link 
                 className="font-medium text-slate-300 hover:text-white transition-colors font-bold underline hover:no-underline"
-                to={"/"}
+                to={"/signup"}
                 style={{ position: 'relative', zIndex: 10 }}
               >
                 Signup

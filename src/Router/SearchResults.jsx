@@ -72,7 +72,7 @@ function SearchResults() {
       <Header currentSearch={currentsearch} />
       {loading ? (
         <div className="flex-1 flex items-center justify-center bg-slate-950">
-          <div className="text-indigo-800 text-xl animate-pulse font-semibold">
+          <div className="text-white text-xl animate-pulse font-semibold">
             Loading Albums...
           </div>
         </div>
