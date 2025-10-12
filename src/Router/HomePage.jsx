@@ -87,6 +87,7 @@ function HomePage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-15 px-2">
                 {featuredalbums.map((album) => (
                   <Link
+                    style={{ textDecoration: 'none'}}
                     key={album.id}
                     className="bg-slate-900 border-2 border-slate-800 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 w-full overflow-hidden"
                     to={`/album/${encodeURIComponent(album.name)}`}

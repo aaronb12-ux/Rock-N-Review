@@ -5,7 +5,7 @@ export async function addSavedAlbum(post_data) {
 
     try {
 
-        const response = await axios.post("http://localhost:8080//saved-albums", post_data)
+        const response = await axios.post("http://localhost:8080/saved-albums", post_data)
 
         return response.status >= 200 && response.status < 300;
     } catch (error) {

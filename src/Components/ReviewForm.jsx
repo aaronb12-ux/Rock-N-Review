@@ -96,22 +96,22 @@ function ReviewForm({ postdata, setModal, setRefresh, editreview }) {
 
   return (
     // This goes inside your ReviewForm component
-<div className="backdrop-blur-sm border-4 border-indigo-700 rounded-xl p-6 shadow-lg bg-indigo-50">
+<div className="backdrop-blur-sm border-4 border-slate-800 rounded-xl p-6 shadow-lg bg-slate-950">
   <button
-    className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 text-2xl font-bold transition"
+    className="absolute top-3 right-3 text-slate-400 hover:text-slate-300 text-2xl font-bold transition"
     onClick={handlemodal}
   >
     ×
   </button>
   
   <div className="flex justify-center mb-4">
-    <span className="text-3xl font-bold font-serif text-indigo-800 border-b-2 border-indigo-700 pb-2">
+    <span className="text-3xl font-bold text-white border-b-2 border-slate-700 pb-2">
       Make Your Review
     </span>
   </div>
 
   <div className="mt-6 relative">
-  <span className="flex items-center justify-center text-2xl font-bold font-serif text-indigo-800">
+  <span className="flex items-center justify-center text-2xl font-bold text-white">
     Your Rating
   </span>
   <div className="mt-2 flex justify-center">
@@ -119,12 +119,12 @@ function ReviewForm({ postdata, setModal, setRefresh, editreview }) {
   </div>
   <div className="mt-2 flex justify-center h-6"> {/* Fixed height container */}
     {zerorating && (
-      <span className="text-red-500 font-bold font-serif text-sm">
+      <span className="text-red-400 font-bold text-sm">
         Rating Cannot Be Zero
       </span>
     )}
     {noReview && (
-      <span className="text-red-500 font-bold font-serif text-sm">
+      <span className="text-red-400 font-bold text-sm">
         Review Cannot Be Empty
       </span>
     )}
@@ -134,7 +134,7 @@ function ReviewForm({ postdata, setModal, setRefresh, editreview }) {
   <div className="mt-8">
     <label
       htmlFor="review"
-      className="flex items-center justify-center text-2xl font-bold font-serif text-indigo-800 mb-3"
+      className="flex items-center justify-center text-2xl font-bold text-white mb-3"
     >
       Your Review
     </label>
@@ -143,7 +143,7 @@ function ReviewForm({ postdata, setModal, setRefresh, editreview }) {
       <textarea
         id="review"
         rows="6"
-        className="block p-4 w-full text-md text-gray-900 bg-indigo-50 rounded-lg border border-indigo-300 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300 shadow-inner resize-none min-h-[150px]"
+        className="block p-4 w-full text-md text-white bg-slate-900 rounded-lg border border-slate-700 focus:ring-slate-600 focus:border-slate-600 transition-all duration-300 shadow-inner resize-none min-h-[150px]"
         value={existingReview}
         onChange={(e) => setExistingReview(e.target.value)}
       />
@@ -151,7 +151,7 @@ function ReviewForm({ postdata, setModal, setRefresh, editreview }) {
       <textarea
         id="review"
         rows="6"
-        className="block p-4 w-full text-md text-gray-900 bg-indigo-50 rounded-lg border border-indigo-300 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300 shadow-inner resize-none min-h-[150px]"
+        className="block p-4 w-full text-md text-white bg-slate-900 rounded-lg border border-slate-700 focus:ring-slate-600 focus:border-slate-600 transition-all duration-300 shadow-inner resize-none min-h-[150px] placeholder-slate-500"
         placeholder="Share your thoughts about this album..."
         value={review}
         onChange={(e) => setReview(e.target.value)}
@@ -160,7 +160,7 @@ function ReviewForm({ postdata, setModal, setRefresh, editreview }) {
 
     <div className="mt-6 flex justify-end">
       <button
-        className="bg-indigo-800 hover:bg-indigo-900 text-white font-bold py-3 px-6 rounded-full shadow-md transition-all duration-300 flex items-center space-x-2 cursor-pointer"
+        className="bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 px-6 rounded-full shadow-md transition-all duration-300 flex items-center space-x-2 cursor-pointer"
         onClick={handleSubmit}
       >
         <span>Submit</span>
@@ -194,4 +194,4 @@ function ReviewForm({ postdata, setModal, setRefresh, editreview }) {
   );
 }
 
-export default ReviewForm;
+export default ReviewForm

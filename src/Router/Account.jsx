@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
-import { User, Mail, Calendar, LogOut, Music, Star, Heart } from "lucide-react";
+import { User, Mail, Calendar, LogOut, Music, Star, Heart, Users, UserPlus } from "lucide-react";
 import AccountBanner from "../Components/AccountBanner";
 import Header from "../Components/Header";
 import { AuthContext } from "../Context/AuthContext";
@@ -24,113 +24,136 @@ const Profile = () => {
 
   if (user_info.userData) {
     return (
-      <div className="bg-indigo-50 min-h-screen flex flex-col">
+      <div className="bg-slate-950 min-h-screen flex flex-col">
         <Header currentSearch={currentSearch} />
         
         <div className="flex items-center justify-center mt-5">
           <AccountBanner />
         </div>
 
-        <div className="py-6 mx-auto px-4 max-w-6xl w-full">
-          <div className="space-y-5">
+        <div className="py-8 mx-auto px-6 max-w-6xl w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            {/* Account Details */}
-            <div className="bg-white rounded-lg shadow-md border border-indigo-100 overflow-hidden">
-              <div className="bg-gradient-to-r from-indigo-900 to-indigo-900 py-2 px-5">
-                <h3 className="text-md font-bold text-white font-serif flex items-center">
-                  <User className="w-4 h-4 mr-2" />
-                  Account Information
-                </h3>
-              </div>
-              
-              <div className="p-5 space-y-3">
-                <div className="flex items-center p-3 bg-indigo-50 border border-indigo-200 rounded-lg">
-                  <User className="w-5 h-5 text-indigo-600 mr-3" />
-                  <div className="flex-1">
-                    <p className="text-sm text-indigo-700 font-bold font-serif">Username</p>
-                    <p className="text-indigo-800 font-semibold font-serif">{userData.username}</p>
+            {/* Left Column - Profile Info */}
+            <div className="lg:col-span-1 space-y-6">
+              {/* Profile Card */}
+              <div className="bg-slate-950 rounded-xl shadow-lg border border-slate-800 overflow-hidden p-8">
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-24 h-24 bg-slate-800 rounded-full flex items-center justify-center border-4 border-slate-700 mb-4">
+                    <User className="w-12 h-12 text-slate-300" />
                   </div>
-                </div>
-
-                <div className="flex items-center p-3 bg-indigo-50 border border-indigo-200 rounded-lg">
-                  <Mail className="w-5 h-5 text-indigo-600 mr-3" />
-                  <div className="flex-1">
-                    <p className="text-sm text-indigo-700 font-bold font-serif">Email</p>
-                    <p className="text-indigo-800 font-semibold font-serif break-all">{userData.email}</p>
+                  <h2 className="text-2xl font-bold text-white mb-2">{userData.username}</h2>
+                  <p className="text-slate-400 text-sm mb-6">{userData.email}</p>
+                  
+                  {/* Followers/Following */}
+                  <div className="flex gap-4 w-full mb-6">
+                    <button className="flex-1 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-lg p-3 transition-colors">
+                      <p className="text-2xl font-bold text-white">0</p>
+                      <p className="text-xs text-slate-400">Followers</p>
+                    </button>
+                    <button className="flex-1 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-lg p-3 transition-colors">
+                      <p className="text-2xl font-bold text-white">0</p>
+                      <p className="text-xs text-slate-400">Following</p>
+                    </button>
                   </div>
-                </div>
 
-                <div className="flex items-center p-3 bg-indigo-50 border border-indigo-200 rounded-lg">
-                  <Calendar className="w-5 h-5 text-indigo-600 mr-3" />
-                  <div className="flex-1">
-                    <p className="text-sm text-indigo-700 font-bold font-serif">Account Created</p>
-                    <p className="text-indigo-800 font-semibold font-serif">{created}</p>
+                  <div className="w-full space-y-2">
+                    <div className="flex items-center gap-2 text-sm text-slate-400">
+                      <Calendar className="w-4 h-4" />
+                      <span>Joined {created}</span>
+                    </div>
                   </div>
                 </div>
               </div>
+
+              {/* Sign Out */}
+              <button
+                onClick={handleSignOut}
+                className="w-full bg-slate-950 hover:bg-slate-900 border border-slate-800 rounded-xl p-4 transition-colors flex items-center justify-center gap-2"
+              >
+                <LogOut className="w-5 h-5 text-red-400" />
+                <span className="text-red-400 font-bold">Sign Out</span>
+              </button>
             </div>
 
-            {/* Music Collection Navigation */}
-            <div className="bg-white rounded-lg shadow-md border border-indigo-100 overflow-hidden">
-              <div className="bg-gradient-to-r from-indigo-900 to-indigo-900 py-2 px-5">
-                <h3 className="text-md font-bold text-white font-serif flex items-center">
-                  <Music className="w-4 h-4 mr-2" />
-                  Your Music Collection
-                </h3>
-              </div>
-              
-              <div className="p-5 space-y-3">
+            {/* Right Column - Collections */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* Stats Overview */}
+              <div className="grid grid-cols-3 gap-6">
                 <Link
+                  style={{ textDecoration: 'none'}}
                   to="/reviewed"
                   state={{ searchInput: currentSearch }}
-                  className="flex items-center p-3 bg-indigo-50 border border-indigo-200 rounded-lg hover:bg-indigo-100 hover:border-indigo-300 transition-all duration-200"
+                  className="bg-slate-950 border border-slate-800 rounded-xl p-4 hover:bg-slate-900 hover:border-slate-700 transition-all"
                 >
-                  <Star className="w-5 h-5 text-indigo-600 mr-3" />
-                  <div className="flex-1">
-                    <p className="text-indigo-800 font-bold font-serif">Reviewed Albums</p>
-                    <p className="text-sm text-indigo-600 font-serif">View all your album reviews</p>
-                  </div>
+                  <Star className="w-6 h-6 text-slate-400 mb-3" />
+                  <p className="text-2xl font-bold text-white">0</p>
+                  <p className="text-sm text-slate-400">Reviews</p>
                 </Link>
                 
                 <Link
                   to="/saved"
                   state={{ searchInput: currentSearch }}
-                  className="flex items-center p-3 bg-indigo-50 border border-indigo-200 rounded-lg hover:bg-indigo-100 hover:border-indigo-300 transition-all duration-200"
+                  className="bg-slate-950 border border-slate-800 rounded-xl p-4 hover:bg-slate-900 hover:border-slate-700 transition-all"
                 >
-                  <Heart className="w-5 h-5 text-indigo-600 mr-3" />
-                  <div className="flex-1">
-                    <p className="text-indigo-800 font-bold font-serif">Saved Albums</p>
-                    <p className="text-sm text-indigo-600 font-serif">Albums you want to check out</p>
-                  </div>
+                  <Heart className="w-6 h-6 text-slate-400 mb-3" />
+                  <p className="text-2xl font-bold text-white">0</p>
+                  <p className="text-sm text-slate-400">Saved</p>
                 </Link>
 
                 <Link
                   to="/homepage"
                   state={{ searchInput: currentSearch }}
-                  className="flex items-center p-3 bg-indigo-50 border border-indigo-200 rounded-lg hover:bg-indigo-100 hover:border-indigo-300 transition-all duration-200"
+                  className="bg-slate-950 border border-slate-800 rounded-xl p-4 hover:bg-slate-900 hover:border-slate-700 transition-all"
                 >
-                  <Music className="w-5 h-5 text-indigo-600 mr-3" />
-                  <div className="flex-1">
-                    <p className="text-indigo-800 font-bold font-serif">Discover Albums</p>
-                    <p className="text-sm text-indigo-600 font-serif">Explore trending and featured music</p>
-                  </div>
+                  <Music className="w-6 h-6 text-slate-400 mb-3" />
+                  <p className="text-2xl font-bold text-white">Discover</p>
+                  <p className="text-sm text-slate-400">Explore</p>
                 </Link>
               </div>
-            </div>
 
-            {/* Sign Out */}
-            <div className="bg-white rounded-lg shadow-md border border-indigo-100 overflow-hidden mx-auto w-[300px]">
-   <button
-    onClick={handleSignOut}
-    className="w-full flex items-center p-4 text-left hover:bg-red-50 transition-colors"
-  >
-    <LogOut className="w-5 h-5 text-red-600 mr-3" />
-    <div className="flex-1">
-      <p className="text-red-600 font-bold font-serif text-sm">Sign Out</p>
-      <p className="text-xs text-red-500 font-serif">End your current session</p>
-    </div>
-  </button>
-</div>
+              {/* Quick Actions */}
+              <div className="bg-slate-950 rounded-xl shadow-lg border border-slate-800 p-6">
+                <h3 className="text-lg font-bold text-white mb-4">Your Collection</h3>
+                <div className="space-y-3">
+                  <Link
+                    to="/reviewed"
+                    state={{ searchInput: currentSearch }}
+                    className="flex items-center p-4 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-lg transition-all"
+                  >
+                    <Star className="w-5 h-5 text-slate-400 mr-3" />
+                    <div className="flex-1">
+                      <p className="text-white font-bold">Reviewed Albums</p>
+                      <p className="text-sm text-slate-400">View all your album reviews</p>
+                    </div>
+                  </Link>
+                  
+                  <Link
+                    to="/saved"
+                    state={{ searchInput: currentSearch }}
+                    className="flex items-center p-4 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-lg transition-all"
+                  >
+                    <Heart className="w-5 h-5 text-slate-400 mr-3" />
+                    <div className="flex-1">
+                      <p className="text-white font-bold">Saved Albums</p>
+                      <p className="text-sm text-slate-400">Albums you want to check out</p>
+                    </div>
+                  </Link>
+
+                  <Link
+                    to="/homepage"
+                    state={{ searchInput: currentSearch }}
+                    className="flex items-center p-4 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-lg transition-all"
+                  >
+                    <Music className="w-5 h-5 text-slate-400 mr-3" />
+                    <div className="flex-1">
+                      <p className="text-white font-bold no-underline">Discover Albums</p>
+                      <p className="text-sm text-slate-400">Explore trending and featured music</p>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            </div>
 
           </div>
         </div>

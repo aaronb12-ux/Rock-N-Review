@@ -1,18 +1,17 @@
-import { Music, Star } from 'lucide-react';
-export default function SavedBanner() {
 
+import { Music } from 'lucide-react';
+
+export default function SavedBanner() {
      return (
-        <div>
-        <span className="relative inline-block">
-          <span className="absolute inset-0 bg-indigo-800 opacity-10 transform"></span>
-          <span className="relative z-10 text-3xl font-bold font-serif text-indigo-800 tracking-widest drop-shadow-md px-8 py-3 border-x-4 border-indigo-700 flex items-center">
-        
-            <span className="bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-700 bg-clip-text text-transparent">Saved</span>
-    
-          </span>
-          <span className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-indigo-700 to-transparent"></span>
-        </span>
-      </div>
+        <div className="relative">
+          <div className="inline-flex items-center gap-3 bg-slate-900 border-2 border-slate-700 rounded-lg px-6 py-3 shadow-lg">
+            <Music className="w-6 h-6 text-slate-400" />
+            <span className="text-2xl font-bold text-white tracking-wide">
+              Saved
+            </span>
+            <Music className="w-6 h-6 text-slate-400" />
+          </div>
+        </div>
     )
 }
 

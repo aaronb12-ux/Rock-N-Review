@@ -97,7 +97,7 @@ function Reviewed() {
           <ReviewedBanner />
         </div>
       {loading ? (
-        <div className="flex-1 flex items-center justify-center bg-slate-900 mb-10">
+        <div className="flex-1 flex items-center justify-center bg-slate-950 mb-10">
           <div className="text-white text-xl animate-pulse font-semibold">
             Loading Albums...
           </div>
@@ -109,6 +109,7 @@ function Reviewed() {
               return (
                
                 <Link
+                 style={{ textDecoration: 'none'}}
                   key={album.id}
                   className="bg-slate-900 m-6 rounded-none border-2 border-slate-800 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 max-w-xs overflow-hidden"
                   to={`/reviewed/${encodeURIComponent(album.name)}`}
