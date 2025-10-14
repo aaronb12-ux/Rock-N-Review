@@ -51,6 +51,8 @@ type user struct {
 	UserName string `json:"username"`
 	Email string `json:"email"`
 	CreatedAt string `json:"created"`
+	Followers []string `json:"followers"`
+	Following []string `json:"following"`
 }
 
 
@@ -138,6 +140,8 @@ func main() {
 	router.GET("/users/:userid", getUserById)
 
 	router.GET("/users/username/:username", checkIfUserExists)
+
+	router.PATCH("/users/:followee/:follower", addNewFollower)
 
 	//endpoints for spotify token handling
 	router.POST("api/spotify/token", GetAccessToken)

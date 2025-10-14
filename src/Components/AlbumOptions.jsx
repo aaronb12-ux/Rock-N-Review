@@ -5,6 +5,7 @@ import { deleteSavedAlbum } from "../API/saved";
 import { checkIfSaved } from "../API/saved";
 import { checkIfReviewExists } from "../API/reviewed";
 import SaveToast from "./SaveToast";
+import SignUpModal from "./SignUpModal";
 
 export default function AlbumOptions({
   albumdata,
@@ -19,9 +20,14 @@ export default function AlbumOptions({
   const [fetchsaved, setFetchedSaved] = useState(0); ///updates each time an album is reviewed
   const [savefail, setSaveFail] = useState(false);
   const [unsavefail, setUnsaveFail] = useState(false);
+  const [browsing, setBrowsing] = useState(false)
 
   const handlesave = async (e) => {
     //api call when saving an album when clicking the 'save' button
+     if (user.userData === null) {
+        setBrowsing(true)
+        return
+    }
 
     e.preventDefault();
 
@@ -38,7 +44,6 @@ export default function AlbumOptions({
 
     try {
       const response = await addSavedAlbum(post_data);
-      console.log(response)
 
       if (response === "error") {
         throw error;
@@ -98,6 +103,12 @@ export default function AlbumOptions({
   }, [fetchsaved]);
 
   const handlereview = async () => {
+
+    if (user.userData === null) {
+        setBrowsing(true)
+        return
+    }
+
     const ID = {
       id: albumdata.albumid || albumdata.id,
     };
@@ -117,7 +128,9 @@ export default function AlbumOptions({
     }
   };
 
+  console.log(browsing)
   return (
+
     <div className="mt-6 flex space-x-3">
       {savestate ? (
         <button //if 'savestate' is true. the album is saved.
@@ -193,6 +206,11 @@ export default function AlbumOptions({
         </div>
       ) : (
         <div></div>
+      )}
+      {browsing && (
+        <SignUpModal
+         setBrowsing={setBrowsing}
+        />
       )}
 
       {unsavefail ? <SaveToast setUnsaveFail={setUnsaveFail} /> : <div></div>}

@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import { submitUser } from "../API/signup"
 
 function Signup({setSignedUp}) {
-    
+
+  
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [username, setUserName] = useState("")
@@ -12,7 +13,6 @@ function Signup({setSignedUp}) {
     const [badpassword, setBadPassword] = useState(false)
     const [bademail, setBadEmail] = useState(false)
     const [duplicateemail, setDuplicateEmail] = useState(false)
-
 
     const handleSubmit = async (e) => {
       console.log(username, email, password)

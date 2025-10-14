@@ -7,11 +7,11 @@ export const featuredalbums = [
       images: [{ url: "https://i.scdn.co/image/ab67616d00001e02a70a80359930eea5bfdf11f5" }]
     },
     {
-      id: "07w0rG5TETcyihsEIZR3qG",
-      name: "SOS",
-      artists: [{ name: "SZA" }],
-      release_date: "2022-12-09",
-      images: [{ url: 'https://i.scdn.co/image/ab67616d0000b27370dbc9f47669d120ad874ec1' }]
+      id:  "1W57oNaAkGObOQKBTxg4e9",
+      name: "The Life of a Showgirl",
+      artists: [{ name: "Taylor Swift" }],
+      release_date: "2025-10-03",
+      images: [{ url: 'https://i.scdn.co/image/ab67616d0000b273d7812467811a7da6e6a44902' }]
     },
     {
       id:  "3DmDoHxAeEiDFNWrHSKAdQ",

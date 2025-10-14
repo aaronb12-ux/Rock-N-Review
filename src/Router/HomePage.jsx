@@ -6,6 +6,7 @@ import ScrollToTop from "../Components/Layout";
 import { getaccesstoken } from "../API/spotify"
 import { getTopAlbums } from "../API/spotify"
 import {featuredalbums} from "../Data/featured"
+import { getSearchedAlbums } from "../API/spotify";
 
 function HomePage() {
 
@@ -14,7 +15,7 @@ function HomePage() {
     const [topalbums, setTopAlbums] = useState([]) //state that will store the data retrieved from the API call 'getinfo()'
     const [token, setToken] = useState("")
     const [loading, setLoading] = useState(false);
-/*
+
     const headers = { //headers for spotify API call
       "Content-Type": "application/json",
       Authorization : "Bearer " + token,
@@ -56,15 +57,17 @@ function HomePage() {
        
       const getimage = async () => {
 
-            const query = "Dangerous: The Double Album"
-            const response = await getSearchedAlbums(headers, query )
+       
+            const query = "The Life of a showgirl"
+              console.log(headers, query)
+            const response = await getSearchedAlbums(headers, query)
             console.log(response)   
       }
 
       getimage()
      
     }, [token])
-*/
+
 
     return (
       <div className="bg-slate-950 min-h-screen flex flex-col">

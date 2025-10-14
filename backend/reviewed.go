@@ -128,7 +128,7 @@ func CheckIfReviewExistsByUser(c *gin.Context) {
 
 //users can update either the rating (stars 1-5) or the text review
 func UpdateReviewedAlbum(c *gin.Context) {
-	//this function updates a movie based off the field passed into it. As of now, only rating can be modified.
+
 	
 	id := c.Param("id") 
 	
@@ -144,7 +144,6 @@ func UpdateReviewedAlbum(c *gin.Context) {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"error" : err.Error()})
 	}
  
-
 	update_rating := bson.D{{"$set", bson.D{{"rating", a.Rating}}}}
 	
 	result, err := coll.UpdateOne(context.TODO(), filter, update_rating)

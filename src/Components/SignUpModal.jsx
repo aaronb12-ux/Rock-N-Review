@@ -1,13 +1,14 @@
 import { Music } from "lucide-react";
-const DuplicateModal = ({setDuplicateReview}) => {
+import { Link, useLocation } from "react-router-dom";
+const SignUpModal = ({setBrowsing}) => {
 
     return (
-        <div className="fixed inset-0 bg-opacity-25 backdrop-blur-sm flex justify-center items-center">
-          <div className="bg-slate-200 rounded-2xl shadow-xl p-6 w-[90%] max-w-sm relative animate-fade-in">
+        <div className="fixed inset-0 bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-20">
+          <div className="bg-slate-200 rounded-2xl shadow-xl p-6 w-[90%] max-w-sm relative animate-fade-in ">
             {/* Close Button */}
             <button
               className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 text-2xl font-bold transition"
-              onClick={() => setDuplicateReview(false)}
+              onClick={() => setBrowsing(false)}
               aria-label="Close"
             >
               ×
@@ -22,7 +23,18 @@ const DuplicateModal = ({setDuplicateReview}) => {
       
             {/* Message */}
             <p className="text-center text-lg font-semibold text-gray-800">
-              You've already reviewed this album.
+
+                <span>
+  <Link className="text-slate-900"
+  to={'/signup'}
+  >Make an account</Link>
+  <text> or </text>
+  <Link className="text-slate-950"
+   to={'/Login'}
+  >login</Link>
+  <text> to review and save albums!</text>
+</span>
+
             </p>
           </div>
         </div>
@@ -31,4 +43,4 @@ const DuplicateModal = ({setDuplicateReview}) => {
 }
 
 
-export default DuplicateModal
+export default SignUpModal

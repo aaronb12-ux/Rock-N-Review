@@ -10,10 +10,6 @@ import (
 	//"go.mongodb.org/mongo-driver/mongo"
 )
 
-
-//will have endpoints: edit user info, get user by id, delete user, add user
-
-
 func addUser(c *gin.Context) {
 
 	var newUser user //new user struct
@@ -53,9 +49,7 @@ func getUserById(c *gin.Context) {
 	 }
 
 	 c.IndentedJSON(http.StatusAccepted, user)
-
 }
-
 
 
 func checkIfUserExists(c *gin.Context) {
@@ -74,7 +68,26 @@ func checkIfUserExists(c *gin.Context) {
 	}
 
 	c.IndentedJSON(http.StatusOK, user)
-
-	
 }
+
+func addNewFollower(c *gin.Context) {
+	//accepts as first parameter the user who is following the other (follower)
+	//accepts as second parameter the user who is being followed (followee)
+
+	followee := c.Param("followee") //url param
+	//follower := c.Param("follower") //url param
+
+	filter := bson.D{{"username", followee}}
+
+	coll := mongoClient.Database("AlbumApp").Collection("Users").FindOne(context.TODO(), filter).Decode(&followee) //collection we are querying
+
+	if coll != nil {
+		c.IndentedJSON(http.StatusNotFound, gin.H{"error" : "username does not exist"})
+		return
+	}
+
+	c.IndentedJSON(http.StatusOK, followee)
+
+}
+
 
