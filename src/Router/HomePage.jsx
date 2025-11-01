@@ -58,7 +58,7 @@ function HomePage() {
       const getimage = async () => {
 
        
-            const query = "The Life of a showgirl"
+            const query = "You'll be alright, kid"
               console.log(headers, query)
             const response = await getSearchedAlbums(headers, query)
             console.log(response)   
@@ -74,7 +74,6 @@ function HomePage() {
  
         <Header currentSearch={searchInput} />
         <ScrollToTop />
-    
         {loading ? (
           <div className="flex-1 flex items-center justify-center bg-slate-950">
             <div className="text-white text-xl animate-pulse font-semibold">

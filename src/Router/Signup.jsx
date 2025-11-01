@@ -2,8 +2,9 @@ import React, {useState} from 'react'
 import { auth } from '../firebase'
 import { Link } from "react-router-dom";
 import { submitUser } from "../API/signup"
+import HomePage from './HomePage';
 
-function Signup({setSignedUp}) {
+function Signup({}) {
 
   
     const [email, setEmail] = useState("")
@@ -13,6 +14,7 @@ function Signup({setSignedUp}) {
     const [badpassword, setBadPassword] = useState(false)
     const [bademail, setBadEmail] = useState(false)
     const [duplicateemail, setDuplicateEmail] = useState(false)
+    const [signedup, setSignedUp] = useState(false)
 
     const handleSubmit = async (e) => {
       console.log(username, email, password)
@@ -39,6 +41,10 @@ function Signup({setSignedUp}) {
             setSignedUp(true);
         }
     }
+
+    if (signedup) return (
+      <HomePage/>
+    )
 
     return (
       <div className="flex items-center justify-center min-h-screen bg-slate-950">

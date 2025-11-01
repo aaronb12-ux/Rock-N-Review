@@ -139,15 +139,15 @@ function Reviewed() {
           </div>
         </div>
       ) : (
-        <div className="px-5">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="px-4 py-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1">
             {reviewedalbums.map((album) => {
               return (
                
                 <Link
                  style={{ textDecoration: 'none'}}
                   key={album.id}
-                  className="bg-slate-900 m-6 rounded-none border-2 border-slate-800 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 max-w-xs overflow-hidden"
+                  className="bg-slate-950 m-6 rounded-none border-2 border-slate-800 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 max-w-xs overflow-hidden"
                   to={`/reviewed/${encodeURIComponent(album.name)}`}
                   state={{ album: album, saved: false, searchInput : searchInput}}
                 >

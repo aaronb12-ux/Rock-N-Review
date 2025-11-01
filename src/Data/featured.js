@@ -14,32 +14,32 @@ export const featuredalbums = [
       images: [{ url: 'https://i.scdn.co/image/ab67616d0000b273d7812467811a7da6e6a44902' }]
     },
     {
-      id:  "3DmDoHxAeEiDFNWrHSKAdQ",
-      name: "Echo",
-      artists: [{ name: "Jin" }],
-      release_date: "2025-05-16",
-      images: [{ url: 'https://i.scdn.co/image/ab67616d0000b27389228504f700641956e29f5d' }]
+      id:  "14JkAa6IiFaOh5s0nMyMU9",
+      name: "KPop Demon Hunters",
+      artists: [{ name: "KPop Demon Hunters Cast" }],
+      release_date: "2025-06-20",
+      images: [{ url: 'https://i.scdn.co/image/ab67616d0000b2734dcb6c5df15cf74596ab25a4' }]
     },
     {
-      id: "6i7mF7whyRJuLJ4ogbH2wh",
-      name: "One Thing At A Time",
-      artists: [{ name: "Morgan Wallen" }],
-      release_date: "2023-03-03",
-      images: [{ url:  'https://i.scdn.co/image/ab67616d0000b273705079df9a25a28b452c1fc9' }]
+      id: "1LsNb6mVitbLZCxnRsbCDJ",
+      name: "Am I The Drama?",
+      artists: [{ name: "Cardi B" }],
+      release_date: "2025-09-19",
+      images: [{ url:  'https://i.scdn.co/image/ab67616d0000b2733e5a1515b5f85c7b45619273' }]
     },
     {
-      id:  "0hvT3yIEysuuvkK73vgdcW",
-      name: "GNX",
-      artists: [{ name: "Kendrick Lamar" }],
-      release_date: "2024-11-22",
-      images: [{ url: 'https://i.scdn.co/image/ab67616d0000b273d9985092cd88bffd97653b58' }]
+      id:  "1aqg30bNvLSWgShZgX4oop",
+      name: "Man's Best Friend",
+      artists: [{ name: "Sabrina Carpenter" }],
+      release_date: "2025-08-29",
+      images: [{ url: 'https://i.scdn.co/image/ab67616d0000b273b1863bf95557ea7f357c4947' }]
     },
     {
-      id: "1lS7FeRcSUuIGqyg99UGpj",
-      name: "Even In Arcadia",
-      artists: [{ name: "Sleep Token" }],
-      release_date: "2025-05-09",
-      images: [{ url: "https://i.scdn.co/image/ab67616d0000b2730e48dcb579fd8e59d0a3c218" }]
+      id: "0l8zYqoUeBYg47Gmevq9HZ",
+      name: "The Art Of Loving",
+      artists: [{ name: "Olivia Dean" }],
+      release_date: "2025-09-26",
+      images: [{ url: 'https://i.scdn.co/image/ab67616d0000b2739a336bfb6d40bbd90a507417' }]
     },
     {
       id:  "3iPSVi54hsacKKl1xIR2eH",
@@ -49,11 +49,11 @@ export const featuredalbums = [
       images: [{ url: 'https://i.scdn.co/image/ab67616d0000b273fd8d7a8d96871e791cb1f626' }]
     },
     {
-      id: "6Rl6YoCarF2GHPSQmmFjuR",
-      name: "$ome $exy $ongs 4 U",
-      artists: [{ name: "PARTYNEXTDOOR & Drake" }],
-      release_date: "2025-02-14",
-      images: [{ url: 'https://i.scdn.co/image/ab67616d0000b273cc392813bfd8f63d4d5f4a95' }]
+      id: "6FyViQsaJnS1e5if4ouzGK",
+      name: "You'll Be Alright Kid",
+      artists: [{ name: "Alex Warren" }],
+      release_date: "2025-07-18",
+      images: [{ url: 'https://i.scdn.co/image/ab67616d0000b273b0a2d7a2d8406a4a72a92d5c' }]
     },
     {
       id: "5K79FLRUCSysQnVESLcTdb",

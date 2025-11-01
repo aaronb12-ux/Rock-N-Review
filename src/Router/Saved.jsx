@@ -134,7 +134,7 @@ function Saved() {
           </div>
         </div>
       ) : (
-        <div className="px-5">
+        <div className="px-4 py-2">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
             {albums.map((album) => {
               return (

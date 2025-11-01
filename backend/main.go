@@ -51,8 +51,6 @@ type user struct {
 	UserName string `json:"username"`
 	Email string `json:"email"`
 	CreatedAt string `json:"created"`
-	Followers []string `json:"followers"`
-	Following []string `json:"following"`
 }
 
 
@@ -105,12 +103,15 @@ func main() {
 		port = "8080"
 	}
 
-	  router.Use(cors.New(cors.Config{
-        AllowOrigins:     []string{"http://localhost:5173"},
-        AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
-        AllowHeaders:     []string{"Content-Type", "Authorization"},
-        AllowCredentials: true,
-    }))
+	router.Use(cors.New(cors.Config{
+    AllowOrigins: []string{
+        "http://localhost:5173",              //For local development
+        "https://rocknreview.app",            //For production
+    },
+    AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
+    AllowHeaders:     []string{"Content-Type", "Authorization"},
+    AllowCredentials: true,
+}))
 
 	//endpoints for saved album
 	router.GET("/saved-albums/:id", GetSavedAlbums) 
@@ -141,11 +142,8 @@ func main() {
 
 	router.GET("/users/username/:username", checkIfUserExists)
 
-	router.PATCH("/users/:followee/:follower", addNewFollower)
-
 	//endpoints for spotify token handling
 	router.POST("api/spotify/token", GetAccessToken)
 	
-	router.Run(":8080")  
+	router.Run(":" + port)  
 }
-

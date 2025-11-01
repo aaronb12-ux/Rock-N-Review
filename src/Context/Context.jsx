@@ -21,7 +21,7 @@ export function AuthProvider({ children }) {
         
         while (attempts < maxAttempts) {
           try {
-            const response = await axios.get(`http://localhost:8080/users/${userid}`);      
+            const response = await axios.get(`https://album-review-app-lnmu.onrender.com/users/${userid}`);      
             
             if (response.data) {
               setUserData(response.data);
@@ -51,5 +51,4 @@ export function AuthProvider({ children }) {
     </AuthContext.Provider>
   );
 }
-
 
