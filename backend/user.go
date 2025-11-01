@@ -33,6 +33,7 @@ func addUser(c *gin.Context) {
 	
 }
 
+/*
 func getUserById(c *gin.Context) {
 
 	 userid := c.Param("userid")
@@ -49,6 +50,26 @@ func getUserById(c *gin.Context) {
 	 }
 
 	 c.IndentedJSON(http.StatusAccepted, user)
+}
+*/
+func getUserById(c *gin.Context) {
+
+	 userid := c.Param("userid")
+
+
+	 filter := bson.D{{"userid", userid}}
+
+	 var user user
+
+	 err := mongoClient.Database("AlbumApp").Collection("Users").FindOne(context.TODO(), filter).Decode(&user)
+
+	 if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error" : "error getting user"})
+		return
+	 }
+
+	 c.IndentedJSON(http.StatusAccepted, user)
+
 }
 
 
