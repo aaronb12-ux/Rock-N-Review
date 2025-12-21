@@ -53,16 +53,18 @@ function HomePage() {
         }       
     }, [token])
 
+    /*
     useEffect(() => { //FOR WHEN NEEDING TO CHANGE FEATURED ALBUMS
        
       const getimage = async () => {
 
        
             const query = "You'll be alright, kid"
-              console.log(headers, query)
+             
             const response = await getSearchedAlbums(headers, query)
-            console.log(response)   
+             
       }
+      */
 
       getimage()
      
