@@ -64,13 +64,13 @@ function HomePage() {
             const response = await getSearchedAlbums(headers, query)
              
       }
-      */
+      
 
       getimage()
      
     }, [token])
 
-
+*/
     return (
       <div className="bg-slate-950 min-h-screen flex flex-col">
  
