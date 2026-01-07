@@ -10,7 +10,6 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -18,40 +17,6 @@ import (
 //mongoDB Atlas connection string
 //reference to the MongoDB Client
 var mongoClient *mongo.Client 
-
-type savedAlbum struct {
-	ID primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	AlbumID string `json:"albumid"`
-	Name string `json:"name"` 
-	Artist string `json:"artist"`
-	UserID string `json:"userid"`
-	Release_Date string `json:"release_date"`
-	Image string  `json:"image"`
-	Tracks [][]string `json:"tracks"`
-}
-
-type reviewedAlbum struct {
-	ID primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	AlbumID string `json:"albumid"`
-	Name string `json:"name"`
-	Artist string `json:"artist"`
-	Publisher string `json:"publisher"`
-	UserID string `json:"userid"`
-	Release_Date string `json:"release_date"`
-	Image string `json:"image"`
-	Tracks [][]string `json:"tracks"`
-	Rating int `json:"rating"`
-	Review string `json:"review"`
-	CreatedAt string `json:"created"`
-}
-
-type user struct {
-	ID primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"` //document id
-	UserID string `json:"userid"` //userid that firebase generates
-	UserName string `json:"username"`
-	Email string `json:"email"`
-	CreatedAt string `json:"created"`
-}
 
 
 func init() {

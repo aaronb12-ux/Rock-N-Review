@@ -62,7 +62,7 @@ func GetSavedAlbums(c *gin.Context){
 
 	
     
-   var newalbum savedAlbum
+   var newalbum SavedAlbum
 
    if err := c.BindJSON(&newalbum); err != nil {
 	   return
@@ -91,7 +91,7 @@ func SavedAlbumById(c *gin.Context) {
 		{"albumid", albumid},
 	}
 
-	var album savedAlbum
+	var album SavedAlbum
 	err := mongoClient.Database("AlbumApp").Collection("SavedAlbums").FindOne(context.TODO(), filter).Decode(&album)
 	
 	if err != nil {

@@ -12,7 +12,7 @@ import (
 
 func addUser(c *gin.Context) {
 
-	var newUser user //new user struct
+	var newUser User //new user struct
 
 	if err := c.BindJSON(&newUser); err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"error" : "Invalid request payload"})
@@ -59,7 +59,7 @@ func getUserById(c *gin.Context) {
 
 	 filter := bson.D{{"userid", userid}}
 
-	 var user user
+	 var user User
 
 	 err := mongoClient.Database("AlbumApp").Collection("Users").FindOne(context.TODO(), filter).Decode(&user)
 
@@ -79,7 +79,7 @@ func checkIfUserExists(c *gin.Context) {
 
 	filter := bson.D{{"username", username}}
 
-	var user user
+	var user User
 
 	err := mongoClient.Database("AlbumApp").Collection("Users").FindOne(context.TODO(), filter).Decode(&user)
 

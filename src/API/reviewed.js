@@ -17,7 +17,6 @@ export async function getReviewedAlbums(userid) {
 export async function checkIfReviewExists(userid, albumid) {
     try {
         const response = await axios.get(`https://album-review-app-lnmu.onrender.com/users/${userid}/reviewed-albums/${albumid}`)
-        console.log("review exists")
         return response.status === 200
 
     } catch (error) {
