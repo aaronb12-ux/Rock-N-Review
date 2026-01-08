@@ -3,29 +3,39 @@ package services
 import (
 	"aaron/albumapp/models"
 	"context"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 
+	"context"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+
 )
 
-func DeleteSavedAlbumFromDatabase(mongoClient *mongo.Client, objectId primitive.ObjectID) error {
 
-	_ , err := mongoClient.Database("AlbumApp").Collection("SavedAlbums").DeleteOne(context.TODO(), bson.M{"_id": objectId})
+func (s *AlbumService) DeleteSaved(objectId primitive.ObjectID) error {
 
-	return err
-}
 
-func GetFromDatabase(mongoClient *mongo.Client, filter bson.D) error {
-
-	_ , err := mongoClient.Database("AlbumApp").Collection("SavedAlbums").Find(context.TODO(), filter)
+	_ , err := s.client.Database("AlbumApp").Collection("SavedAlbums").DeleteOne(context.TODO(), bson.M{"_id": objectId})
 
 	return err
 }
 
-func AddToDatabase(mongoClient *mongo.Client, newalbum models.SavedAlbum) error {
 
-	 _ , err := mongoClient.Database("AlbumApp").Collection("SavedAlbums").InsertOne(context.TODO(), newalbum)
+func (s *AlbumService) GetSaved(filter bson.D) error {
 
-	 return err
+	_ , err := s.client.Database("AlbumApp").Collection("SavedAlbums").Find(context.TODO(), filter)
+
+	return err
+}
+
+func (s *AlbumService) AddSaved(newalbum models.SavedAlbum) (bson.M, error) {
+
+	 cursor , err := s.client.Database("AlbumApp").Collection("SavedAlbums").InsertOne(context.TODO(), newalbum)
+
+	 
 }

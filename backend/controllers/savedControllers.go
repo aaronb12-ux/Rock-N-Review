@@ -2,17 +2,16 @@ package controllers
 
 
 import (
-	"context"
 	"net/http"
-
 	"github.com/gin-gonic/gin"
-	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
-	"aaron/albumapp/services"
+	"context"
+	"go.mongodb.org/mongo-driver/bson"
+
 )
 
-func deleteFromDatabase(c *gin.Context) {
+
+func (controller *AlbumController) DeleteSavedAlbum(c *gin.Context) {
 	
 	id := c.Param("id") 
 	
@@ -22,13 +21,42 @@ func deleteFromDatabase(c *gin.Context) {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"error" : err.Error()})
 		return
 	}
+
+	e := controller.service.DeleteSaved(objectId)
 	
-		e := services.DeleteSavedAlbumFromDatabase(&mongo.Client{}, objectId)
-	
-		if e != nil { 
-			c.IndentedJSON(http.StatusBadRequest, gin.H{"error" : e.Error()})
-			return
+	if e != nil { 
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"error" : e.Error()})
+		return
 	}
 		
-		c.IndentedJSON(http.StatusAccepted, gin.H{"deletedID" : objectId.Hex()})
+	c.IndentedJSON(http.StatusAccepted, gin.H{"deletedID" : objectId.Hex()})
+}
+
+func (controller *AlbumController) GetSavedAlbums(c *gin.Context) {
+	
+	userid := c.Param("id")
+
+	filter := bson.D{{"userid", userid}}
+	
+	cursor, err := controller.service.GetSaved(filter)
+	 
+	 if err != nil {
+		 c.IndentedJSON(http.StatusInternalServerError, gin.H{"error" : err.Error()})
+		 return
+	 }
+ 
+	 //Map results
+	 var albums []bson.M
+	 
+	 if err = cursor.All(context.TODO(), &albums); err != nil {
+		 c.IndentedJSON(http.StatusInternalServerError, gin.H{"error" : err.Error()})
+		 return
+	 }
+ 
+	 c.IndentedJSON(http.StatusOK, albums)
+}
+
+
+func AddSavedAlbum(c *gin.Context) {
+
 }

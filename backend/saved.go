@@ -13,7 +13,7 @@ import (
 
 func DeleteSavedAlbum(c *gin.Context) {
 
-	
+
 		id := c.Param("id") 
 	
 		objectId, err := primitive.ObjectIDFromHex(id) 
