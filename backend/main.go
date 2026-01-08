@@ -6,7 +6,6 @@ import (
 	//"fmt"
 	"log"
 	"os"
-
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -76,27 +75,23 @@ func main() {
     AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
     AllowHeaders:     []string{"Content-Type", "Authorization"},
     AllowCredentials: true,
-}))
+    }))
 
 	//endpoints for saved album
-	router.GET("/saved-albums/:id", GetSavedAlbums) 
+	router.GET("/saved-albums/:id", GetSavedAlbums)  //service done
 
-	router.GET("/users/:userid/saved-albums/:albumid", SavedAlbumById)
+	router.POST("/saved-albums", AddSavedAlbum)  //service done
+ 
+	router.DELETE("/saved-albums/:id", DeleteSavedAlbum) //service done
 
-	router.POST("/saved-albums", AddSavedAlbum) 
+	//endpoints for reviewed album 
+	router.POST("/reviewed-albums", AddReviewedAlbum) //service done
 
-	router.DELETE("/saved-albums/:id", DeleteSavedAlbum)
+	router.GET("/reviewed-albums/user/:userid", GetReviewedAlbumsByUser) //userid = uid of the user //service done
 
-	//endpoints for reviewed album
-	router.POST("/reviewed-albums", AddReviewedAlbum)
+	router.GET("/reviewed-albums/:albumid", GetAlbumReviewsById) //service done
 
-	router.GET("/users/:userid/reviewed-albums/:albumid", CheckIfReviewExistsByUser)
-
-	router.GET("/reviewed-albums/user/:userid", GetReviewedAlbumsByUser) //userid = uid of the user
-
-	router.GET("/reviewed-albums/:albumid", GetAlbumReviewsById) //
-
-	router.DELETE("/reviewed-albums/:id", DeleteReviewedAlbum) //id = document id to delete
+	router.DELETE("/reviewed-albums/:id", DeleteReviewedAlbum) //id = document id to delete //service done
 
 	router.PATCH("/reviewed-albums/:id", UpdateReviewedAlbum) //id = document id to update
 
@@ -106,6 +101,10 @@ func main() {
 	router.GET("/users/:userid", getUserById)
 
 	router.GET("/users/username/:username", checkIfUserExists)
+
+	router.GET("/users/:userid/saved-albums/:albumid", SavedAlbumById)
+
+	router.GET("/users/:userid/reviewed-albums/:albumid", CheckIfReviewExistsByUser)
 
 	//endpoints for spotify token handling
 	router.POST("api/spotify/token", GetAccessToken)
