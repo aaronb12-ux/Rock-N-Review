@@ -38,6 +38,7 @@ func (s *AlbumService) DeleteReviewed(objectId primitive.ObjectID) (*mongo.Delet
 	return res, err
 }
 
+/*
 func (s *AlbumService) ReviewExistsByUser(filter bson.D) error {
 
 	var album models.ReviewedAlbum
@@ -47,7 +48,7 @@ func (s *AlbumService) ReviewExistsByUser(filter bson.D) error {
 	return err
 
 }
-
+*/
 
 func (s *AlbumService) UpdateReviewed(filter bson.M, updateItem bson.D) (*mongo.UpdateResult, error) {
 	

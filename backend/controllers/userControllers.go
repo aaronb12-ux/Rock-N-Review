@@ -1,26 +1,27 @@
 package controllers
 
-
 import (
-	"context"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+
 	//"go.mongodb.org/mongo-driver/bson/primitive"
 	//"go.mongodb.org/mongo-driver/mongo"
+	"aaron/albumapp/models"
 )
 
-func(controller *AlbumController) addUser(c *gin.Context) {
+func(controller *AlbumController) AddUser(c *gin.Context) {
 
-	var newUser User //new user struct
+	var newUser models.User //new user struct
 
 	if err := c.BindJSON(&newUser); err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"error" : "Invalid request payload"})
 		return
 	}
 
-	result, err := mongoClient.Database("AlbumApp").Collection("Users").InsertOne(context.TODO(), newUser)
+	result, err := controller.service.AddUser(newUser)
 
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error" : err.Error()})
@@ -34,16 +35,15 @@ func(controller *AlbumController) addUser(c *gin.Context) {
 	
 }
 
-func (controller *AlbumController) getUserById(c *gin.Context) {
+func (controller *AlbumController) GetUserById(c *gin.Context) {
 
 	 userid := c.Param("userid")
 
-
 	 filter := bson.D{{"userid", userid}}
 
-	 var user User
+	 var user models.User
 
-	 err := mongoClient.Database("AlbumApp").Collection("Users").FindOne(context.TODO(), filter).Decode(&user)
+	 err := controller.service.GetUserById(&user, filter)
 
 	 if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error" : "error getting user"})
@@ -55,15 +55,16 @@ func (controller *AlbumController) getUserById(c *gin.Context) {
 }
 
 
+
 func (controller *AlbumController) checkIfUserExists(c *gin.Context) {
 
 	username := c.Param("username")
 
 	filter := bson.D{{"username", username}}
 
-	var user User
+	var user models.User
 
-	err := mongoClient.Database("AlbumApp").Collection("Users").FindOne(context.TODO(), filter).Decode(&user)
+	err := controller.service.CheckIfUserExists(user, filter)
 
 	if err != nil {
 		c.IndentedJSON(http.StatusNotFound, gin.H{"error" : "username does not exist"})
@@ -73,9 +74,36 @@ func (controller *AlbumController) checkIfUserExists(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, user)
 }
 
+func (controller *AlbumController) SavedAlbumById(c *gin.Context) {
+    //takes in two params: the user ID and the album id
+	//check all documents that contains the user ID
+	//then check if any of those documents contain the album id for the albumid field
+
+	userid := c.Param("userid")
+	albumid := c.Param("albumid")
+
+	filter := bson.D{
+		{"userid", userid},
+		{"albumid", albumid},
+	}
+
+	var album models.SavedAlbum
+	err := controller.service.SavedAlbumByID(album, filter)
+	
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			c.JSON(http.StatusNotFound, gin.H{"message" : "album not found"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error" : err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, album)
+} 
 
 
-//THIS GOES IN USERS CONTROLLER
+
 func (controller *AlbumController) CheckIfReviewExistsByUser(c *gin.Context) {
 
 	userid := c.Param("userid")
@@ -88,7 +116,7 @@ func (controller *AlbumController) CheckIfReviewExistsByUser(c *gin.Context) {
 
 	var album models.ReviewedAlbum
 
-	err := controller.service.ReviewExistsByUser(filter)
+	err := controller.service.CheckIfReviewExistsByUser(album, filter)
 
 	if err != nil {
 		if err == mongo.ErrNoDocuments {

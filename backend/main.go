@@ -1,11 +1,16 @@
 package main
 
 import (
+	"aaron/albumapp/controllers"
+	"aaron/albumapp/routes"
+	"aaron/albumapp/services"
 	"context"
 	"fmt"
+
 	//"fmt"
 	"log"
 	"os"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -59,6 +64,9 @@ func connect_to_mongodb() error {
 
 func main() {
 
+    albumService := services.NewAlbumService(mongoClient)
+	albumController := controllers.NewAlbumController(albumService)
+
 	router := gin.Default() //define the router
 
 	port := os.Getenv("PORT")
@@ -67,6 +75,7 @@ func main() {
 		port = "8080"
 	}
 
+	
 	router.Use(cors.New(cors.Config{
     AllowOrigins: []string{
         "http://localhost:5173",              //For local development
@@ -77,34 +86,41 @@ func main() {
     AllowCredentials: true,
     }))
 
-	//endpoints for saved album
-	router.GET("/saved-albums/:id", GetSavedAlbums)  //service done
+	routes.ReviewedRoutes(router, albumController)
+	routes.SavedRoutes(router, albumController)
+	routes.UserRoutes(router, albumController)
 
-	router.POST("/saved-albums", AddSavedAlbum)  //service done
+
+	/*
+	//endpoints for saved album
+	router.GET("/saved-albums/:id", GetSavedAlbums)  //DONE
+
+	router.POST("/saved-albums", AddSavedAlbum)  //DONE
  
-	router.DELETE("/saved-albums/:id", DeleteSavedAlbum) //service done
+	router.DELETE("/saved-albums/:id", DeleteSavedAlbum) //DONE
 
 	//endpoints for reviewed album 
-	router.POST("/reviewed-albums", AddReviewedAlbum) //service done
+	router.POST("/reviewed-albums", AddReviewedAlbum) //DONE
 
-	router.GET("/reviewed-albums/user/:userid", GetReviewedAlbumsByUser) //userid = uid of the user //service done
+	router.GET("/reviewed-albums/user/:userid", GetReviewedAlbumsByUser) //DONE
 
-	router.GET("/reviewed-albums/:albumid", GetAlbumReviewsById) //service done
+	router.GET("/reviewed-albums/:albumid", GetAlbumReviewsById) //DONE
 
-	router.DELETE("/reviewed-albums/:id", DeleteReviewedAlbum) //id = document id to delete //service done
+	router.DELETE("/reviewed-albums/:id", DeleteReviewedAlbum) //DONE
 
-	router.PATCH("/reviewed-albums/:id", UpdateReviewedAlbum) //id = document id to update
+	router.PATCH("/reviewed-albums/:id", UpdateReviewedAlbum) //DONE
 
 	//endpoints for user data
-	router.POST("/users", addUser)
+	router.POST("/users", addUser) //DONE
 
-	router.GET("/users/:userid", getUserById)
+	router.GET("/users/:userid", getUserById) //DONE
 
-	router.GET("/users/username/:username", checkIfUserExists)
+	router.GET("/users/username/:username", checkIfUserExists) //DONE
 
 	router.GET("/users/:userid/saved-albums/:albumid", SavedAlbumById)
 
 	router.GET("/users/:userid/reviewed-albums/:albumid", CheckIfReviewExistsByUser)
+	*/
 
 	//endpoints for spotify token handling
 	router.POST("api/spotify/token", GetAccessToken)

@@ -8,12 +8,13 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"aaron/albumapp/models"
 )
 
 
 func AddReviewedAlbum(c *gin.Context) { //add new reviewed album to database
 
-	var newalbum ReviewedAlbum //object binding the json data to
+	var newalbum models.ReviewedAlbum //object binding the json data to
 
 	if err := c.BindJSON(&newalbum); err != nil { //if there is an error putting json data into new album object (json dats passing/handling issue)
 		return
@@ -68,7 +69,7 @@ func GetReviewedAlbumsByUser(c *gin.Context){ //get specific users reviewed albu
 		return
 	}
 
-	var results []ReviewedAlbum
+	var results []models.ReviewedAlbum
 
 	if err = cursor.All(context.TODO(), &results); err != nil {
 		panic(err)
@@ -109,7 +110,7 @@ func CheckIfReviewExistsByUser(c *gin.Context) {
 		{"albumid", albumid},
 	}
 
-	var album ReviewedAlbum
+	var album models.ReviewedAlbum
 
 	err := mongoClient.Database("AlbumApp").Collection("ReviewedAlbums").FindOne(context.TODO(), filter).Decode(&album)
 
@@ -138,7 +139,7 @@ func UpdateReviewedAlbum(c *gin.Context) {
 
 	filter := bson.M{"_id": objectId}
 
-	var a ReviewedAlbum
+	var a models.ReviewedAlbum
 
 	if err := c.ShouldBindJSON(&a); err != nil {
 		c.IndentedJSON(http.StatusBadRequest, gin.H{"error" : err.Error()})
