@@ -7,7 +7,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"context"
 	"go.mongodb.org/mongo-driver/bson"
-
+	"aaron/albumapp/models"
 )
 
 
@@ -45,7 +45,7 @@ func (controller *AlbumController) GetSavedAlbums(c *gin.Context) {
 		 return
 	 }
  
-	 //Map results
+	 //Map results 
 	 var albums []bson.M
 	 
 	 if err = cursor.All(context.TODO(), &albums); err != nil {
@@ -57,6 +57,20 @@ func (controller *AlbumController) GetSavedAlbums(c *gin.Context) {
 }
 
 
-func AddSavedAlbum(c *gin.Context) {
+func (controller *AlbumController) AddSavedAlbum(c *gin.Context) {
+
+   var newalbum models.SavedAlbum
+
+   if err := c.BindJSON(&newalbum); err != nil {
+	   return
+   }
+
+   cursor, err := controller.service.AddSaved(newalbum)
+
+    if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"error" : err.Error() })
+    }
+
+   c.IndentedJSON(http.StatusCreated, cursor)
 
 }

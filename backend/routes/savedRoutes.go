@@ -15,11 +15,14 @@ import (
 )
 
 func SavedRoutes(router *gin.Engine) {
+
+	var controller *controllers.AlbumController
+
 	SavedGroup := router.Group("/saved-albums")
 	{
-		SavedGroup.GET("/:id", controllers.GetSavedAlbums)
-		SavedGroup.POST("/", controllers.AddSavedAlbum)
-		SavedGroup.DELETE("/:id", controllers.DeleteSavedAlbum)
+		SavedGroup.GET("/:id", controller.GetSavedAlbums) //get saved by user id
+		SavedGroup.POST("/", controller.AddSavedAlbum)
+		SavedGroup.DELETE("/:id", controller.DeleteSavedAlbum)
 	}
 }
 

@@ -60,8 +60,7 @@ func GetSavedAlbums(c *gin.Context){
 
  func AddSavedAlbum(c *gin.Context) {
 
-	
-    
+
    var newalbum SavedAlbum
 
    if err := c.BindJSON(&newalbum); err != nil {

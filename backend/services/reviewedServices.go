@@ -9,42 +9,50 @@ import (
 )
 
 
-func Insert(mongoClient *mongo.Client, newalbum models.ReviewedAlbum) error {
+func (s *AlbumService) AddReviewed(newalbum models.ReviewedAlbum) (*mongo.InsertOneResult, error)  {
 	
-	_ , err := mongoClient.Database("AlbumApp").Collection("ReviewedAlbums").InsertOne(context.TODO(), newalbum) 
+	res , err := s.client.Database("AlbumApp").Collection("ReviewedAlbums").InsertOne(context.TODO(), newalbum) 
 
-	return err
+	return res, err 
 }
 
-func GetByUserID(mongoClient *mongo.Client, filter bson.D) error {
+func (s *AlbumService) GetReviewedByUserID(filter bson.D) (*mongo.Cursor, error) {
 
-	_ , err := mongoClient.Database("AlbumApp").Collection("ReviewedAlbums").Find(context.TODO(), filter)
+	res , err := s.client.Database("AlbumApp").Collection("ReviewedAlbums").Find(context.TODO(), filter)
 
-	return err
+	return res, err
 }
 
-func GetByAlbumID(mongoClient *mongo.Client, filter bson.D) error {
+func (s *AlbumService) GetReviewedByAlbumID(filter bson.D) (*mongo.Cursor, error) {
 
 
-	 _ , err := mongoClient.Database("AlbumApp").Collection("ReviewedAlbums").Find(context.TODO(), filter)
+	 res , err := s.client.Database("AlbumApp").Collection("ReviewedAlbums").Find(context.TODO(), filter)
 
-	 return err
+	 return res, err
 }
 
-func Delete(mongoClient *mongo.Client, objectId primitive.ObjectID) error {
+func (s *AlbumService) DeleteReviewed(objectId primitive.ObjectID) (*mongo.DeleteResult , error) {
 	
-	_, err := mongoClient.Database("AlbumApp").Collection("ReviewedAlbums").DeleteOne(context.TODO(), bson.M{"_id": objectId})
+	res , err := s.client.Database("AlbumApp").Collection("ReviewedAlbums").DeleteOne(context.TODO(), bson.M{"_id": objectId})
+
+	return res, err
+}
+
+func (s *AlbumService) ReviewExistsByUser(filter bson.D) error {
+
+	var album models.ReviewedAlbum
+
+    err := s.client.Database("AlbumApp").Collection("ReviewedAlbums").FindOne(context.TODO(), filter).Decode(&album)
 
 	return err
+
 }
 
 
-func Update(mongoClient *mongo.Client, filter bson.M, updateItem bson.D) error {
+func (s *AlbumService) UpdateReviewed(filter bson.M, updateItem bson.D) (*mongo.UpdateResult, error) {
 	
-	_, err := mongoClient.Database("AlbumApp").Collection("ReviewedAlbums").UpdateOne(context.TODO(), filter, updateItem)
+	res , err := s.client.Database("AlbumApp").Collection("ReviewedAlbums").UpdateOne(context.TODO(), filter, updateItem)
 
-	return err
+	return res, err
 }
-
-
 
