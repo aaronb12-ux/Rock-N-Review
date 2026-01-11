@@ -8,12 +8,13 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"aaron/albumapp/models"
 	
 )
 
 func DeleteSavedAlbum(c *gin.Context) {
 
-	
+
 		id := c.Param("id") 
 	
 		objectId, err := primitive.ObjectIDFromHex(id) 
@@ -23,7 +24,7 @@ func DeleteSavedAlbum(c *gin.Context) {
 			return
 		}
 	
-		_, e := mongoClient.Database("AlbumApp").Collection("SavedAlbums").DeleteOne(context.TODO(), bson.M{"_id": objectId})
+		_ , e := mongoClient.Database("AlbumApp").Collection("SavedAlbums").DeleteOne(context.TODO(), bson.M{"_id": objectId})
 	
 		if e != nil { 
 			c.IndentedJSON(http.StatusBadRequest, gin.H{"error" : e.Error()})
@@ -60,9 +61,8 @@ func GetSavedAlbums(c *gin.Context){
 
  func AddSavedAlbum(c *gin.Context) {
 
-	
-    
-   var newalbum SavedAlbum
+
+   var newalbum models.SavedAlbum
 
    if err := c.BindJSON(&newalbum); err != nil {
 	   return
@@ -91,7 +91,7 @@ func SavedAlbumById(c *gin.Context) {
 		{"albumid", albumid},
 	}
 
-	var album SavedAlbum
+	var album models.SavedAlbum
 	err := mongoClient.Database("AlbumApp").Collection("SavedAlbums").FindOne(context.TODO(), filter).Decode(&album)
 	
 	if err != nil {

@@ -1,9 +1,11 @@
 package main
 
 import (
+	"aaron/albumapp/controllers"
+	"aaron/albumapp/routes"
+	"aaron/albumapp/services"
 	"context"
 	"fmt"
-	//"fmt"
 	"log"
 	"os"
 
@@ -60,6 +62,15 @@ func connect_to_mongodb() error {
 
 func main() {
 
+    reviewedService := services.NewReviewedService(mongoClient)
+	savedService := services.NewSavedService(mongoClient)
+	userService := services.NewUserService(mongoClient)
+
+
+	reviewedController := controllers.NewReviewedController(reviewedService)
+	savedController := controllers.NewSavedController(savedService)
+	userController := controllers.NewUserController(userService)
+
 	router := gin.Default() //define the router
 
 	port := os.Getenv("PORT")
@@ -76,39 +87,11 @@ func main() {
     AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
     AllowHeaders:     []string{"Content-Type", "Authorization"},
     AllowCredentials: true,
-}))
+    }))
 
-	//endpoints for saved album
-	router.GET("/saved-albums/:id", GetSavedAlbums) 
-
-	router.GET("/users/:userid/saved-albums/:albumid", SavedAlbumById)
-
-	router.POST("/saved-albums", AddSavedAlbum) 
-
-	router.DELETE("/saved-albums/:id", DeleteSavedAlbum)
-
-	//endpoints for reviewed album
-	router.POST("/reviewed-albums", AddReviewedAlbum)
-
-	router.GET("/users/:userid/reviewed-albums/:albumid", CheckIfReviewExistsByUser)
-
-	router.GET("/reviewed-albums/user/:userid", GetReviewedAlbumsByUser) //userid = uid of the user
-
-	router.GET("/reviewed-albums/:albumid", GetAlbumReviewsById) //
-
-	router.DELETE("/reviewed-albums/:id", DeleteReviewedAlbum) //id = document id to delete
-
-	router.PATCH("/reviewed-albums/:id", UpdateReviewedAlbum) //id = document id to update
-
-	//endpoints for user data
-	router.POST("/users", addUser)
-
-	router.GET("/users/:userid", getUserById)
-
-	router.GET("/users/username/:username", checkIfUserExists)
-
-	//endpoints for spotify token handling
+	routes.ReviewedRoutes(router, reviewedController)
+	routes.SavedRoutes(router, savedController)
+	routes.UserRoutes(router, userController)
 	router.POST("api/spotify/token", GetAccessToken)
-	
 	router.Run(":" + port)  
 }
