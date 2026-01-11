@@ -1,6 +1,7 @@
 # Rock N' Review - Song Album Review Application
 
 VISIT THE APP HERE: rocknreview.app
+DEMO VIDEO: https://www.youtube.com/watch?v=r_V477z5_NE
 
 A full-stack web application where users can discover, review, and save their favorite albums. Browse trending music, share your thoughts, and build your personal music collection.
 
