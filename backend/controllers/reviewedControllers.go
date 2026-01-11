@@ -11,7 +11,7 @@ import (
 
 )
 
-func (controller *AlbumController) AddReviewedAlbum(c *gin.Context) { //add new reviewed album to database
+func (controller *ReviewedController) AddReviewedAlbum(c *gin.Context) { //add new reviewed album to database
 
 	var newalbum models.ReviewedAlbum //object binding the json data to
 
@@ -29,7 +29,7 @@ func (controller *AlbumController) AddReviewedAlbum(c *gin.Context) { //add new 
 	
 }
 
-func (controller *AlbumController) GetReviewedAlbumsByUser(c *gin.Context) { //get specific users reviewed albums
+func (controller *ReviewedController) GetReviewedAlbumsByUser(c *gin.Context) { //get specific users reviewed albums
 
 	userid := c.Param("userid") 
 
@@ -53,7 +53,7 @@ func (controller *AlbumController) GetReviewedAlbumsByUser(c *gin.Context) { //g
 	 c.IndentedJSON(http.StatusOK, albums)
  }
 
- func (controller *AlbumController) GetAlbumReviewsById(c *gin.Context) { //Get all reviews from a specific album
+ func (controller *ReviewedController) GetAlbumReviewsById(c *gin.Context) { //Get all reviews from a specific album
 
 	//this function takes an 'albumid' of a reviewedalbum, and it fetches all the albums with that specific id
 
@@ -78,7 +78,7 @@ func (controller *AlbumController) GetReviewedAlbumsByUser(c *gin.Context) { //g
 }
 
 
-func (controller *AlbumController) DeleteReviewedAlbum(c *gin.Context) { //deletes an entire review document from 'ReviewedAlbums'
+func (controller *ReviewedController) DeleteReviewedAlbum(c *gin.Context) { //deletes an entire review document from 'ReviewedAlbums'
 	
 		
 	   id := c.Param("id") 
@@ -129,7 +129,7 @@ func (controller *AlbumController) CheckIfReviewExistsByUser(c *gin.Context) {
 
 
 //users can update either the rating (stars 1-5) or the text review
-func (controller *AlbumController) UpdateReviewedAlbum(c *gin.Context) {
+func (controller *ReviewedController) UpdateReviewedAlbum(c *gin.Context) {
 
 	
 	id := c.Param("id") 

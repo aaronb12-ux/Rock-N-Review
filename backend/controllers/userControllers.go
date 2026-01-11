@@ -12,7 +12,7 @@ import (
 	"aaron/albumapp/models"
 )
 
-func(controller *AlbumController) AddUser(c *gin.Context) {
+func(controller *UserController) AddUser(c *gin.Context) {
 
 	var newUser models.User //new user struct
 
@@ -35,7 +35,7 @@ func(controller *AlbumController) AddUser(c *gin.Context) {
 	
 }
 
-func (controller *AlbumController) GetUserById(c *gin.Context) {
+func (controller *UserController) GetUserById(c *gin.Context) {
 
 	 userid := c.Param("userid")
 
@@ -56,7 +56,7 @@ func (controller *AlbumController) GetUserById(c *gin.Context) {
 
 
 
-func (controller *AlbumController) checkIfUserExists(c *gin.Context) {
+func (controller *UserController) checkIfUserExists(c *gin.Context) {
 
 	username := c.Param("username")
 
@@ -74,7 +74,7 @@ func (controller *AlbumController) checkIfUserExists(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, user)
 }
 
-func (controller *AlbumController) SavedAlbumById(c *gin.Context) {
+func (controller *UserController) SavedAlbumById(c *gin.Context) {
     //takes in two params: the user ID and the album id
 	//check all documents that contains the user ID
 	//then check if any of those documents contain the album id for the albumid field
@@ -88,7 +88,7 @@ func (controller *AlbumController) SavedAlbumById(c *gin.Context) {
 	}
 
 	var album models.SavedAlbum
-	err := controller.service.SavedAlbumByID(album, filter)
+	err := controller.service.SavedAlbumByID(&album, filter)
 	
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
@@ -104,7 +104,7 @@ func (controller *AlbumController) SavedAlbumById(c *gin.Context) {
 
 
 
-func (controller *AlbumController) CheckIfReviewExistsByUser(c *gin.Context) {
+func (controller *UserController) CheckIfReviewExistsByUser(c *gin.Context) {
 
 	userid := c.Param("userid")
 	albumid := c.Param("albumid")
@@ -116,7 +116,7 @@ func (controller *AlbumController) CheckIfReviewExistsByUser(c *gin.Context) {
 
 	var album models.ReviewedAlbum
 
-	err := controller.service.CheckIfReviewExistsByUser(album, filter)
+	err := controller.service.CheckIfReviewExistsByUser(&album, filter)
 
 	if err != nil {
 		if err == mongo.ErrNoDocuments {

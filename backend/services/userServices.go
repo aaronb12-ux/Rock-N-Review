@@ -8,7 +8,7 @@ import (
 )
 
 
-func (service *AlbumService) AddUser(user models.User) (*mongo.InsertOneResult, error) {
+func (service *UserService) AddUser(user models.User) (*mongo.InsertOneResult, error) {
 
     res, err := service.client.Database("AlbumApp").Collection("Users").InsertOne(context.TODO(), user)
 
@@ -16,33 +16,33 @@ func (service *AlbumService) AddUser(user models.User) (*mongo.InsertOneResult, 
 
 }
 
-func (service *AlbumService) GetUserById(user *models.User, filter bson.D) (error) {
+func (service *UserService) GetUserById(user *models.User, filter bson.D) (error) {
 
-	err := service.client.Database("AlbumApp").Collection("Users").FindOne(context.TODO(), filter).Decode(&user)
-
-	return err
-
-}
-
-func (service *AlbumService) CheckIfUserExists(user models.User, filter bson.D) (error) {
-
-	err := service.client.Database("AlbumApp").Collection("Users").FindOne(context.TODO(), filter).Decode(&user)
-
-	return err
-}
-
-
-func (service *AlbumService) SavedAlbumByID(album models.SavedAlbum, filter bson.D) (error) {
-
-
-	err := service.client.Database("AlbumApp").Collection("SavedAlbums").FindOne(context.TODO(), filter).Decode(&album)
+	err := service.client.Database("AlbumApp").Collection("Users").FindOne(context.TODO(), filter).Decode(user)
 
 	return err
 
 }
 
+func (service *UserService) CheckIfUserExists(user models.User, filter bson.D) (error) {
 
-func (service *AlbumService) CheckIfReviewExistsByUser(album models.ReviewedAlbum, filter bson.D) (error) {
+	err := service.client.Database("AlbumApp").Collection("Users").FindOne(context.TODO(), filter).Decode(user)
+
+	return err
+}
+
+
+func (service *UserService) SavedAlbumByID(album *models.SavedAlbum, filter bson.D) (error) {
+
+
+	err := service.client.Database("AlbumApp").Collection("SavedAlbums").FindOne(context.TODO(), filter).Decode(album)
+
+	return err
+
+}
+
+
+func (service *UserService) CheckIfReviewExistsByUser(album *models.ReviewedAlbum, filter bson.D) (error) {
 
 	err := service.client.Database("AlbumApp").Collection("ReviewedAlbums").FindOne(context.TODO(), filter).Decode(&album)
 

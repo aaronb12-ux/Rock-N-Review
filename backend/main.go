@@ -6,8 +6,6 @@ import (
 	"aaron/albumapp/services"
 	"context"
 	"fmt"
-
-	//"fmt"
 	"log"
 	"os"
 
@@ -64,8 +62,14 @@ func connect_to_mongodb() error {
 
 func main() {
 
-    albumService := services.NewAlbumService(mongoClient)
-	albumController := controllers.NewAlbumController(albumService)
+    reviewedService := services.NewReviewedService(mongoClient)
+	savedService := services.NewSavedService(mongoClient)
+	userService := services.NewUserService(mongoClient)
+
+
+	reviewedController := controllers.NewReviewedController(reviewedService)
+	savedController := controllers.NewSavedController(savedService)
+	userController := controllers.NewUserController(userService)
 
 	router := gin.Default() //define the router
 
@@ -75,7 +79,6 @@ func main() {
 		port = "8080"
 	}
 
-	
 	router.Use(cors.New(cors.Config{
     AllowOrigins: []string{
         "http://localhost:5173",              //For local development
@@ -86,44 +89,9 @@ func main() {
     AllowCredentials: true,
     }))
 
-	routes.ReviewedRoutes(router, albumController)
-	routes.SavedRoutes(router, albumController)
-	routes.UserRoutes(router, albumController)
-
-
-	/*
-	//endpoints for saved album
-	router.GET("/saved-albums/:id", GetSavedAlbums)  //DONE
-
-	router.POST("/saved-albums", AddSavedAlbum)  //DONE
- 
-	router.DELETE("/saved-albums/:id", DeleteSavedAlbum) //DONE
-
-	//endpoints for reviewed album 
-	router.POST("/reviewed-albums", AddReviewedAlbum) //DONE
-
-	router.GET("/reviewed-albums/user/:userid", GetReviewedAlbumsByUser) //DONE
-
-	router.GET("/reviewed-albums/:albumid", GetAlbumReviewsById) //DONE
-
-	router.DELETE("/reviewed-albums/:id", DeleteReviewedAlbum) //DONE
-
-	router.PATCH("/reviewed-albums/:id", UpdateReviewedAlbum) //DONE
-
-	//endpoints for user data
-	router.POST("/users", addUser) //DONE
-
-	router.GET("/users/:userid", getUserById) //DONE
-
-	router.GET("/users/username/:username", checkIfUserExists) //DONE
-
-	router.GET("/users/:userid/saved-albums/:albumid", SavedAlbumById)
-
-	router.GET("/users/:userid/reviewed-albums/:albumid", CheckIfReviewExistsByUser)
-	*/
-
-	//endpoints for spotify token handling
+	routes.ReviewedRoutes(router, reviewedController)
+	routes.SavedRoutes(router, savedController)
+	routes.UserRoutes(router, userController)
 	router.POST("api/spotify/token", GetAccessToken)
-	
 	router.Run(":" + port)  
 }

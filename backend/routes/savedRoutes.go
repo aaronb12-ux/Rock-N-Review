@@ -5,14 +5,14 @@ import (
 	"aaron/albumapp/controllers"
 )
 
-func SavedRoutes(router *gin.Engine, controller *controllers.AlbumController) {
+func SavedRoutes(router *gin.Engine, controller *controllers.SavedController) {
 
 
 	SavedGroup := router.Group("/saved-albums")
 	{
-		SavedGroup.GET("/:id", controller.GetSavedAlbums) //get saved by user id
-		SavedGroup.POST("/", controller.AddSavedAlbum)
-		SavedGroup.DELETE("/:id", controller.DeleteSavedAlbum)
+		SavedGroup.GET("/:id", controller.GetSavedAlbums) //DONE
+		SavedGroup.POST("/", controller.AddSavedAlbum) //DONE
+		SavedGroup.DELETE("/:id", controller.DeleteSavedAlbum) //DONE
 	}
 }
 

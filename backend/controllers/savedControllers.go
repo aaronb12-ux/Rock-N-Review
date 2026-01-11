@@ -11,7 +11,7 @@ import (
 )
 
 
-func (controller *AlbumController) DeleteSavedAlbum(c *gin.Context) {
+func (controller *SavedController) DeleteSavedAlbum(c *gin.Context) {
 	
 	id := c.Param("id") 
 	
@@ -32,7 +32,7 @@ func (controller *AlbumController) DeleteSavedAlbum(c *gin.Context) {
 	c.IndentedJSON(http.StatusAccepted, gin.H{"deletedID" : objectId.Hex()})
 }
 
-func (controller *AlbumController) GetSavedAlbums(c *gin.Context) {
+func (controller *SavedController) GetSavedAlbums(c *gin.Context) {
 	
 	userid := c.Param("id")
 
@@ -57,7 +57,7 @@ func (controller *AlbumController) GetSavedAlbums(c *gin.Context) {
 }
 
 
-func (controller *AlbumController) AddSavedAlbum(c *gin.Context) {
+func (controller *SavedController) AddSavedAlbum(c *gin.Context) {
 
    var newalbum models.SavedAlbum
 

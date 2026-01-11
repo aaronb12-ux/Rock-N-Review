@@ -10,7 +10,7 @@ import (
 )
 
 
-func (service *AlbumService) DeleteSaved(objectId primitive.ObjectID) error {
+func (service *SavedService) DeleteSaved(objectId primitive.ObjectID) error {
 
 
 	_ , err := service.client.Database("AlbumApp").Collection("SavedAlbums").DeleteOne(context.TODO(), bson.M{"_id": objectId})
@@ -19,7 +19,7 @@ func (service *AlbumService) DeleteSaved(objectId primitive.ObjectID) error {
 }
 
 
-func (service *AlbumService) GetSaved(filter bson.D) (*mongo.Cursor, error) {
+func (service *SavedService) GetSaved(filter bson.D) (*mongo.Cursor, error) {
 
 	cursor, err := service.client.Database("AlbumApp").Collection("SavedAlbums").Find(context.TODO(), filter)
 
@@ -27,7 +27,7 @@ func (service *AlbumService) GetSaved(filter bson.D) (*mongo.Cursor, error) {
 
 }
 
-func (service *AlbumService) AddSaved(newalbum models.SavedAlbum) (*mongo.InsertOneResult, error) {
+func (service *SavedService) AddSaved(newalbum models.SavedAlbum) (*mongo.InsertOneResult, error) {
 
 	 cursor , err := service.client.Database("AlbumApp").Collection("SavedAlbums").InsertOne(context.TODO(), newalbum)
 

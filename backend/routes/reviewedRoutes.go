@@ -7,14 +7,14 @@ import (
 )
 
 
-func ReviewedRoutes(router *gin.Engine, controller *controllers.AlbumController) {
+func ReviewedRoutes(router *gin.Engine, controller *controllers.ReviewedController) {
 
 	ReviewedGroup := router.Group("/reviewed-albums")
 	{
-		ReviewedGroup.POST("/", controller.AddReviewedAlbum)
-		ReviewedGroup.GET("/user/:userid", controller.GetReviewedAlbumsByUser)
-		ReviewedGroup.GET("/:albumid", controller.GetAlbumReviewsById)
-		ReviewedGroup.DELETE("/:id", controller.DeleteReviewedAlbum)
-		ReviewedGroup.PATCH("/:id", controller.UpdateReviewedAlbum)
+		ReviewedGroup.POST("/", controller.AddReviewedAlbum) //DONE
+		ReviewedGroup.GET("/user/:userid", controller.GetReviewedAlbumsByUser) //DONE
+		ReviewedGroup.GET("/:albumid", controller.GetAlbumReviewsById) //DONE
+		ReviewedGroup.DELETE("/:id", controller.DeleteReviewedAlbum) //DONE
+		ReviewedGroup.PATCH("/:id", controller.UpdateReviewedAlbum) //DONE
 	}
 }
