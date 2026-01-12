@@ -72,6 +72,9 @@ func main() {
 
 	router := gin.Default() //define the router
 
+	router.RedirectTrailingSlash = false
+    router.RedirectFixedPath = false
+
 	port := os.Getenv("PORT")
 
 	if port == "" {
