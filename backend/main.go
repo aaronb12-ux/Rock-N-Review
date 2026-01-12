@@ -66,7 +66,6 @@ func main() {
 	savedService := services.NewSavedService(mongoClient)
 	userService := services.NewUserService(mongoClient)
 
-
 	reviewedController := controllers.NewReviewedController(reviewedService)
 	savedController := controllers.NewSavedController(savedService)
 	userController := controllers.NewUserController(userService)
@@ -92,6 +91,6 @@ func main() {
 	routes.ReviewedRoutes(router, reviewedController)
 	routes.SavedRoutes(router, savedController)
 	routes.UserRoutes(router, userController)
-	router.POST("api/spotify/token", GetAccessToken)
+	router.POST("/api/spotify/token", GetAccessToken)
 	router.Run(":" + port)  
 }
