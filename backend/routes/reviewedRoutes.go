@@ -11,7 +11,7 @@ func ReviewedRoutes(router *gin.Engine, controller *controllers.ReviewedControll
 
 	ReviewedGroup := router.Group("/reviewed-albums")
 	{
-		ReviewedGroup.POST("/", controller.AddReviewedAlbum) //DONE
+		ReviewedGroup.POST("", controller.AddReviewedAlbum) //DONE
 		ReviewedGroup.GET("/user/:userid", controller.GetReviewedAlbumsByUser) //DONE
 		ReviewedGroup.GET("/:albumid", controller.GetAlbumReviewsById) //DONE
 		ReviewedGroup.DELETE("/:id", controller.DeleteReviewedAlbum) //DONE
